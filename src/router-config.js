@@ -15,6 +15,12 @@ import page3 from './page/activeManage/page3.vue'
 import page4 from './page/activeManage/page4.vue'
 import page5 from './page/activeManage/page5.vue'
 
+import center from './page/centerManage/index.vue'
+import custom from './page/customManage/index.vue'
+import finanal from './page/finanalManage/index.vue'
+import leader from './page/leaderManage/index.vue'
+import publish from './page/publishManage/index.vue'
+
 
 export default [
   {
@@ -43,6 +49,16 @@ export default [
         ]
       },
     ]
+  },{
+    path:'/1',component:center
+  },{
+    path:'/2',component:publish
+  },{
+    path:'/3',component:finanal
+  },{
+    path:'/4',component:custom
+  },{
+    path:'/5',component:leader
   },{
     path:'/activePublic',component:activePublic,
     children:[

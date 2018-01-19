@@ -4,12 +4,12 @@
     <header class="header" :class="{ 'header-fixed' : headerFixed }">
     <el-row>
         <el-col :span="24">
-          <el-menu :default-active="a" class="el-menu-demo" mode="horizontal" >
-            <el-menu-item index="1">高级插件</el-menu-item>
-            <el-menu-item index="2">在线商城</el-menu-item>
-            <el-menu-item index="3">客户管理</el-menu-item>
-            <el-menu-item index="4">系统设置</el-menu-item>
-            <el-menu-item index="5">活动发布</el-menu-item>
+          <el-menu :default-active="a" class="el-menu-demo" mode="horizontal" :router="true">
+            <el-menu-item index="1">中心站管理</el-menu-item>
+            <el-menu-item index="2">发行站管理</el-menu-item>
+            <el-menu-item index="3">财务管理</el-menu-item>
+            <el-menu-item index="4">客服管理</el-menu-item>
+            <el-menu-item index="5">领导查询</el-menu-item>
           </el-menu>
         </el-col>
     </el-row>
