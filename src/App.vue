@@ -4,7 +4,7 @@
     <header class="header" :class="{ 'header-fixed' : headerFixed }">
     <el-row>
         <el-col :span="24">
-          <el-menu :default-active="a" class="el-menu-demo" mode="horizontal" :router="true">
+          <el-menu :default-active="a" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
             <el-menu-item index="1">中心站管理</el-menu-item>
             <el-menu-item index="2">发行站管理</el-menu-item>
             <el-menu-item index="3">财务管理</el-menu-item>
@@ -19,9 +19,34 @@
     <main>
           <!-- 左侧导航 -->
         <div class="main-left">
-          <el-menu default-active="/activePublic" class="el-menu-vertical-demo" :router="true">
+          <!-- <el-menu default-active="/activePublic" class="el-menu-vertical-demo" :router="true">
             <el-menu-item index="/activePublic" :class="{'isActive': active}">活动发布</el-menu-item>
             <el-menu-item index="/activeManage" :class="{'isActive': !active}">活动管理</el-menu-item>
+          </el-menu> -->
+          <el-menu 
+           class="el-menu-vertical-demo" 
+           :router="true">
+            <el-menu-item 
+            v-for="item in todo"
+            v-bind:key="item.id"
+            v-bind:index="item.index">{{item.item}}</el-menu-item>
+          </el-menu>
+
+          <el-menu
+            default-active="2"
+            class="el-menu-vertical-demo">
+            <el-menu-item index="a">
+              <i class="el-icon-menu"></i>
+              <span slot="title">导航二</span>
+            </el-menu-item>
+            <el-menu-item index="b">
+              <i class="el-icon-menu"></i>
+              <span slot="title">导航二</span>
+            </el-menu-item>
+            <el-menu-item index="c">
+              <i class="el-icon-setting"></i>
+              <span slot="title">导航三</span>
+            </el-menu-item>
           </el-menu>
         </div>
 
@@ -48,24 +73,82 @@ export default {
   name: 'app',
   data: function (){
     return {
-      active:true,
+      // active:true,
+      active:[
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
       headerFixed : true,
-      a: "1"
+      a: "1",
+      todo:[
+        {item:'f',index:'as',id:1},
+        {item:'a',index:'asd',id:2}
+      ],
+      lzpSl:[
+        [
+          {item:'f',index:'as',id:1},
+          {item:'a',index:'asd',id:2}
+        ],
+        [
+          {item:'a',index:'as',id:1},
+          {item:'a',index:'asd',id:2}
+        ],
+        [
+          {item:'d',index:'as',id:1},
+          {item:'a',index:'asd',id:2}
+        ],
+        [
+          {item:'f',index:'as',id:1},
+          {item:'a',index:'asd',id:2}
+        ],
+        [
+          {item:'g',index:'as',id:1},
+          {item:'a',index:'asd',id:2}
+        ]
+      ]
     }
   },
   created: function(){
     this.$router.push('/activePublic');
   },
   methods: {
+    handleSelect(key, keyPath) {
+      console.log(key);
+      console.log(keyPath);
+    }
 
   },
   watch: {
      '$route': function (to,from) {
-         if(to.path == '/activePublic'){
-             this.active = true ;
-         }else if(to.path == '/activeManage'){
-             this.active = false ;
-         }
+        //  if(to.path == '/activePublic'){
+        //      this.active = true ;
+        //  }else if(to.path == '/activeManage'){
+        //      this.active = false ;
+        //  }
+        // this.active = [
+        //   false,
+        //   false,
+        //   false,
+        //   false,
+        //   false
+        // ]
+        if(to.path == '/1') {
+          this.todo = this.lzpSl[0]
+          console.log(this.todo)
+        } else if(to.path == '/2') {
+          this.todo = this.lzpSl[1]
+        } else if(to.path == '/3') {
+          this.todo = this.lzpSl[2]
+        } else if(to.path == '/4') {
+          this.todo = this.lzpSl[3]
+        } else if(to.path == '/5') {
+          this.todo = this.lzpSl[4]
+        }
+        //  console.log(to)
+        //  console.log(this.active)
      }
   }
 }

@@ -134,6 +134,10 @@ const state = {
     activeList:data
 }
 
+const menu =[
+    { item: '这是链接', index: '/test1'}
+]
+
 /* 从本地存储读取数据 */
 for(var item in state){
   localStorage.getItem(item)?
