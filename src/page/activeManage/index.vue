@@ -54,8 +54,10 @@
         <el-table-column property="readNum" label="浏览数"></el-table-column>
         <el-table-column property="signUpNum" label="报名数"></el-table-column>
         <el-table-column property="auditNum" label="待审核"></el-table-column>
-        <el-table-column inline-template label="操作" align="center" property="id">
-          <el-button type="text" size="mini" @click.native="">查看详情</el-button>
+        <el-table-column  fixed="right" label="操作" align="center" property="id">
+          <template slot-scope="scope">
+          <el-button type="text" size="mini" >查看详情</el-button>
+          </template>
         </el-table-column>
       </el-table>
 
@@ -138,7 +140,7 @@
        if (column.label == '操作') {
          this.$router.push('/activeManage/detail/page1');
         } else if(column.type == 'selection'){
-            row.$info = !row.$selected;
+            row.$info = !row.$selected;  
        }else{
             row.$selected = !row.$selected;
             row.$info = row.$selected;

@@ -4,7 +4,7 @@
     <header class="header" :class="{ 'header-fixed' : headerFixed }">
     <el-row>
         <el-col :span="24">
-          <el-menu default-active="5" class="el-menu-demo" mode="horizontal" @select="">
+          <el-menu :default-active="a" class="el-menu-demo" mode="horizontal" >
             <el-menu-item index="1">高级插件</el-menu-item>
             <el-menu-item index="2">在线商城</el-menu-item>
             <el-menu-item index="3">客户管理</el-menu-item>
@@ -39,7 +39,7 @@
 
 import Vue from 'vue'
 import Element from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 import $ from 'jquery'
 
 Vue.use(Element)
@@ -49,7 +49,8 @@ export default {
   data: function (){
     return {
       active:true,
-      headerFixed : true
+      headerFixed : true,
+      a: "1"
     }
   },
   created: function(){
@@ -97,12 +98,12 @@ main .el-menu{background-color: transparent!important;}
     margin-left: 30px!important;
   }
   /* 路由切换动效 */
-  .fade-enter-active, .fade-leave-active {
-    transition: all .5s;
-  }
-  .fade-enter, .fade-leave-active {
-    opacity: 0;
-  }
+.fade-enter-active, .fade-leave-active {
+  transition: all .5s;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0;
+}
 
   .list-enter-active, .list-leave-active {
     transition: all 1s;

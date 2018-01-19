@@ -155,7 +155,7 @@
         </el-form-item>
 
         <el-form-item label="活动封面">
-          <el-upload action="http://jsonplaceholder.typicode.com/" type="drag" :multiple="true" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="handleSuccess" :on-error="handleError">
+          <el-upload action="http://jsonplaceholder.typicode.com/" drag class="upload-demo" :multiple="true" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="handleSuccess" :on-error="handleError">
             <i class="el-icon-upload"></i>
             <div class="el-dragger__text">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2M</div>
@@ -195,7 +195,7 @@
               <el-button type="text" @click.native="openAd">开通赞助广告</el-button>
             </el-col>
           </el-row>
-          <el-upload action="http://jsonplaceholder.typicode.com/" type="drag" :multiple="true" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="handleSuccess" :on-error="handleError">
+          <el-upload action="http://jsonplaceholder.typicode.com/" drag class="upload-demo" :multiple="true" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="handleSuccess" :on-error="handleError">
             <i class="el-icon-upload"></i>
             <div class="el-dragger__text">将文件拖到此处，或<em>点击上传</em></div>
             <div class="el-upload__tip" slot="tip">图片尺寸建议比例1；4.18，如160*666像素，且不超过2M</div>
