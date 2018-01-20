@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 基于vue和Element的后台管理系统
 > 升级为vue@2.16 + Element@1.0.9
 
@@ -25,3 +26,8 @@ npm run dev
 npm run build
 ```
 
+=======
+# PSMNP
+Publishing and management system of newspapers and periodicals，基于SSM与Vue的报刊发行管理系统
+第一次提交测试
+>>>>>>> 6fc6aa8c7321808879fbd1a12820980d64649628
