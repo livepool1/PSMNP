@@ -42,6 +42,7 @@ const lzpSl2 = [
 ]
 
 const centerConfig = {
+    title:"中心站系统",
     routea:[
         {item:'字典维护',key:'1'},
         {item:'人事管理',key:'2'},
@@ -84,6 +85,7 @@ const centerConfig = {
 }
 
 const publishConfig = {
+    title:"发行站系统",
     routea:[
         {item:'客户管理',key:'1'},
         {item:'商品订购',key:'2'},
@@ -125,6 +127,7 @@ const publishConfig = {
 }
 
 const customConfig = {
+    title:"客服系统",
     routea:[
         {item:'监督管理',key:'1'},
         {item:'辅助业务',key:'2'},
@@ -149,6 +152,7 @@ const customConfig = {
 }
 
 const leaderConfig = {
+    title:"领导查询",
     routea:[
         {item:'报刊图表统计',key:'1'},
         {item:'订户统计分析',key:'2'},

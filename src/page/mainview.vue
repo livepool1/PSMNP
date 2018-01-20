@@ -4,7 +4,7 @@
     <header class="header" :class="{ 'header-fixed' : headerFixed }">
     <el-row>
       <el-col :span="6" style="text-align: center; color: #409EFF;">
-        <div class="" style="font-size: 20px;color: #409EFF;line-height: 60px;">中心站系统</div>
+        <div class="" style="font-size: 20px;color: #409EFF;line-height: 60px;">{{title}}</div>
       </el-col>
         <el-col :span="18">
           <el-menu class="el-menu-demo" mode="horizontal" @select="handleSelect">
@@ -93,6 +93,7 @@ export default {
       ],
       headerFixed : true,
       a: "1",
+      title: "",
       route:[
           {item:'啊啊啊',key:'1'},
           {item:'啊啊啊',key:'2'},
@@ -165,22 +166,27 @@ export default {
       console.log(this.$router.path)
       console.log(this.$router)
       console.log(this)
+      this.title = centerConfig.title
     } else if(this.$route.path == '/2') {
       this.route = customConfig.routea
       this.lzpSl = customConfig.todo
       this.todo = this.lzpSl[0]
+      this.title = customConfig.title
     } else if(this.$route.path == '/3') {
       this.route = publishConfig.routea
       this.lzpSl = publishConfig.todo
       this.todo = this.lzpSl[0]
+      this.title = publishConfig.title
     } else if(this.$route.path == '/4') {
       this.route = leaderConfig.routea
       this.lzpSl = leaderConfig.todo
       this.todo = this.lzpSl[0]
+      this.title = leaderConfig.title
     } else if(this.$route.path == '/5') {
       this.route = leaderConfig.routea
       this.lzpSl = leaderConfig.todo
       this.todo = this.lzpSl[0]
+      this.title = leaderConfig.title
     }
 
     console.log(this.route)
@@ -231,22 +237,27 @@ export default {
            console.log(this.$router.path)
            console.log(this.$router)
            console.log(this)
+           this.title = centerConfig.title
          } else if(this.$route.path == '/2') {
            this.route = customConfig.routea
            this.lzpSl = customConfig.todo
            this.todo = this.lzpSl[0]
+           this.title = customConfig.title
          } else if(this.$route.path == '/3') {
            this.route = publishConfig.routea
            this.lzpSl = publishConfig.todo
            this.todo = this.lzpSl[0]
+           this.title = publishConfig.title
          } else if(this.$route.path == '/4') {
            this.route = leaderConfig.routea
            this.lzpSl = leaderConfig.todo
            this.todo = this.lzpSl[0]
+           this.title = leaderConfig.title
          } else if(this.$route.path == '/5') {
            this.route = leaderConfig.routea
            this.lzpSl = leaderConfig.todo
            this.todo = this.lzpSl[0]
+           this.title = leaderConfig.title
          }
      }
     
