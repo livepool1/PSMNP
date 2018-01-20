@@ -42,7 +42,7 @@ const lzpSl2 = [
 ]
 
 const centerConfig = {
-    route:[
+    routea:[
         {item:'aaa',key:'1'},
         {item:'aaa',key:'2'},
         {item:'aaa',key:'3'},
@@ -71,6 +71,7 @@ const centerConfig = {
         ]
     ]
 }
+
 
 export {
     centerConfig

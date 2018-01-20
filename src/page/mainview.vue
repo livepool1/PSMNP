@@ -75,7 +75,7 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import $ from 'jquery'
 
-import centerConfig from '../mainview'
+import {centerConfig, a} from '../mainview'
 
 Vue.use(Element)
 
@@ -93,7 +93,12 @@ export default {
       ],
       headerFixed : true,
       a: "1",
-      route:centerConfig.route,
+      route:[
+          {item:'啊啊啊',key:'1'},
+          {item:'啊啊啊',key:'2'},
+          {item:'啊啊啊',key:'3'},
+          {item:'啊啊啊',key:'4'}
+      ],
       todo:[
         {item:'郭勇良',index:'/1/dict',id:1},
         {item:'李照鹏',index:'/1/hur',id:2}
@@ -143,8 +148,10 @@ export default {
     }
   },
   created: function(){
-    // this.$router.push('/activePublic');
-    console.log(centerConfig)
+    //   this.route = centerConfig.routea
+    console.log(centerConfig.todo)
+    this.route = centerConfig.routea
+    this.lzpSl = centerConfig.todo
   },
   methods: {
     handleSelect(key, keyPath) {
