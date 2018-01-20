@@ -40,7 +40,7 @@
             v-bind:index="item.index">{{item.item}}</el-menu-item>
           </el-menu>
 
-          <el-menu
+          <!-- <el-menu
             default-active="2"
             class="el-menu-vertical-demo">
             <el-menu-item index="a">
@@ -55,7 +55,7 @@
               <i class="el-icon-setting"></i>
               <span slot="title">导航三</span>
             </el-menu-item>
-          </el-menu>
+          </el-menu> -->
         </div>
 
           <!-- 右侧主内容区 -->
@@ -75,7 +75,7 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import $ from 'jquery'
 
-import {centerConfig, a} from '../mainview'
+import {centerConfig, a, customConfig, publishConfig, leaderConfig} from '../mainview'
 
 Vue.use(Element)
 
@@ -149,59 +149,81 @@ export default {
   },
   created: function(){
     //   this.route = centerConfig.routea
-    console.log(centerConfig.todo)
-    this.route = centerConfig.routea
-    this.lzpSl = centerConfig.todo
+    // console.log(leaderConfig.todo)
+    // this.route = leaderConfig.routea
+    // this.lzpSl = leaderConfig.todo
+    // this.todo = this.lzpSl[0]
+
+    console.log(this.$route.path)
+
+    // this.lzpSl = []
+
+    if(this.$route.path == '/1') {
+      this.route = centerConfig.routea
+      this.lzpSl = centerConfig.todo
+      this.todo = this.lzpSl[0]
+      console.log(this.$router.path)
+      console.log(this.$router)
+      console.log(this)
+    } else if(this.$route.path == '/2') {
+      this.route = customConfig.routea
+      this.lzpSl = customConfig.todo
+      this.todo = this.lzpSl[0]
+    } else if(this.$route.path == '/3') {
+      this.route = publishConfig.routea
+      this.lzpSl = publishConfig.todo
+      this.todo = this.lzpSl[0]
+    } else if(this.$route.path == '/4') {
+      this.route = leaderConfig.routea
+      this.lzpSl = leaderConfig.todo
+      this.todo = this.lzpSl[0]
+    } else if(this.$route.path == '/5') {
+      this.route = leaderConfig.routea
+      this.lzpSl = leaderConfig.todo
+      this.todo = this.lzpSl[0]
+    }
+
+    console.log(this.route)
   },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key);
       console.log(keyPath);
 
-      if(key == '1') {
-        this.todo = this.lzpSl[0]
-        console.log(this.todo)
-      } else if(key == '2') {
-        this.todo = this.lzpSl[1]
-      } else if(key == '3') {
-        this.todo = this.lzpSl[2]
-      } else if(key == '4') {
-        this.todo = this.lzpSl[3]
-      } else if(key == '5') {
-        this.todo = this.lzpSl[4]
-      }
+      this.todo = this.lzpSl[parseInt(key)-1]
+
     }
 
   },
   watch: {
-     '$route': function (to,from) {
-        //  if(to.path == '/activePublic'){
-        //      this.active = true ;
-        //  }else if(to.path == '/activeManage'){
-        //      this.active = false ;
-        //  }
-        // this.active = [
-        //   false,
-        //   false,
-        //   false,
-        //   false,
-        //   false
-        // ]
-        if(to.path == '/1') {
-          this.route = this.lzpSl2[0]
-          console.log(this.todo)
-        } else if(to.path == '/2') {
-          this.route = this.lzpSl2[1]
-        } else if(to.path == '/3') {
-          this.route = this.lzpSl2[2]
-        } else if(to.path == '/4') {
-          this.route = this.lzpSl2[3]
-        } else if(to.path == '/5') {
-          this.route = this.lzpSl2[4]
-        }
-         console.log(to)
-         console.log(this.active)
-     }
+    //  '$route': function (to,from) {
+    //     //  if(to.path == '/activePublic'){
+    //     //      this.active = true ;
+    //     //  }else if(to.path == '/activeManage'){
+    //     //      this.active = false ;
+    //     //  }
+    //     // this.active = [
+    //     //   false,
+    //     //   false,
+    //     //   false,
+    //     //   false,
+    //     //   false
+    //     // ]
+    //     // if(to.path == '/1') {
+    //     //   this.route = centerConfig.routea
+    //     //   console.log(this.todo)
+    //     // } else if(to.path == '/2') {
+    //     //   this.route = customConfig.routea
+    //     // } else if(to.path == '/3') {
+    //     //   this.route = publishConfig.routea
+    //     // } else if(to.path == '/4') {
+    //     //   this.route = leaderConfig.routea
+    //     // } else if(to.path == '/5') {
+    //     //   this.route = leaderConfig.routea
+    //     // }
+    //      console.log(to)
+    //      console.log(this.active)
+    //  }
   }
 }
 </script>

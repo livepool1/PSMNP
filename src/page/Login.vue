@@ -37,6 +37,14 @@ export default {
 watch: {
   $route: "checkLogin"
 },
+created: function(){
+  //   this.route = centerConfig.routea
+  if ( this.getCookie("session") != null) {
+        // route.push('/login')
+        this.$router.push("/" + this.getCookie("session")[0])
+        // next("/" + getCookie("session")[0])
+      }
+},
 methods: {
     getCookie(name) {
         var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)"); 
