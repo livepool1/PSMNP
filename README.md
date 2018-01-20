@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-# 基于vue和Element的后台管理系统
-> 升级为vue@2.16 + Element@1.0.9
 
-* [在线DEMO](http://dahouge.oschina.io/houtai/dist/#/activePublic)
-* [详细教程](http://www.jianshu.com/p/d87d7140944e)
 ## Build Setup
 
 ``` bash
@@ -29,5 +24,3 @@ npm run build
 =======
 # PSMNP
 Publishing and management system of newspapers and periodicals，基于SSM与Vue的报刊发行管理系统
-第一次提交测试
->>>>>>> 6fc6aa8c7321808879fbd1a12820980d64649628
