@@ -1,62 +1,7 @@
 <template>
   <div id="app">
     <!-- 头部导航 -->
-    <header class="header" :class="{ 'header-fixed' : headerFixed }">
-    <el-row>
-        <el-col :span="24">
-          <el-menu :default-active="a" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
-            <el-menu-item index="1">中心站管理</el-menu-item>
-            <el-menu-item index="2">发行站管理</el-menu-item>
-            <el-menu-item index="3">财务管理</el-menu-item>
-            <el-menu-item index="4">客服管理</el-menu-item>
-            <el-menu-item index="5">领导查询</el-menu-item>
-          </el-menu>
-        </el-col>
-    </el-row>
-    </header>
-    <div v-show="headerFixed" style="position: relative;height: 60px;width: 100%;"></div>
-
-    <main>
-          <!-- 左侧导航 -->
-        <div class="main-left">
-          <!-- <el-menu default-active="/activePublic" class="el-menu-vertical-demo" :router="true">
-            <el-menu-item index="/activePublic" :class="{'isActive': active}">活动发布</el-menu-item>
-            <el-menu-item index="/activeManage" :class="{'isActive': !active}">活动管理</el-menu-item>
-          </el-menu> -->
-          <el-menu 
-           class="el-menu-vertical-demo" 
-           :router="true">
-            <el-menu-item 
-            v-for="item in todo"
-            v-bind:key="item.id"
-            v-bind:index="item.index">{{item.item}}</el-menu-item>
-          </el-menu>
-
-          <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo">
-            <el-menu-item index="a">
-              <i class="el-icon-menu"></i>
-              <span slot="title">导航二</span>
-            </el-menu-item>
-            <el-menu-item index="b">
-              <i class="el-icon-menu"></i>
-              <span slot="title">导航二</span>
-            </el-menu-item>
-            <el-menu-item index="c">
-              <i class="el-icon-setting"></i>
-              <span slot="title">导航三</span>
-            </el-menu-item>
-          </el-menu>
-        </div>
-
-          <!-- 右侧主内容区 -->
-          <div  class="main-right" >
-            <transition name="fade">
-              <router-view class="view"></router-view>
-            </transition>
-          </div>
-    </main>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -108,21 +53,16 @@ export default {
           {item:'g',index:'as',id:1},
           {item:'a',index:'asd',id:2}
         ]
-      ]
+      ],
+      role:"2"
     }
   },
-  created: function(){
-    this.$router.push('/activePublic');
-  },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key);
-      console.log(keyPath);
-    }
-
-  },
+  // created: function(){
+  //   this.$router.push('/login');
+  // },
   watch: {
-     '$route': function (to,from) {
+    //  '$route': "checkLogin"
+    //  function (to,from) {
         //  if(to.path == '/activePublic'){
         //      this.active = true ;
         //  }else if(to.path == '/activeManage'){
@@ -135,22 +75,79 @@ export default {
         //   false,
         //   false
         // ]
-        if(to.path == '/1') {
-          this.todo = this.lzpSl[0]
-          console.log(this.todo)
-        } else if(to.path == '/2') {
-          this.todo = this.lzpSl[1]
-        } else if(to.path == '/3') {
-          this.todo = this.lzpSl[2]
-        } else if(to.path == '/4') {
-          this.todo = this.lzpSl[3]
-        } else if(to.path == '/5') {
-          this.todo = this.lzpSl[4]
-        }
-        //  console.log(to)
-        //  console.log(this.active)
-     }
+    //     if(to.path == '/1') {
+    //       this.todo = this.lzpSl[0]
+    //       console.log(this.todo)
+    //     } else if(to.path == '/2') {
+    //       this.todo = this.lzpSl[1]
+    //     } else if(to.path == '/3') {
+    //       this.todo = this.lzpSl[2]
+    //     } else if(to.path == '/4') {
+    //       this.todo = this.lzpSl[3]
+    //     } else if(to.path == '/5') {
+    //       this.todo = this.lzpSl[4]
+    //     }
+    //     //  console.log(to)
+    //     //  console.log(this.active)
+    //  }
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key);
+      console.log(keyPath);
+    },
+
+    getCookie(name) {
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)"); 
+            return (arr=document.cookie.match(reg))?unescape(arr[2]):null;
+    },
+    checkLogin() {
+      if ( this.getCookie("session")!="1234" ) {
+        this.$router.push("/login");
+      } else {
+        this.$router.push("/"+role);
+        console.log("aaa")
+      }
+    },
+    onSubmit() {
+      document.cookie =  "session=" + this.form.name + this.form.pass +";";
+      console.log(this.getCookie('session'));
+      this.checkLogin();
+    }
+    // }
+
   }
+  // watch: {
+  //    '$route': checkLogin()
+  //   //  function (to,from) {
+  //       //  if(to.path == '/activePublic'){
+  //       //      this.active = true ;
+  //       //  }else if(to.path == '/activeManage'){
+  //       //      this.active = false ;
+  //       //  }
+  //       // this.active = [
+  //       //   false,
+  //       //   false,
+  //       //   false,
+  //       //   false,
+  //       //   false
+  //       // ]
+  //   //     if(to.path == '/1') {
+  //   //       this.todo = this.lzpSl[0]
+  //   //       console.log(this.todo)
+  //   //     } else if(to.path == '/2') {
+  //   //       this.todo = this.lzpSl[1]
+  //   //     } else if(to.path == '/3') {
+  //   //       this.todo = this.lzpSl[2]
+  //   //     } else if(to.path == '/4') {
+  //   //       this.todo = this.lzpSl[3]
+  //   //     } else if(to.path == '/5') {
+  //   //       this.todo = this.lzpSl[4]
+  //   //     }
+  //   //     //  console.log(to)
+  //   //     //  console.log(this.active)
+  //   //  }
+  // }
 }
 </script>
 
@@ -165,7 +162,7 @@ body{margin: 0;}
 /* 头部导航 */
 header{z-index: 1000;min-width: 1200px;transition: all 0.5s ease;  border-top: solid 4px #3091F2;  background-color: #fff;  box-shadow: 0 2px 4px 0 rgba(0,0,0,.12),0 0 6px 0 rgba(0,0,0,.04);  }
 header.header-fixed{position: fixed;top: 0;left: 0;right: 0;}
-header .el-menu-demo{padding-left: 300px!important;}
+/* header .el-menu-demo{padding-left: 300px!important;} */
 
 /* 主内容区 */
 main{display: -webkit-box;display: -ms-flexbox;display: flex;  min-height: 800px;  border: solid 40px #E9ECF1;  background-color: #FCFCFC;  }
