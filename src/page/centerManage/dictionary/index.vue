@@ -1,6 +1,6 @@
 <template>
   
-  <ctable aheaderData="headerData" atableData="headerData" ></ctable>
+  <ctable :formWindow='addWindows' :aform="allCol" :headerData="headerData" :tableData="tableData" server="/SpringVueTest/NGdept" tableName="活动查询"></ctable>
 
 </template>
 
@@ -11,6 +11,24 @@ export default {
   name: "dictionary",
   data: function() {
     return {
+      addWindows:[
+        {label:'编号' ,value:'form.id'},
+        {label:'标题' ,value:'form.title'},
+        {label:'类型' ,value:'form.type'},
+        {label:'状态' ,value:'form.status'},
+        {label:'11' ,value:'form.readNum'},
+        {label:'22' ,value:'form.signUpNum'},
+        {label:'33' ,value:'form.auditNum'}
+      ],
+      allCol:{
+        id: '',
+        title: '',
+        type: '',
+        status: '',
+        readNum: '',
+        signUpNum:'',
+        auditNum: ''
+      },
       headerData: [
         { name: "title", dataIndex: "活动名称" },
         { name: "type", dataIndex: "活动分类" },

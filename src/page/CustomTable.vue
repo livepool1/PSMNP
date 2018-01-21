@@ -2,19 +2,22 @@
 <div class="ctable">
 
 <el-card class="box-card">
-  <h3>活动列表</h3>
+  <h3>{{tableName}}</h3>
   <el-row type="flex" align="middle" :gutter="20" style="padding:20px 0;">
     <el-col :span="3" style="width: 160px;text-align: center;">
       已选择{{ activeNum }}
     </el-col>
-    <el-col :span="3" style="width: 140px;">
+    <!-- <el-col :span="3" style="width: 140px;">
       <el-select v-model="currentType" placeholder="请选择活动分类">
         <el-option v-for="type in types" :value="type" :key="type">
         </el-option>
       </el-select>
-    </el-col>
-    <el-col :span="6">
+    </el-col> -->
+    <el-col :span="9">
       <!--<el-button :plain="true" type="info">设置活动分类</el-button>-->
+      <el-button :plain="true" @click="clickAdd" type="primary">添加</el-button>
+
+
       <el-button :plain="true" @click.native="handleRemove" type="danger">删除</el-button>
       <!-- <el-button :plain="true" @click.native="handleMoveToTop" type="info">置顶</el-button>
       <el-button :plain="true" @click.native="handleCopy" type="info">复制</el-button> -->
@@ -30,6 +33,31 @@
        </el-form>
     </el-col>
   </el-row>
+
+<!-- 模态 ADD -->
+<el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
+  <el-form :model="form">
+    <!-- <el-form-item label="活动名称" label-width="120px">
+      <el-input v-model="form.id" auto-complete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="活动区域" label-width="120px">
+      <el-select v-model="form.title" placeholder="请选择活动区域">
+        <el-option label="区域一" value="shanghai"></el-option>
+        <el-option label="区域二" value="beijing"></el-option>
+      </el-select>
+    </el-form-item> -->
+   
+    <!-- 动态生成 -->
+
+    <!-- <el-form-item v-for="item in formWindow" :key="item.value" :label="item.label" label-width="120px">
+      <el-input v-model="item.value" auto-complete="off"></el-input>
+    </el-form-item> -->
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="handleFormOK">确 定</el-button>
+  </div>
+</el-dialog>
 
   <el-table :data="filteredTableData"  style="width: 100%" @cell-click="handleSelect" @selection-change="selectionchange">
     <el-table-column type="selection" width="50"></el-table-column>
@@ -64,7 +92,7 @@ import axios from "axios";
 
 export default {
   name: "ctable",
-  props: ['aheaderData','atableData'],
+  props: ['headerData','tableData','server','tableName','aform','formWindow'],
   data: function() {
     return {
       input: "",
@@ -72,58 +100,16 @@ export default {
       currentType: "全部",
       selectItems: [],
       types: ["全部", "测试活动", "免费活动", "收费活动"],
-      headerData: [
-        { name: "title", dataIndex: "活动名称" },
-        { name: "type", dataIndex: "活动分类" },
-        { name: "status", dataIndex: "活动状态" },
-        { name: "readNum", dataIndex: "浏览数" },
-        { name: "signUpNum", dataIndex: "报名数" },
-        { name: "auditNum", dataIndex: "待审核" }
-      ],
-      tableData: [
-        {
-          id: "001",
-          title: "王小虎",
-          type: "测试活动",
-          status: "已结束",
-          readNum: 200,
-          signUpNum: 100,
-          auditNum: 100
-        },
-        {
-          id: "002",
-          title: "王小虎",
-          type: "测试活动",
-          status: "已结束",
-          readNum: 200,
-          signUpNum: 100,
-          auditNum: 100
-        },
-        {
-          id: "003",
-          title: "王小虎",
-          type: "测试活动",
-          status: "已结束",
-          readNum: 200,
-          signUpNum: 100,
-          auditNum: 100
-        },
-        {
-          id: "004",
-          title: "王小虎",
-          type: "测试活动",
-          status: "已结束",
-          readNum: 200,
-          signUpNum: 100,
-          auditNum: 100
-        }
-      ]
+      dialogFormVisible: false,
+      formType: "add",
+      formTitle: "添加",
+      form:{},
+      empty:{}
+    //  formWindow:{}
     };
   },
   created: function() {
     this.init();
-    console.log(this.aheaderData);
-    console.log(this.atableData);
   },
   computed: {
     filteredTableData: function() {
@@ -140,7 +126,7 @@ export default {
   methods: {
     init: function() {
       axios
-        .get("/SpringVueTest/NGdept?from=0&to=100")//查询所有
+        .get( this.server + "?from=0&to=100")//查询所有
         .then(function(response) {
             this.tableData=response;
             console.log(response);
@@ -148,10 +134,53 @@ export default {
         .catch(function(err) {
           console.log(err);
         });
+        this.empty=this.aform;
+        this.form =this.aform;
+        //this.form = this.allCol;
+    },
+    handleFormOK:function(){
+      if(this.formType=='add')
+        this.handleAdd();
+      else if(this.formType=='update')
+        this.handleUpdate();
+    },
+    handleUpdate: function(){
+        axios
+        .put( this.server + form.id,form)  //更新
+        .then(function(response) {
+            this.tableData=response;
+            console.log(response);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+        this.dialogFormVisible = false;
+    },
+    handleAdd:function(){
+      axios
+      .post( this.server + "/Add",form)  //添加
+      .then(function(response) {
+          this.tableData=response;
+          console.log(response);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+      this.dialogFormVisible = false;
+    },
+    clickAdd: function(){
+      this.form = this.empty;
+      this.formTitle = "新增";
+      this.formType='add';
+      this.dialogFormVisible = true;
     },
     handleSelect: function(row, column, cell, event) {
       if (column.label == "操作") {
-        this.$router.push("/activeManage/detail/page1");
+        //this.$router.push("/activeManage/detail/page1");
+        this.form=row;
+        this.formTitle = "详情/更新";
+        this.formType='update';
+        this.dialogFormVisible = true;
       } else if (column.type == "selection") {
         row.$info = !row.$selected;
       } else {
@@ -168,20 +197,26 @@ export default {
       this.activeNum = this.selectItems.length;
     },
     handleRemove: function() {
-        var url = "/SpringVueTest/NGdept?" + "del = ";
       var tableData = this.tableData;
+      var delArray = [];
+      var delObj;
       this.selectItems.forEach(function(id) {
         tableData.forEach(function(data) {
           if (id == data.id) {
-            //tableData.splice(tableData.indexOf(data), 1);
-            url = url  + this.input + ",";
+            var temp={
+              id:id
+              };
+            delArray.push(temp);
           }
         });
       });
-      url.substr(0,url.length-1);
-
+      delObj = {
+        Res:delArray
+      };
+      console.log("okok");
+      console.log(delObj);
       axios
-      .delete(url)           //批量删除 id
+      .post(this.server + "/Del",delObj)         //删除   
       .then(function(response) {
         console.log(response);
         this.$message({
@@ -199,7 +234,7 @@ export default {
     },
     handleQuery: function(){
         axios
-        .get("/SpringVueTest/NGdept/" + this.input + "?from=0&to=100")//查询 id
+        .get(this.server + "/" + this.input + "?from=0&to=100")//查询 id
         .then(function(response) {
             this.tableData=response;
             console.log(response);
