@@ -67,7 +67,10 @@ export default [
         path:'/1',component:center,
           children:[
             { path: '' , component:centerDict},
-            { path: 'dict', component:centerDict},
+            { path: 'dict', component:centerDict,
+            children:[
+              {path: 'dep', component:centerDict}
+            ]},
             { path: 'hur', component:centerHur}
           ]
         },{
