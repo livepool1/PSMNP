@@ -36,7 +36,7 @@
 
 <!-- 模态 ADD -->
 <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
-  <el-form :rules="formRuls" :model="formWindow">
+  <el-form :rules="formRuls" :model="form">
     <!-- :model="form" -->
     <!-- <el-form-item label="活动名称" label-width="120px">
       <el-input v-model="form.id" auto-complete="off"></el-input>
@@ -49,8 +49,13 @@
     </el-form-item> -->
     <!-- 动态生成 -->
     <h1>{{formWindow.col[1].value}}</h1>
+<<<<<<< HEAD
     <el-form-item v-for="(item,index) in formWindow.col" :key="item.name" :label="item.label" :prop="'col.'+index+'.name'" label-width="120px">
       <el-input v-model="item.value"></el-input>
+=======
+    <el-form-item v-for="item in formWindow.col" :key="item.name" :label="item.label" :prop="item.name" label-width="120px">
+      prop:{{item.name}} value:{{item.value}}<el-input v-model="item.value"  @change="doSomethingElse(item.name,item.value)"></el-input>
+>>>>>>> upstream/master
     </el-form-item>
   </el-form>
 
@@ -118,6 +123,17 @@ export default {
   },
   created: function() {
     this.init();
+    console.log(this.formRuls)
+    console.log(this.aform)
+    console.log(this.aformWindow)
+    console.log(this.form)
+  },
+  watch: {
+    formWindow: function(curVal,oldVal) {
+      console.log(curVal)
+      console.log("输出输出")
+      console.log(oldVal)
+    }
   },
   computed: {
     filteredTableData: function() {
@@ -203,9 +219,9 @@ export default {
       this.dialogFormVisible = false;
     },
     clickAdd: function(){
-      this.formWindow.col.forEach(function(item,index,array){  //清空
-        item.value=""
-      })
+      // this.formWindow.col.forEach(function(item,index,array){  //清空
+      //   item.value=""
+      // })
       this.formTitle = "新增";
       this.formType='add';
       this.dialogFormVisible = true;
@@ -285,6 +301,14 @@ export default {
         .catch(function(err) {
           console.log(err);
         });
+    },
+
+    doSomethingElse: function(arr,value){
+      // var arr1 = arr.filter(function(item){
+      //     return item.age === 2;
+      // })
+      // console.log(arr1[0].value);
+      this.form[arr] = value
     }
   }
 };
