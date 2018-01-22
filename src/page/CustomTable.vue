@@ -48,9 +48,8 @@
       </el-select>
     </el-form-item> -->
     <!-- 动态生成 -->
-    <h1>{{formWindow.col[1].value}}</h1>
     <el-form-item v-for="item in formWindow.col" :key="item.name" :label="item.label" :prop="item.name" label-width="120px">
-      prop:{{item.name}} value:{{item.value}}<el-input v-model="item.value"  @change="doSomethingElse(item.name,item.value)"></el-input>
+      <el-input v-model="item.value"  @change="doSomethingElse(item.name,item.value)"></el-input>
     </el-form-item>
   </el-form>
 
@@ -303,7 +302,6 @@ export default {
       //     return item.age === 2;
       // })
       // console.log(arr1[0].value);
-
       this.form[arr] = value
     }
   }
