@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="mainview">
     <!-- 头部导航 -->
     <header class="header" :class="{ 'header-fixed' : headerFixed }">
     <el-row>
@@ -17,14 +17,14 @@
 
       <el-col :span="4" >
         <el-badge is-dot style="margin-top: 10px;margin-right: 30px">
-        <el-dropdown style="margin-left:150px;">
+        <el-dropdown  @command="handleCommand" style="margin-left:150px;">
           <span class="el-dropdown-link" >
             <img  style="width:40px; height:40px" src="../assets/logo.png"/>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item >用户设置</el-dropdown-item>
-            <el-dropdown-item >通知 <el-badge class="mark" :value="12"/></el-dropdown-item>
-            <el-dropdown-item @click="out">注销</el-dropdown-item>
+            <el-dropdown-item command="setting" >用户设置</el-dropdown-item>
+            <el-dropdown-item command="info" >通知 <el-badge class="mark" :value="12"/></el-dropdown-item>
+            <el-dropdown-item command="out">注销</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         </el-badge>
@@ -32,6 +32,11 @@
     </el-row>
     </header>
     <div v-show="headerFixed" style="position: relative;height: 60px;width: 100%;"></div>
+
+<el-dialog title="通知预览" :visible.sync="infoVisible">
+  
+</el-dialog>
+
 
     <main>
           <!-- 左侧导航 -->
@@ -68,10 +73,12 @@ import {centerConfig, a, customConfig, publishConfig, leaderConfig} from '../mai
 Vue.use(Element)
 
 export default {
-  name: 'app',
+  name: 'mainview',
   data: function (){
     return {
       // active:true,
+      infoVisible : false,
+      settingVisible : false,
       active:[
         false,
         false,
@@ -184,6 +191,15 @@ export default {
       console.log(key);
       console.log(keyPath);
       this.todo = this.lzpSl[parseInt(key)-1]
+    },
+    handleCommand(command){
+      if(command == "info"){
+        this.infoVisible= true;
+      }
+      else if(command == "setting")
+         this.settingVisible= true;
+      else
+         this.out();
     },
     delCookie:function(name)
     {

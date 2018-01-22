@@ -36,7 +36,7 @@
 
 <!-- 模态 ADD -->
 <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
-  <el-form :model="form">
+  <el-form :rules="formRuls" :model="formWindow">
     <!-- :model="form" -->
     <!-- <el-form-item label="活动名称" label-width="120px">
       <el-input v-model="form.id" auto-complete="off"></el-input>
@@ -48,8 +48,9 @@
       </el-select>
     </el-form-item> -->
     <!-- 动态生成 -->
-    <el-form-item v-for="item in formWindow" :key="item.name" :label="item.label" label-width="120px">
-      <el-input v-model="item.value" auto-complete="off"></el-input>
+    <h1>{{formWindow.col[1].value}}</h1>
+    <el-form-item v-for="item in formWindow.col" :key="item.name" :label="item.label" :prop="item.name" label-width="120px">
+      <el-input v-model="item.value"></el-input>
     </el-form-item>
   </el-form>
 
@@ -96,7 +97,7 @@ import axios from "axios";
 
 export default {
   name: "ctable",
-  props: ['headerData','server','tableName','aform','aformWindow'],
+  props: ['headerData','server','tableName','aform','aformWindow','formRuls'],
   data: function() {
     return {
       input: "",
@@ -108,7 +109,7 @@ export default {
       formType: "add",
       formTitle: "添加",
       form:{},
-      formWindow:[],
+      formWindow:{},
       tableData: [],
       pageSize : 10,
       nowPage : 1,
@@ -154,8 +155,8 @@ export default {
       this.init()
     },
     handleFormOK:function(){
-      var list = this.form ;
-      this.formWindow.forEach(function(item,index,array){  //赋值
+      var list = this.form;
+      this.formWindow.col.forEach(function(item,index,array){  //赋值
         for(var key in list){
           if(item.name===key){
             list[key]=item.value
@@ -163,6 +164,9 @@ export default {
         }
       })
       this.form = list;
+
+      console.log(this.form)
+
       if(this.formType=='add')
         this.handleAdd();
       else if(this.formType=='update')
@@ -195,7 +199,7 @@ export default {
       this.dialogFormVisible = false;
     },
     clickAdd: function(){
-      this.formWindow.forEach(function(item,index,array){  //清空
+      this.formWindow.col.forEach(function(item,index,array){  //清空
         item.value=""
       })
       this.formTitle = "新增";
@@ -206,14 +210,13 @@ export default {
       if (column.label == "操作") {
         //this.$router.push("/activeManage/detail/page1");
         //this.form=row;
-        this.formWindow.forEach(function(item,index,array){  //赋值
+        this.formWindow.col.forEach(function(item,index,array){  //赋值
           item.value=""
           for(var key in row){
             if(item.name==key)
               item.value=row[key]
           }
         })
-
         this.formTitle = "详情/更新";
         this.formType='update';
         this.dialogFormVisible = true;
@@ -272,8 +275,8 @@ export default {
         axios
         .get(this.server + "/" + this.input + "?nowPage="+this.nowPage+"&pageSize="+this.pageSizes)//模糊查询
         .then(function(response) {
-            this.tableData=response;
-            console.log(response);
+            this.tableData=response.total;
+            console.log(response.list);
         })
         .catch(function(err) {
           console.log(err);
