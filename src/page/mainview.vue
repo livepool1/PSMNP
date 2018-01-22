@@ -23,8 +23,9 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="setting" >用户设置</el-dropdown-item>
-            <el-dropdown-item command="info" >通知 <el-badge class="mark" :value="12"/></el-dropdown-item>
-            <el-dropdown-item command="out">注销</el-dropdown-item>
+            <el-dropdown-item command="info" >通知查看 <el-badge class="mark" :value="12"/></el-dropdown-item>
+            <el-dropdown-item command="send" >通知发送 </el-dropdown-item>
+            <el-dropdown-item command="out">注销 </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         </el-badge>
@@ -33,10 +34,47 @@
     </header>
     <div v-show="headerFixed" style="position: relative;height: 60px;width: 100%;"></div>
 
+<!-- 通知查看 -->
 <el-dialog title="通知预览" :visible.sync="infoVisible">
-  
+<el-row style="margin-bottom: 18px">
+  <el-card :body-style="{ padding: '0px' }">
+    <div slot="header" style = "height:15px">
+      <span>From:</span>
+    </div>
+    <div style="font-size: 14px;margin-bottom: 18px;margin-left: 20px;margin-top: 18px;">
+     '列表内容'
+    </div>
+  </el-card>
+</el-row>
+<el-row style="margin-bottom: 18px">
+  <el-card :body-style="{ padding: '0px' }">
+    <div slot="header" >
+      <span>From:</span>
+    </div>
+    <div  style="font-size: 14px;margin-bottom: 18px;margin-left: 20px;margin-top: 18px;  ">
+     '列表内容'
+    </div>
+  </el-card>
+</el-row>
 </el-dialog>
-
+<!-- 发送通知 -->
+<el-dialog title="发送通知" :visible.sync="sendVisible">
+  <el-form model="sendForm" >
+    <el-form-item label="收件人">
+      <el-input v-model="sendForm.to"></el-input>
+    </el-form-item>
+    <el-form-item label="消息内容">
+      <el-input type="textarea" v-model="sendForm.desc"></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="sendSubmit">发送</el-button>
+      <el-button @click="sendVisible = false">取消</el-button>
+    </el-form-item>
+  </el-form>
+</el-dialog>
+<!-- 用户设置 -->
+<el-dialog title="用户设置" :visible.sync="settingVisible">
+</el-dialog>
 
     <main>
           <!-- 左侧导航 -->
@@ -79,6 +117,12 @@ export default {
       // active:true,
       infoVisible : false,
       settingVisible : false,
+      sendVisible : false,
+      sendForm:{
+        from:"",
+        to:"",
+        desc:""
+      },
       active:[
         false,
         false,
@@ -187,6 +231,9 @@ export default {
     console.log(this.route)
   },
   methods: {
+    sendSubmit(){
+      console.log(this.sendForm);
+    },
     handleSelect(key, keyPath) {
       console.log(key);
       console.log(keyPath);
@@ -198,6 +245,8 @@ export default {
       }
       else if(command == "setting")
          this.settingVisible= true;
+      else if(command == "send")
+         this.sendVisible= true;
       else
          this.out();
     },
