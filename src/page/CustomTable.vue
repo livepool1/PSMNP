@@ -37,6 +37,7 @@
 <!-- 模态 ADD -->
 <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
   <el-form :model="form">
+    <!-- :model="form" -->
     <!-- <el-form-item label="活动名称" label-width="120px">
       <el-input v-model="form.id" auto-complete="off"></el-input>
     </el-form-item>
@@ -46,13 +47,12 @@
         <el-option label="区域二" value="beijing"></el-option>
       </el-select>
     </el-form-item> -->
-   
     <!-- 动态生成 -->
-
-    <!-- <el-form-item v-for="item in formWindow" :key="item.value" :label="item.label" label-width="120px">
+    <el-form-item v-for="item in formWindow" :key="item.name" :label="item.label" label-width="120px">
       <el-input v-model="item.value" auto-complete="off"></el-input>
-    </el-form-item> -->
+    </el-form-item>
   </el-form>
+
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
     <el-button type="primary" @click="handleFormOK">确 定</el-button>
@@ -62,8 +62,10 @@
   <el-table :data="filteredTableData"  style="width: 100%" @cell-click="handleSelect" @selection-change="selectionchange">
     <el-table-column type="selection" width="50"></el-table-column>
 
+    <template id="allData">
     <template v-for="item in headerData">
         <el-table-column  :key="item.dataIndex" :label="item.dataIndex" :prop="item.name" ></el-table-column>
+    </template>
     </template>
 
     <el-table-column  fixed="right" label="操作" align="center" property="id">
@@ -75,11 +77,13 @@
 
   <el-row type="flex" justify="end" style="padding:20px 0; ">
     <el-pagination
-      :current-page="5"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="1"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="10"
       layout="sizes, prev, pager, next"
-      :total="1000">
+      :total="totalData">
     </el-pagination>
   </el-row>
 </el-card>
@@ -92,7 +96,7 @@ import axios from "axios";
 
 export default {
   name: "ctable",
-  props: ['headerData','tableData','server','tableName','aform','formWindow'],
+  props: ['headerData','server','tableName','aform','aformWindow'],
   data: function() {
     return {
       input: "",
@@ -104,8 +108,11 @@ export default {
       formType: "add",
       formTitle: "添加",
       form:{},
-      empty:{}
-    //  formWindow:{}
+      formWindow:[],
+      tableData: [],
+      pageSize : 10,
+      nowPage : 1,
+      totalData : 1000
     };
   },
   created: function() {
@@ -126,19 +133,36 @@ export default {
   methods: {
     init: function() {
       axios
-        .get( this.server + "?from=0&to=100")//查询所有
+        .get( this.server + "?nowPage="+this.nowPage+"&pageSize="+this.pageSizes)//查询所有
         .then(function(response) {
+           // this.totalData=                          //获取总页数
             this.tableData=response;
             console.log(response);
         })
         .catch(function(err) {
           console.log(err);
         });
-        this.empty=this.aform;
         this.form =this.aform;
-        //this.form = this.allCol;
+        this.formWindow =this.aformWindow;
+     },
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.init()
+    },
+    handleCurrentChange(val) {
+      this.nowPage = val
+      this.init()
     },
     handleFormOK:function(){
+      var list = this.form ;
+      this.formWindow.forEach(function(item,index,array){  //赋值
+        for(var key in list){
+          if(item.name===key){
+            list[key]=item.value
+          }
+        }
+      })
+      this.form = list;
       if(this.formType=='add')
         this.handleAdd();
       else if(this.formType=='update')
@@ -146,7 +170,7 @@ export default {
     },
     handleUpdate: function(){
         axios
-        .put( this.server + form.id,form)  //更新
+        .put( this.server ,this.form)  //更新
         .then(function(response) {
             this.tableData=response;
             console.log(response);
@@ -154,11 +178,12 @@ export default {
         .catch(function(err) {
           console.log(err);
         });
+        this.form =this.aform;
         this.dialogFormVisible = false;
     },
     handleAdd:function(){
       axios
-      .post( this.server + "/Add",form)  //添加
+      .post( this.server + "/Add",this.form)  //添加
       .then(function(response) {
           this.tableData=response;
           console.log(response);
@@ -166,10 +191,13 @@ export default {
       .catch(function(err) {
         console.log(err);
       });
+      this.form =this.aform;
       this.dialogFormVisible = false;
     },
     clickAdd: function(){
-      this.form = this.empty;
+      this.formWindow.forEach(function(item,index,array){  //清空
+        item.value=""
+      })
       this.formTitle = "新增";
       this.formType='add';
       this.dialogFormVisible = true;
@@ -177,7 +205,15 @@ export default {
     handleSelect: function(row, column, cell, event) {
       if (column.label == "操作") {
         //this.$router.push("/activeManage/detail/page1");
-        this.form=row;
+        //this.form=row;
+        this.formWindow.forEach(function(item,index,array){  //赋值
+          item.value=""
+          for(var key in row){
+            if(item.name==key)
+              item.value=row[key]
+          }
+        })
+
         this.formTitle = "详情/更新";
         this.formType='update';
         this.dialogFormVisible = true;
@@ -234,7 +270,7 @@ export default {
     },
     handleQuery: function(){
         axios
-        .get(this.server + "/" + this.input + "?from=0&to=100")//查询 id
+        .get(this.server + "/" + this.input + "?nowPage="+this.nowPage+"&pageSize="+this.pageSizes)//模糊查询
         .then(function(response) {
             this.tableData=response;
             console.log(response);

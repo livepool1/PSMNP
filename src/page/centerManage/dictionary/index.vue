@@ -1,6 +1,6 @@
 <template>
   
-  <ctable :formWindow='addWindows' :aform="allCol" :headerData="headerData" :tableData="tableData" server="/SpringVueTest/NGdept" tableName="活动查询"></ctable>
+  <ctable :aformWindow='addWindows' :aform="allCol" :headerData="headerData" server="/SpringVueTest/NGdept" :tableName="tableName"></ctable>
 
 </template>
 
@@ -11,69 +11,36 @@ export default {
   name: "dictionary",
   data: function() {
     return {
+      tableName:"部门管理",
       addWindows:[
-        {label:'编号' ,value:'form.id'},
-        {label:'标题' ,value:'form.title'},
-        {label:'类型' ,value:'form.type'},
-        {label:'状态' ,value:'form.status'},
-        {label:'11' ,value:'form.readNum'},
-        {label:'22' ,value:'form.signUpNum'},
-        {label:'33' ,value:'form.auditNum'}
+        {label:'编号' ,name:'id',value:'',type:''},
+        {label:'员工编号' ,name:'empId',value:'',type:''},
+        {label:'员工姓名' ,name:'empName',value:'',type:''},
+        {label:'发行站编号' ,name:'dsbtId',value:'',type:''},
+        {label:'职务' ,name:'work',value:'',type:''},
+        {label:'业绩统计' ,name:'achievement',value:'',type:''},
+        {label:'联系方式' ,name:'tel',value:'',type:''},
+        {label:'家庭住址' ,name:'add',value:'',type:''},
+        {label:'工资' ,name:'salary',value:'',type:''}
       ],
       allCol:{
         id: '',
-        title: '',
-        type: '',
-        status: '',
-        readNum: '',
-        signUpNum:'',
-        auditNum: ''
+        empId: '',
+        empName: '',
+        dsbtId: '',
+        work: '',
+        achievement: '',
+        tel:'',
+        add:'',
+        salary: ''
       },
       headerData: [
-        { name: "title", dataIndex: "活动名称" },
-        { name: "type", dataIndex: "活动分类" },
-        { name: "status", dataIndex: "活动状态" },
-        { name: "readNum", dataIndex: "浏览数" },
-        { name: "signUpNum", dataIndex: "报名数" },
-        { name: "auditNum", dataIndex: "待审核" }
-      ],
-      tableData: [
-        {
-          id: "001",
-          title: "王小虎",
-          type: "测试活动",
-          status: "已结束",
-          readNum: 200,
-          signUpNum: 100,
-          auditNum: 100
-        },
-        {
-          id: "002",
-          title: "王小虎",
-          type: "测试活动",
-          status: "已结束",
-          readNum: 200,
-          signUpNum: 100,
-          auditNum: 100
-        },
-        {
-          id: "003",
-          title: "王小虎",
-          type: "测试活动",
-          status: "已结束",
-          readNum: 200,
-          signUpNum: 100,
-          auditNum: 100
-        },
-        {
-          id: "004",
-          title: "王小虎",
-          type: "测试活动",
-          status: "已结束",
-          readNum: 200,
-          signUpNum: 100,
-          auditNum: 100
-        }
+        { name: "title", dataIndex: "员工编号" },
+        { name: "type", dataIndex: "员工姓名" },
+        { name: "status", dataIndex: "发行站编号" },
+        { name: "readNum", dataIndex: "职务" },
+        { name: "signUpNum", dataIndex: "业绩统计" },
+        { name: "auditNum", dataIndex: "联系方式" }
       ]
     };
   },
