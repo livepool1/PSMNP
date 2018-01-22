@@ -1,4 +1,3 @@
-
 import activePublic from './page/activePublic/index.vue'
 import step1 from './page/activePublic/step1.vue'
 import step2 from './page/activePublic/step2.vue'
@@ -68,17 +67,131 @@ export default [
           children:[
             { path: '' , component:centerDict},
             { path: 'dict', component:centerDict,
-            children:[
-              {path: 'dep', component:centerDict}
-            ]},
-            { path: 'hur', component:centerHur}
+              children:[
+                // {path: 'deparment', component:deparment},
+                // {path: 'jobCategory', component:jobCategory},
+                // {path: 'newspaper', component:newspaper},
+                // {path: 'transferUnit', component:transferUnit},
+                // {path: 'region', component:region},
+                // {path: 'changeReason', component:changeReason},
+                // {path: 'stateMaintenance', component:stateMaintenance},
+                // {path: 'officeInfor', component:officeInfor},
+              ]},
+            { path: 'hur', component:centerHur,
+              children:[
+                // {path: 'empInfor', component:empInfor},
+                // {path: 'empPosition', component:empPosition},
+                
+              ]},
+            // { path: 'news', component:centerNews,
+            //   children:[
+            //     // {path: 'newsCode', component:newsCode},
+            //     // {path: 'newsAttribute', component:newsAttribute},
+            //     // {path: 'frequency', component:frequency},
+            //     // {path: 'lssuingRate', component:lssuingRate},
+            //     // {path: 'newsBasicPricing', component:newsBasicPricing},
+            //     // {path: 'newsDiscount', component:newsDiscount},
+                
+            //   ]},
+            // { path: 'assis', component:centerAssis,
+            //   children:[
+            //     // {path: 'collectInfor', component:collectInfor},
+            //     // {path: 'sendInfor', component:sendInfor},
+                
+            //   ]},
+            // { path: 'query', component:centerQuery,
+            //   children:[
+            //     // {path: 'newsInforQuery', component:newsInforQuery},
+            //     // {path: 'subOrderQuery', component:subOrderQuery},
+            //     // {path: 'newsOrderQuery', component:newsOrderQuery},
+            //   ]},
           ]
         },{
-          path:'/2',component:publish
+          path:'/2',component:publish,
+
+          children:[
+            // { path: '' , component:publishCusto},
+            // { path: 'custo', component:publishCusto,
+            //   children:[
+            //     // {path: 'subInforManage', component:subInforManage},
+            //   ]},
+            // { path: 'commo', component:publishCommo,
+            //   children:[
+            //     // {path: 'newBook', component:newBook},
+            //     // {path: 'backBook', component:backBook},
+            //     // {path: 'redirect', component:redirect},
+            //     // {path: 'delay', component:delay},
+            //     // {path: 'renewBook', component:renewBook},
+            //     // {path: 'change', component:change},
+                
+            //   ]},
+            // { path: 'watch', component:publishWatch,
+            //   children:[
+            //     // {path: 'complaintHandle', component:complaintHandle},
+            //     // {path: 'praiseTreat', component:praiseTreat},
+            //     // {path: 'recomTreat', component:recomTreat},
+                
+            //   ]},
+            // { path: 'assis', component:publishAssis,
+            //   children:[
+            //     // {path: 'collectInfor', component:collectInfor},
+            //     // {path: 'sendInfor', component:sendInfor},
+                
+            //   ]},
+            // { path: 'query', component:publishQuery,
+            //   children:[
+            //     // {path: 'statisQuery', component:statisQuery},
+            //     // {path: 'basicInforQuery', component:basicInforQuery},
+            //     // {path: 'subQuery', component:subQuery},
+            //     // {path: 'dailyBusinessQuery', component:dailyBusinessQuery},
+            //   ]},
+          ]
         },{
-          path:'/3',component:finanal
+          path:'/3',component:custom,
+          children:[
+            // { path: '' , component:customWatch},
+            // { path: 'watch', component:customWatch,
+            //   children:[
+            //     // {path: 'complaintHandle', component:complaintHandle},
+            //     // {path: 'praiseTreat', component:praiseTreat},
+            //     // {path: 'recomTreat', component:recomTreat},
+            //   ]},
+            // { path: 'assis', component:customAssis,
+            //   children:[
+            //     // {path: 'collectInfor', component:collectInfor},
+            //     // {path: 'sendInfor', component:sendInfor},
+                
+            //   ]},
+            // { path: 'query', component:customQuery,
+            //   children:[
+            //     // {path: 'orderTermQuery', component:orderTermQuery},
+                
+            //   ]},
+          ]
         },{
-          path:'/4',component:custom
+          path:'/4',component:leader,
+          children:[
+            // { path: '' , component:leaderNews},
+            // { path: 'news', component:leaderNews,
+            //   children:[
+            //     // {path: 'newsOrderStation', component:newsOrderStation},
+            //     // {path: 'newsOrderYear', component:newsOrderYear},
+            //     // {path: 'annuNewsOrder', component:annuNewsOrder},
+            //     // {path: 'subOrderContrast', component:subOrderContrast},
+            //     // {path: 'subMoneyStation', component:subMoneyStation},
+            //   ]},
+            // { path: 'sub', component:leaderSub,
+            //   children:[
+            //     // {path: 'subPeriod', component:subPeriod},
+            //     // {path: 'subCharacter', component:subCharacter},
+                
+            //   ]},
+            // { path: 'order', component:leaderOrder,
+            //   children:[
+            //     // {path: 'complaSituatMonth', component:complaSituatMonth},
+                
+            //   ]},
+          ]
         },{
           path:'5',component:leader
         },{
