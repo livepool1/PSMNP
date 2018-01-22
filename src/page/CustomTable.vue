@@ -49,13 +49,8 @@
     </el-form-item> -->
     <!-- 动态生成 -->
     <h1>{{formWindow.col[1].value}}</h1>
-<<<<<<< HEAD
-    <el-form-item v-for="(item,index) in formWindow.col" :key="item.name" :label="item.label" :prop="'col.'+index+'.name'" label-width="120px">
-      <el-input v-model="item.value"></el-input>
-=======
     <el-form-item v-for="item in formWindow.col" :key="item.name" :label="item.label" :prop="item.name" label-width="120px">
       prop:{{item.name}} value:{{item.value}}<el-input v-model="item.value"  @change="doSomethingElse(item.name,item.value)"></el-input>
->>>>>>> upstream/master
     </el-form-item>
   </el-form>
 
