@@ -5,6 +5,7 @@ import App from './App'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import routeConfig from './router-config'
+import ctable from './page/CustomTable.vue'
 
 import store from './store.js'
 
@@ -52,6 +53,8 @@ const router = new VueRouter({
 //   //   }
 
 // })
+
+Vue.component('ctable', ctable)
 
 new Vue({
   router,

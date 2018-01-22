@@ -30,9 +30,7 @@
         </el-col>
         <el-col :span="5" style="width: 140px;">
           <el-select v-model="currentType" placeholder="请选择活动分类">
-            <el-option
-              v-for="type in types"
-              :value="type">
+            <el-option v-for="type in types" :value="type">
             </el-option>
           </el-select>
         </el-col>
@@ -76,112 +74,131 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'allActive',
-    data: function () {
-      return {
-        totalActiveNum: 3,
-        totalSignUp: 204,
-        auditNum: 15,
-        activeNum: 0,
-        currentType: '全部',
-        selectItems:[],
-        types: ['全部','测试活动','免费活动','收费活动'],
-        tableData: [
-          {
-            id: '001',
-            title: '王小虎',
-            type: '测试活动',
-            status: '已结束',
-            readNum: 200,
-            signUpNum: 100,
-            auditNum: 100
-          }, {
-            id: '002',
-            title: '王小虎',
-            type: '测试活动',
-            status: '已结束',
-            readNum: 200,
-            signUpNum: 100,
-            auditNum: 100
-          }, {
-            id: '003',
-            title: '王小虎',
-            type: '测试活动',
-            status: '已结束',
-            readNum: 200,
-            signUpNum: 100,
-            auditNum: 100
-          }, {
-            id: '004',
-            title: '王小虎',
-            type: '测试活动',
-            status: '已结束',
-            readNum: 200,
-            signUpNum: 100,
-            auditNum: 100
-          }],
+import axios from 'axios'
+
+export default {
+  name: "allActive",
+  data: function() {
+    return {
+      totalActiveNum: 3,
+      totalSignUp: 204,
+      auditNum: 15,
+      activeNum: 0,
+      currentType: "全部",
+      selectItems: [],
+      types: ["全部", "测试活动", "免费活动", "收费活动"],
+      tableData: [
+        {
+          id: "001",
+          title: "王小虎",
+          type: "测试活动",
+          status: "已结束",
+          readNum: 200,
+          signUpNum: 100,
+          auditNum: 100
+        },
+        {
+          id: "002",
+          title: "王小虎",
+          type: "测试活动",
+          status: "已结束",
+          readNum: 200,
+          signUpNum: 100,
+          auditNum: 100
+        },
+        {
+          id: "003",
+          title: "王小虎",
+          type: "测试活动",
+          status: "已结束",
+          readNum: 200,
+          signUpNum: 100,
+          auditNum: 100
+        },
+        {
+          id: "004",
+          title: "王小虎",
+          type: "测试活动",
+          status: "已结束",
+          readNum: 200,
+          signUpNum: 100,
+          auditNum: 100
+        }
+      ]
+    };
+  },
+  created: function() {
+    this.init();
+  },
+  computed: {
+    filteredTableData: function() {
+      var type = this.currentType;
+      return this.tableData.filter(function(data) {
+        if (type == "全部" || type == "") {
+          return true;
+        } else {
+          return data.type == type;
+        }
+      });
+    }
+  },
+  methods: {
+    init: function() {
+      axios
+        .get("/SpringVueTest/NGdept/getlist")
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    },
+    handleSelect: function(row, column, cell, event) {
+      if (column.label == "操作") {
+        this.$router.push("/activeManage/detail/page1");
+      } else if (column.type == "selection") {
+        row.$info = !row.$selected;
+      } else {
+        row.$selected = !row.$selected;
+        row.$info = row.$selected;
       }
     },
-    computed:{
-        filteredTableData: function () {
-          var type = this.currentType;
-          return this.tableData.filter(function (data) {
-            if(type == '全部'|| type == '' ){
-              return true
-            }else{
-              return data.type == type
-            }
-          })
-        }
+    selectionchange: function(val) {
+      var arr = [];
+      val.forEach(function(item) {
+        arr.push(item.id);
+      });
+      this.selectItems = arr;
+      this.activeNum = this.selectItems.length;
     },
-    methods: {
-      handleSelect: function (row, column, cell, event) {
-       if (column.label == '操作') {
-         this.$router.push('/activeManage/detail/page1');
-        } else if(column.type == 'selection'){
-            row.$info = !row.$selected;  
-       }else{
-            row.$selected = !row.$selected;
-            row.$info = row.$selected;
-       }
-      },
-      selectionchange: function (val) {
-        var arr = [];
-        val.forEach(function (item) {
-            arr.push(item.id);
+    handleRemove: function() {
+      var tableData = this.tableData;
+      this.selectItems.forEach(function(id) {
+        tableData.forEach(function(data) {
+          if (id == data.id) {
+            tableData.splice(tableData.indexOf(data), 1);
+          }
         });
-        this.selectItems = arr;
-        this.activeNum = this.selectItems.length;
-      },
-      handleRemove:function(){
-        var tableData = this.tableData;
-        this.selectItems.forEach(function (id) {
-          tableData.forEach(function (data) {
-              if(id == data.id){
-                tableData.splice(tableData.indexOf(data),1)
-              }
-          })
-        });
-        this.selectItems = [];
-      },
+      });
+      this.selectItems = [];
     }
   }
+};
 </script>
 <style>
-  .allActive > .head > .el-col > .el-col {
-    padding: 20px 0;
-    border-right: solid 1px #fff;
-  }
+.allActive > .head > .el-col > .el-col {
+  padding: 20px 0;
+  border-right: solid 1px #fff;
+}
 
-  .allActive .head {
-    text-align: center;
-    color: #fff;
-    font-size: 30px;
-    margin-bottom: 50px;
-  }
+.allActive .head {
+  text-align: center;
+  color: #fff;
+  font-size: 30px;
+  margin-bottom: 50px;
+}
 
-  .allActive .head span {
-    font-size: 16px;
-  }
+.allActive .head span {
+  font-size: 16px;
+}
 </style>

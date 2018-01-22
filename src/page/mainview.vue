@@ -3,23 +3,32 @@
     <!-- 头部导航 -->
     <header class="header" :class="{ 'header-fixed' : headerFixed }">
     <el-row>
-      <el-col :span="6" style="text-align: center; color: #409EFF;">
+      <el-col :span="4" style="text-align: center; color: #409EFF;">
         <div class="" style="font-size: 20px;color: #409EFF;line-height: 60px;">{{title}}</div>
       </el-col>
-        <el-col :span="18">
+        <el-col :span="16">
           <el-menu class="el-menu-demo" mode="horizontal" @select="handleSelect">
               <el-menu-item
               v-bind:index="item.key"
               v-for="item in route"
               v-bind:key="item.key">{{item.item}}</el-menu-item>
-            <!-- <el-menu-item index="1">字典维护</el-menu-item>
-            <el-menu-item index="2">人事管理</el-menu-item>
-            <el-menu-item index="3">报刊设置</el-menu-item>
-            <el-menu-item index="4">辅助业务</el-menu-item>
-            <el-menu-item index="5">汇总</el-menu-item>
-            <el-menu-item index="6">查询</el-menu-item> -->
           </el-menu>
         </el-col>
+
+      <el-col :span="4" >
+        <el-badge is-dot style="margin-top: 10px;margin-right: 30px">
+        <el-dropdown style="margin-left:150px;">
+          <span class="el-dropdown-link" >
+            <img  style="width:40px; height:40px" src="../assets/logo.png"/>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item >用户设置</el-dropdown-item>
+            <el-dropdown-item >通知 <el-badge class="mark" :value="12"/></el-dropdown-item>
+            <el-dropdown-item @click="out">注销</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        </el-badge>
+      </el-col>
     </el-row>
     </header>
     <div v-show="headerFixed" style="position: relative;height: 60px;width: 100%;"></div>
@@ -27,10 +36,6 @@
     <main>
           <!-- 左侧导航 -->
         <div class="main-left">
-          <!-- <el-menu default-active="/activePublic" class="el-menu-vertical-demo" :router="true">
-            <el-menu-item index="/activePublic" :class="{'isActive': active}">活动发布</el-menu-item>
-            <el-menu-item index="/activeManage" :class="{'isActive': !active}">活动管理</el-menu-item>
-          </el-menu> -->
           <el-menu 
            class="el-menu-vertical-demo" 
            :router="true">
@@ -39,23 +44,6 @@
             v-bind:key="item.id"
             v-bind:index="item.index">{{item.item}}</el-menu-item>
           </el-menu>
-
-          <!-- <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo">
-            <el-menu-item index="a">
-              <i class="el-icon-menu"></i>
-              <span slot="title">导航二</span>
-            </el-menu-item>
-            <el-menu-item index="b">
-              <i class="el-icon-menu"></i>
-              <span slot="title">导航二</span>
-            </el-menu-item>
-            <el-menu-item index="c">
-              <i class="el-icon-setting"></i>
-              <span slot="title">导航三</span>
-            </el-menu-item>
-          </el-menu> -->
         </div>
 
           <!-- 右侧主内容区 -->
@@ -195,11 +183,20 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key);
       console.log(keyPath);
-
       this.todo = this.lzpSl[parseInt(key)-1]
-
+    },
+    delCookie:function(name)
+    {
+      var exp = new Date();
+      exp.setTime(exp.getTime() - 1);
+      var cval=getCookie(name);
+      if(cval!=null)
+        document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+    },
+    out: function(){
+      this.delCookie("session");
+      this.router;
     }
-
   },
   watch: {
      '$route': function (to,from) {
