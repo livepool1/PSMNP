@@ -49,7 +49,7 @@
     </el-form-item> -->
     <!-- 动态生成 -->
     <h1>{{formWindow.col[1].value}}</h1>
-    <el-form-item v-for="item in formWindow.col" :key="item.name" :label="item.label" :prop="item.name" label-width="120px">
+    <el-form-item v-for="(item,index) in formWindow.col" :key="item.name" :label="item.label" :prop="'col.'+index+'.name'" label-width="120px">
       <el-input v-model="item.value"></el-input>
     </el-form-item>
   </el-form>
@@ -133,12 +133,16 @@ export default {
   },
   methods: {
     init: function() {
+      var self=this;
       axios
-        .get( this.server + "?nowPage="+this.nowPage+"&pageSize="+this.pageSizes)//查询所有
+        .get( this.server + "?nowPage="+this.nowPage+"&pageSize="+this.pageSize)//查询所有
         .then(function(response) {
            // this.totalData=                          //获取总页数
-            this.tableData=response;
-            console.log(response);
+            console.log(response)
+            var tem = response.data
+            console.log(tem)
+            self.totalData = tem['total'];
+            self.tableData = tem['list'];
         })
         .catch(function(err) {
           console.log(err);
@@ -273,7 +277,7 @@ export default {
     },
     handleQuery: function(){
         axios
-        .get(this.server + "/" + this.input + "?nowPage="+this.nowPage+"&pageSize="+this.pageSizes)//模糊查询
+        .get(this.server + "/" + this.input + "?nowPage="+this.nowPage+"&pageSize="+this.pageSize)//模糊查询
         .then(function(response) {
             this.tableData=response.total;
             console.log(response.list);

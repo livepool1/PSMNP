@@ -21,6 +21,7 @@ import finanal from './page/finanalManage/index.vue'
 import leader from './page/leaderManage/index.vue'
 import publish from './page/publishManage/index.vue'
 
+import dept from './page/centerManage/dictionary/Dept.vue'
 import centerDict from './page/centerManage/dictionary/index.vue'
 import centerHur from './page/centerManage/humanresources/index.vue'
 
@@ -66,7 +67,7 @@ export default [
       {
         path:'/1',component:center,
           children:[
-            { path: '' , component:centerDict},
+            { path: '' , component:dept},
             { path: 'dict', component:centerDict,
             children:[
               {path: 'dep', component:centerDict}

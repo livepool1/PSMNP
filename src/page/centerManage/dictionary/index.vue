@@ -1,6 +1,6 @@
 <template>
   
-  <ctable :formRuls="ruls" :aformWindow='addWindows' :aform="allCol" :headerData="headerData" server="/SpringVueTest/NGdept" :tableName="tableName"></ctable>
+  <ctable :formRuls="ruls" :aformWindow='addWindows' :aform="allCol" :headerData="headerData" server="/HEUPOMS/Dept" :tableName="tableName"></ctable>
 
 </template>
 
@@ -11,7 +11,7 @@ export default {
   name: "dictionary",
   data: function() {
     return {
-      tableName:"部门管理",
+      tableName:"员工管理",
       ruls:{
         empId:[ { required: true, message: '请输入员工编号', trigger: 'blur' }],
         empName:[ { required: true, message: '请输入员工姓名', trigger: 'blur' }],
