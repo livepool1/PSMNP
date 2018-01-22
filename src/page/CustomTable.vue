@@ -303,6 +303,7 @@ export default {
       //     return item.age === 2;
       // })
       // console.log(arr1[0].value);
+
       this.form[arr] = value
     }
   }
