@@ -92,7 +92,9 @@
           <!-- 右侧主内容区 -->
           <div  class="main-right" >
             <transition name="fade">
-              <router-view class="view"></router-view>
+              <el-card>              <router-view class="view"></router-view></el-card>
+
+
             </transition>
           </div>
     </main>
