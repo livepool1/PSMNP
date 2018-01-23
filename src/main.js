@@ -27,11 +27,6 @@ const isLo = true;
 
 //   console.log("钩子调用")
 
-<<<<<<< HEAD
-//   if( to.path != "/login") {
-//     if ( getCookie("session") == null) {
-//       console.log("无cookie")
-=======
 //   // function open() {
 //   //   from.$alert('这是一段内容', '标题名称', {
 //   //     confirmButtonText: '确定',
@@ -49,7 +44,6 @@ const isLo = true;
 //     if ( getCookie("session") == null) {
 //       console.log("无cookie")
 //       // open();
->>>>>>> 963c4eea1013fda2a02bc8faf528145572489116
 //       next('/login')
 //     } else {
 //       if(getCookie("session")[0] != to.path[1]) {
