@@ -187,6 +187,47 @@ export default {
       ]
     }
   },
+
+  mounted: function () {
+    this.$nextTick(function () {
+      // Code that will run only after the
+      // entire view has been rendered
+
+      if(this.$route.path[1] == '1') {
+        this.route = centerConfig.routea
+        this.lzpSl = centerConfig.todo
+        this.todo = this.lzpSl[0]
+        console.log(this.$router.path)
+        console.log(this.$router)
+        console.log(this)
+        this.title = centerConfig.title
+      } else if(this.$route.path[1] == '2') {
+        this.route = customConfig.routea
+        this.lzpSl = customConfig.todo
+        this.todo = this.lzpSl[0]
+        this.title = customConfig.title
+      } else if(this.$route.path[1] == '3') {
+        this.route = publishConfig.routea
+        this.lzpSl = publishConfig.todo
+        this.todo = this.lzpSl[0]
+        this.title = publishConfig.title
+      } else if(this.$route.path[1] == '4') {
+        this.route = leaderConfig.routea
+        this.lzpSl = leaderConfig.todo
+        this.todo = this.lzpSl[0]
+        this.title = leaderConfig.title
+      } else if(this.$route.path[1] == '5') {
+        this.route = leaderConfig.routea
+        this.lzpSl = leaderConfig.todo
+        this.todo = this.lzpSl[0]
+        this.title = leaderConfig.title
+      }
+
+      console.log("重新渲染钩子");
+      console.log(this.$route.path)
+    })
+  },
+
   created: function(){
     //   this.route = centerConfig.routea
     // console.log(leaderConfig.todo)
