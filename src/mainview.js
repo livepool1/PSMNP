@@ -48,8 +48,8 @@ const centerConfig = {
         {item:'字典维护',key:'1'},
         {item:'人事管理',key:'2'},
         {item:'报刊设置',key:'3'},
-        {item:'辅助业务',key:'4'},
-        {item:'查询',key:'5'}
+        // {item:'辅助业务',key:'4'},
+        {item:'查询',key:'4'}
     ],
     todo:[
         [
@@ -74,10 +74,10 @@ const centerConfig = {
           {item:'报刊基本价',index:'/1/news/newsBasicPricing',id:5},
           {item:'报刊优惠设置',index:'/1/news/newsDiscount',id:6}
         ],
-        [
-          {item:'收取通知',index:'/1/assis/collectInfor',id:1},
-          {item:'发送通知',index:'/1/assis/sendInfor',id:2}
-        ],
+        // [
+        //   {item:'收取通知',index:'/1/assis/collectInfor',id:1},
+        //   {item:'发送通知',index:'/1/assis/sendInfor',id:2}
+        // ],
         [
           {item:'报刊信息查询',index:'/1/query/newsInforQuery',id:1},
           {item:'订户订购查询',index:'/1/query/subOrderQuery',id:2},
@@ -92,8 +92,8 @@ const publishConfig = {
         {item:'客户管理',key:'1'},
         {item:'商品订购',key:'2'},
         {item:'监督管理',key:'3'},
-        {item:'辅助业务',key:'4'},
-        {item:'查询',key:'5'}
+        // {item:'辅助业务',key:'4'},
+        {item:'查询',key:'4'}
     ],
     todo:[
         [
@@ -115,10 +115,10 @@ const publishConfig = {
           {item:'建议处理',index:'/2/watch/recomTreat',id:3},
           
         ],
-        [
-          {item:'收取通知',index:'/2/assis/collectInfor',id:1},
-          {item:'发送通知',index:'/2/assis/sendInfor',id:2}
-        ],
+        // [
+        //   {item:'收取通知',index:'/2/assis/collectInfor',id:1},
+        //   {item:'发送通知',index:'/2/assis/sendInfor',id:2}
+        // ],
         [
           {item:'统计查询',index:'/2/query/statisQuery',id:1},
           {item:'基础信息查询',index:'/2/query/basicInforQuery',id:2},
@@ -133,8 +133,8 @@ const customConfig = {
     title:"客服系统",
     routea:[
         {item:'监督管理',key:'1'},
-        {item:'辅助业务',key:'2'},
-        {item:'查询',key:'3'}
+        // {item:'辅助业务',key:'2'},
+        {item:'查询',key:'2'}
     ],
     todo:[
        
@@ -144,10 +144,10 @@ const customConfig = {
           {item:'建议管理',index:'/3/watch/recomManage',id:3}
           
         ],
-        [
-          {item:'收取通知',index:'/3/assis/collectInfor',id:1},
-          {item:'发送通知',index:'/3/assis/sendInfor',id:2}
-        ],
+        // [
+        //   {item:'收取通知',index:'/3/assis/collectInfor',id:1},
+        //   {item:'发送通知',index:'/3/assis/sendInfor',id:2}
+        // ],
         [
           {item:'订单到期数查询',index:'/3/query/orderTermQuery',id:1}
         ],
