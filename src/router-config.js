@@ -27,6 +27,9 @@ import centerHur from './page/centerManage/humanresources/index.vue'
 import login from './page/Login.vue'
 import mainview from './page/mainview.vue'
 
+import deparment from './page/centerManage/dictionary/department.vue'
+import jobCategory from './page/centerManage/dictionary/jobCategory.vue'
+
 
 export default [
   {
@@ -69,8 +72,8 @@ export default [
             { path: '' , component:dept},
             { path: 'dict', component:centerDict,
               children:[
-                // {path: 'deparment', component:deparment},
-                // {path: 'jobCategory', component:jobCategory},
+                {path: 'deparment', component:centerDict},
+                {path: 'jobCategory', component:jobCategory},
                 // {path: 'newspaper', component:newspaper},
                 // {path: 'transferUnit', component:transferUnit},
                 // {path: 'region', component:region},
