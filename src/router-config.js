@@ -69,10 +69,10 @@ export default [
       {
         path:'/1',component:center,
           children:[
-            { path: '' , component:dept},
-            { path: 'dict', component:centerDict,
+            { path: '' , component:center},
+            { path: 'dict', component:center,
               children:[
-                {path: 'deparment', component:centerDict},
+                {path: 'deparment', component:dept},
                 {path: 'jobCategory', component:jobCategory},
                 // {path: 'newspaper', component:newspaper},
                 // {path: 'transferUnit', component:transferUnit},
