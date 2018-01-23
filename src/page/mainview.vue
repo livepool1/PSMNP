@@ -206,12 +206,12 @@ export default {
       console.log(this.$router)
       console.log(this)
       this.title = centerConfig.title
-    } else if(this.$route.path == '/2') {
+    } else if(this.$route.path == '/3') {
       this.route = customConfig.routea
       this.lzpSl = customConfig.todo
       this.todo = this.lzpSl[0]
       this.title = customConfig.title
-    } else if(this.$route.path == '/3') {
+    } else if(this.$route.path == '/2') {
       this.route = publishConfig.routea
       this.lzpSl = publishConfig.todo
       this.todo = this.lzpSl[0]
@@ -300,12 +300,12 @@ export default {
            console.log(this.$router)
            console.log(this)
            this.title = centerConfig.title
-         } else if(this.$route.path == '/2') {
+         } else if(this.$route.path == '/3') {
            this.route = customConfig.routea
            this.lzpSl = customConfig.todo
            this.todo = this.lzpSl[0]
            this.title = customConfig.title
-         } else if(this.$route.path == '/3') {
+         } else if(this.$route.path == '/2') {
            this.route = publishConfig.routea
            this.lzpSl = publishConfig.todo
            this.todo = this.lzpSl[0]

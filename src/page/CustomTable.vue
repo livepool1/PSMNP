@@ -21,12 +21,12 @@
       <el-button :plain="true" @click.native="handleCopy" type="info">复制</el-button> -->
     </el-col>
     <el-col :span="12" >
-       <el-form :inline="true"  class="demo-form-inline" style=" margin-top: 20px;">
+       <el-form :inline="true"  class="demo-form-inline" style=" margin-top: 20px;" cell-style="{style='font-size:50%;background:#00FF00;'}">
            <el-form-item >
              <el-input v-model="input" placeholder="请输入内容"  prefix-icon="el-icon-search"></el-input>
            </el-form-item >
            <el-form-item >
-           <el-button :plain="true" @click.native="handleQuery" type="info" >查询</el-button>
+            <el-button :plain="true" @click.native="handleQuery" type="info" >查询</el-button>
            </el-form-item >
        </el-form>
     </el-col>

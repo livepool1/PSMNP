@@ -20,41 +20,41 @@ const router = new VueRouter({
 
 const isLo = true;
 
-router.beforeEach((to, from, next) => {
+// router.beforeEach((to, from, next) => {
 
-  // console.log(getCookie("session")[0])
-  // console.log(to.path[1])
+//   // console.log(getCookie("session")[0])
+//   // console.log(to.path[1])
 
-  console.log("钩子调用")
+//   console.log("钩子调用")
 
-  if( to.path != "/login") {
-    if ( getCookie("session") == null) {
-      console.log("无cookie")
-      next('/login')
-    } else {
-      if(getCookie("session")[0] != to.path[1]) {
-        console.log("越权访问！")
-        next("/" + getCookie("session")[0])
-        // router.push("/" + getCookie("session")[0])    
-      } else {
-        console.log("成功")
-        next()
-        // router.push("/login");
-      }
-    }
-  } else {
-    next()
-  }
+//   if( to.path != "/login") {
+//     if ( getCookie("session") == null) {
+//       console.log("无cookie")
+//       next('/login')
+//     } else {
+//       if(getCookie("session")[0] != to.path[1]) {
+//         console.log("越权访问！")
+//         next("/" + getCookie("session")[0])
+//         // router.push("/" + getCookie("session")[0])    
+//       } else {
+//         console.log("成功")
+//         next()
+//         // router.push("/login");
+//       }
+//     }
+//   } else {
+//     next()
+//   }
   
-  // if(getCookie("session")[0] != to.path[1]) {
-  //     console.log("越权访问！")
-  //     router.push("/" + getCookie("session")[0])    
-  //   } else {
-  //     console.log("成功")
-  //     router.push("/login");
-  //   }
+//   // if(getCookie("session")[0] != to.path[1]) {
+//   //     console.log("越权访问！")
+//   //     router.push("/" + getCookie("session")[0])    
+//   //   } else {
+//   //     console.log("成功")
+//   //     router.push("/login");
+//   //   }
 
-})
+// })
 
 Vue.component('ctable', ctable)
 
