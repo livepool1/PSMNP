@@ -1,7 +1,7 @@
 <template>
 <div class="ctable">
 
-<el-card class="box-card">
+<el-card class="box-card" v-loading="loading">
   <h3>{{tableName}}</h3>
   <el-row type="flex" align="middle" :gutter="20" style="padding:20px 0;">
     <el-col :span="3" style="width: 160px;text-align: center;">
@@ -16,8 +16,6 @@
     <el-col :span="9">
       <!--<el-button :plain="true" type="info">设置活动分类</el-button>-->
       <el-button :plain="true" @click="clickAdd" type="primary">添加</el-button>
-
-
       <el-button :plain="true" @click.native="handleRemove" type="danger">删除</el-button>
       <!-- <el-button :plain="true" @click.native="handleMoveToTop" type="info">置顶</el-button>
       <el-button :plain="true" @click.native="handleCopy" type="info">复制</el-button> -->
@@ -25,10 +23,10 @@
     <el-col :span="12" >
        <el-form :inline="true"  class="demo-form-inline" style=" margin-top: 20px;">
            <el-form-item >
-             <el-input v-model="input" placeholder="请输入内容"></el-input>
-          </el-form-item >
+             <el-input v-model="input" placeholder="请输入内容"  prefix-icon="el-icon-search"></el-input>
+           </el-form-item >
            <el-form-item >
-          <el-button :plain="true" @click.native="handleQuery" type="info" >查询</el-button>
+           <el-button :plain="true" @click.native="handleQuery" type="info" >查询</el-button>
            </el-form-item >
        </el-form>
     </el-col>
@@ -36,26 +34,17 @@
 
 <!-- 模态 ADD -->
 <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
-  <el-form :rules="formRuls" :model="form">
-    <!-- :model="form" -->
-    <!-- <el-form-item label="活动名称" label-width="120px">
-      <el-input v-model="form.id" auto-complete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="活动区域" label-width="120px">
-      <el-select v-model="form.title" placeholder="请选择活动区域">
-        <el-option label="区域一" value="shanghai"></el-option>
-        <el-option label="区域二" value="beijing"></el-option>
-      </el-select>
-    </el-form-item> -->
-    <!-- 动态生成 -->
+  <el-form :rules="formRuls" :model="form" ref="form">
     <el-form-item v-for="item in formWindow.col" :key="item.name" :label="item.label" :prop="item.name" label-width="120px">
-      <el-input v-model="item.value"  @change="doSomethingElse(item.name,item.value)"></el-input>
+      <el-input v-if="item.type === 'inputID'" v-model="item.value" :disabled="true" @blur="doSomethingElse(item.name,item.value)" @change="doSomethingElse(item.name,item.value)"></el-input>
+      <el-input v-else-if="item.type === 'input'" v-model="item.value" @blur="doSomethingElse(item.name,item.value)" @change="doSomethingElse(item.name,item.value)" clearable></el-input>
+      <el-input v-else-if="item.type === 'number'" v-model="item.value" @blur="doSomethingElse(item.name,item.value)" @change="doSomethingElse(item.name,item.value)" clearable></el-input>
+      <el-input v-else v-model="item.value" @blur="doSomethingElse(item.name,item.value)" @change="doSomethingElse(item.name,item.value)" clearable></el-input>
     </el-form-item>
   </el-form>
-
   <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="handleFormOK">确 定</el-button>
+      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="handleFormOK('form')">确 定</el-button>
   </div>
 </el-dialog>
 
@@ -109,25 +98,16 @@ export default {
       formTitle: "添加",
       form:{},
       formWindow:{},
-      tableData: [],
+      tableData: [{deptNo: '11',
+      deptName: '333'}],
       pageSize : 10,
       nowPage : 1,
-      totalData : 1000
+      totalData : 1000,
+      loading: true
     };
   },
   created: function() {
     this.init();
-    console.log(this.formRuls)
-    console.log(this.aform)
-    console.log(this.aformWindow)
-    console.log(this.form)
-  },
-  watch: {
-    formWindow: function(curVal,oldVal) {
-      console.log(curVal)
-      console.log("输出输出")
-      console.log(oldVal)
-    }
   },
   computed: {
     filteredTableData: function() {
@@ -144,18 +124,18 @@ export default {
   methods: {
     init: function() {
       var self=this;
+      self.loading = true ;
       axios
         .get( this.server + "?nowPage="+this.nowPage+"&pageSize="+this.pageSize)//查询所有
         .then(function(response) {
-           // this.totalData=                          //获取总页数
-            console.log(response)
             var tem = response.data
-            console.log(tem)
             self.totalData = tem['total'];
             self.tableData = tem['list'];
+            self.loading = false ;
         })
         .catch(function(err) {
           console.log(err);
+          self.loading = false ;
         });
         this.form =this.aform;
         this.formWindow =this.aformWindow;
@@ -168,45 +148,56 @@ export default {
       this.nowPage = val
       this.init()
     },
-    handleFormOK:function(){
-      var list = this.form;
-      this.formWindow.col.forEach(function(item,index,array){  //赋值
-        for(var key in list){
-          if(item.name===key){
-            list[key]=item.value
-          }
-        }
-      })
-      this.form = list;
-
-      console.log(this.form)
-
-      if(this.formType=='add')
-        this.handleAdd();
-      else if(this.formType=='update')
-        this.handleUpdate();
+    handleFormOK:function(formName){
+      this.$refs[formName].validate((valid) => {
+      if (valid) {
+        console.log(this.form)
+        if(this.formType=='add')
+          this.handleAdd();
+        else if(this.formType=='update')
+          this.handleUpdate();
+      }
+      else{
+        console.log('error submit!!');
+        return false;
+      }
+      });
     },
     handleUpdate: function(){
+        var self=this;
         axios
         .put( this.server ,this.form)  //更新
         .then(function(response) {
-            this.tableData=response;
+            self.tableData=response;
+            self.$message({
+              message: '更新成功',
+              type: 'success'
+            });
+            self.init();
             console.log(response);
         })
         .catch(function(err) {
+          self.$message.error('更新失败');
           console.log(err);
         });
         this.form =this.aform;
         this.dialogFormVisible = false;
     },
     handleAdd:function(){
+      var self=this;
       axios
       .post( this.server + "/Add",this.form)  //添加
       .then(function(response) {
-          this.tableData=response;
+          self.tableData=response;
+          self.$message({
+            message: '添加成功',
+            type: 'success'
+          });
+          self.init()
           console.log(response);
       })
       .catch(function(err) {
+        self.$message.error('添加失败');
         console.log(err);
       });
       this.form =this.aform;
@@ -216,14 +207,15 @@ export default {
       // this.formWindow.col.forEach(function(item,index,array){  //清空
       //   item.value=""
       // })
+      // for(var key in this.form)
+      //   this.form[key]=""
+
       this.formTitle = "新增";
       this.formType='add';
       this.dialogFormVisible = true;
     },
     handleSelect: function(row, column, cell, event) {
       if (column.label == "操作") {
-        //this.$router.push("/activeManage/detail/page1");
-        //this.form=row;
         this.formWindow.col.forEach(function(item,index,array){  //赋值
           item.value=""
           for(var key in row){
@@ -231,6 +223,8 @@ export default {
               item.value=row[key]
           }
         })
+      //  this.form = row;
+
         this.formTitle = "详情/更新";
         this.formType='update';
         this.dialogFormVisible = true;
@@ -244,18 +238,26 @@ export default {
     selectionchange: function(val) {
       var arr = [];
       val.forEach(function(item) {
-        arr.push(item.id);
+        for(var key in item){
+           arr.push(item[key]);
+           break;
+        }
       });
       this.selectItems = arr;
       this.activeNum = this.selectItems.length;
     },
     handleRemove: function() {
-      var tableData = this.tableData;
+      var tableData = this.tableData
       var delArray = [];
       var delObj;
       this.selectItems.forEach(function(id) {
         tableData.forEach(function(data) {
-          if (id == data.id) {
+          var iid
+          for(var key in data){
+             iid=data[key];
+             break;
+          }
+          if (id == iid) {
             var temp={
               id:id
               };
@@ -264,44 +266,44 @@ export default {
         });
       });
       delObj = {
-        Res:delArray
+        res:delArray
       };
-      console.log("okok");
-      console.log(delObj);
+      var self=this;
       axios
       .post(this.server + "/Del",delObj)         //删除   
       .then(function(response) {
         console.log(response);
-        this.$message({
+        self.$message({
           message: '删除成功',
           type: 'success'
         });
-        this.selectItems = [];
-        this.init();
+        self.selectItems = [];
+        self.init();
       })
       .catch(function(err) {
-        this.$message.error('删除失败');
+        self.$message.error('删除失败');
         console.log(err);
       });
 
     },
     handleQuery: function(){
+        var self=this;
+        self.loading = true ;
         axios
         .get(this.server + "/" + this.input + "?nowPage="+this.nowPage+"&pageSize="+this.pageSize)//模糊查询
         .then(function(response) {
-            this.tableData=response.total;
-            console.log(response.list);
+            var tem = response.data
+            self.totalData = tem['total'];
+            self.tableData = tem['list'];
+            console.log(response.list);   
+            self.loading = false ;
         })
         .catch(function(err) {
           console.log(err);
+          self.loading = false ;
         });
     },
-
     doSomethingElse: function(arr,value){
-      // var arr1 = arr.filter(function(item){
-      //     return item.age === 2;
-      // })
-      // console.log(arr1[0].value);
       this.form[arr] = value
     }
   }
