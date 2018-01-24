@@ -1,6 +1,6 @@
 <template>
   
-  <ctable :formRuls="ruls" :aformWindow='addWindows' :aform="allCol" :headerData="headerData" server="/HEUPOMS/Dept" :tableName="tableName"></ctable>
+  <ctable :formRuls="ruls" :aformWindow='addWindows' :aform="allCol" :headerData="headerData" server="/api/HEUPOMS/Dept" :tableName="tableName"></ctable>
 
 </template>
 
