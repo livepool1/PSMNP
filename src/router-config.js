@@ -1,9 +1,3 @@
-import activePublic from './page/activePublic/index.vue'
-import step1 from './page/activePublic/step1.vue'
-import step2 from './page/activePublic/step2.vue'
-import step3 from './page/activePublic/step3.vue'
-import step4 from './page/activePublic/step4.vue'
-
 import totalpages from './page/activeManage/totalpages.vue'
 import activeManage from './page/activeManage/index.vue'
 import detail from './page/activeManage/detail.vue'
@@ -23,6 +17,14 @@ import publish from './page/publishManage/index.vue'
 import dept from './page/centerManage/dictionary/Dept.vue'
 import centerDict from './page/centerManage/dictionary/index.vue'
 import centerHur from './page/centerManage/humanresources/index.vue'
+
+// 发行站子系统
+// 商品订购
+import newBook from './page/publishManage/commo/newBook.vue' 
+import alterBook from './page/publishManage/commo/alterBook.vue'
+import bookSubOrder from './page/publishManage/commo/bookSubOrder.vue'
+//监督管理
+import complaintHandle from './page/publishManage/watch/complaintHandle.vue'
 
 import login from './page/Login.vue'
 import mainview from './page/mainview.vue'
@@ -114,28 +116,27 @@ export default [
           path:'/2',component:publish,
 
           children:[
-            // { path: '' , component:publishCusto},
+            { path: '' , component:publish},
             // { path: 'custo', component:publishCusto,
             //   children:[
             //     // {path: 'subInforManage', component:subInforManage},
             //   ]},
-            // { path: 'commo', component:publishCommo,
-            //   children:[
-            //     // {path: 'newBook', component:newBook},
-            //     // {path: 'backBook', component:backBook},
-            //     // {path: 'redirect', component:redirect},
-            //     // {path: 'delay', component:delay},
-            //     // {path: 'renewBook', component:renewBook},
-            //     // {path: 'change', component:change},
+            { path: 'commo', component:publish,
+              children:[
+                {path: 'newBook', component:newBook},
+                {path: 'alterBook', component:alterBook },
+                {path: 'bookSubOrder', component:bookSubOrder},
+                // {path: 'backBook', component:backBook},
+                // {path: 'redirect', component:redirect},
+                // {path: 'delay', component:delay},
+                // {path: 'renewBook', component:renewBook},
+                // {path: 'change', component:change},
                 
-            //   ]},
-            // { path: 'watch', component:publishWatch,
-            //   children:[
-            //     // {path: 'complaintHandle', component:complaintHandle},
-            //     // {path: 'praiseTreat', component:praiseTreat},
-            //     // {path: 'recomTreat', component:recomTreat},
-                
-            //   ]},
+              ]},
+             { path: 'watch', component:publish,
+               children:[
+                   {path: 'complaintHandle', component:complaintHandle},
+               ]},
             // { path: 'assis', component:publishAssis,
             //   children:[
             //     // {path: 'collectInfor', component:collectInfor},
@@ -198,15 +199,6 @@ export default [
           ]
         },{
           path:'5',component:leader
-        },{
-          path:'activePublic',component:activePublic,
-          children:[
-            { path: ''      , component: step1  },
-            { path: 'step1', component: step1  },
-            { path: 'step2', component: step2  },
-            { path: 'step3', component: step3  },
-            { path: 'step4', component: step4  }
-          ]
         }
     ]
   }

@@ -102,12 +102,7 @@ const publishConfig = {
         ],
         [
           {item:'新订',index:'/2/commo/newBook',id:1},
-          {item:'退订',index:'/2/commo/backBook',id:2},
-          {item:'转址',index:'/2/commo/redirect',id:3},
-          {item:'延期',index:'/2/commo/delay',id:4},
-          {item:'续订',index:'/2/commo/renewBook',id:5},
-          {item:'收款',index:'/2/commo/change',id:6},
-          
+          {item:'更改订单',index:'/2/commo/alterBook',id:2},
         ],
         [
           {item:'投诉处理',index:'/2/watch/complaintHandle',id:1},

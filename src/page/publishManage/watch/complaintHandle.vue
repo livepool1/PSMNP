@@ -1,12 +1,14 @@
 <template>
-  <!-- <div id="app"> -->
-    <router-view></router-view>
-  <!-- </div> -->
+  <supervise></supervise>
 </template>
 
 <script>
 export default {
-  name: 'publishManage',
+  name: 'complaintHandle',
+  data: function() {
+  return {
+  }
+  }
 }
 </script>
 

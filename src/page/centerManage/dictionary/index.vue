@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import ctable from "../../CustomTable.vue";
-
 export default {
   name: "dictionary",
   data: function() {
@@ -17,7 +15,7 @@ export default {
         empName:[ { required: true, message: '请输入员工姓名', trigger: 'blur' }],
         dsbtId:[ { required: true, message: '请输入发行站编号', trigger: 'blur' }],
         work:[ { required: true, message: '请输入职务', trigger: 'blur' }],
-        achievement:[ { required: true, message: '请输入业绩统计', trigger: '  blur' }],
+        achievement:[ { required: true, message: '请输入业绩统计', trigger: 'blur' }],
         tel:[ { required: true, message: '请输入联系方式', trigger: 'blur' }],
         salary:[ { required: true, message: '请输入工资', trigger: 'blur' }]
       },

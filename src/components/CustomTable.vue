@@ -1,7 +1,6 @@
 <template>
-<div class="ctable">
+<div class="ctable" v-loading="loading">
 
-<el-card class="box-card" v-loading="loading">
   <h3>{{tableName}}</h3>
   <el-row type="flex" align="middle" :gutter="20" style="padding:20px 0;">
     <el-col :span="3" style="width: 160px;text-align: center;">
@@ -21,12 +20,12 @@
       <el-button :plain="true" @click.native="handleCopy" type="info">复制</el-button> -->
     </el-col>
     <el-col :span="12" >
-       <el-form :inline="true"  class="demo-form-inline" style=" margin-top: 20px;">
+       <el-form :inline="true"  class="demo-form-inline" style=" margin-top: 20px;" cell-style="{style='font-size:50%;background:#00FF00;'}">
            <el-form-item >
              <el-input v-model="input" placeholder="请输入内容"  prefix-icon="el-icon-search"></el-input>
            </el-form-item >
            <el-form-item >
-           <el-button :plain="true" @click.native="handleQuery" type="info" >查询</el-button>
+            <el-button :plain="true" @click.native="handleQuery" type="info" >查询</el-button>
            </el-form-item >
        </el-form>
     </el-col>
@@ -75,7 +74,6 @@
       :total="totalData">
     </el-pagination>
   </el-row>
-</el-card>
 
   </div>
 </template>
