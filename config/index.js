@@ -19,10 +19,19 @@ module.exports = {
   dev: {
     env: require('./dev.env'),
     port: 8080,
+    autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     // 地址映射表，可以通过设置将复杂的url简化，还可以解决跨域问题
-    proxyTable: {},
+    proxyTable: {
+      '/api':{
+        target:"http://115.159.34.95:8080",//设置你调用的接口域名和端口号 别忘了加http
+        changeOrigin:true,
+        pathRewrite:{
+          '^/api':''
+        }
+      }
+    },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)

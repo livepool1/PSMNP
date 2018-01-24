@@ -1,7 +1,6 @@
 <template>
-    <div class="bookSubOrder">
-        {{form}}
-    </div>
+  <div class="bookSubOrder">
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -9,18 +8,15 @@ export default {
   name: "bookSubOrder",
   data: function() {
     return {
-        form:{}
+      form: {}
     };
   },
-  created:{
-
+  created: function() {
+    let routerParams = this.$route.params.dataobj;
+    this.form = routerParams;
+    console.log(this.form)
   },
-  methods: {
-    getParams() {
-      let routerParams = this.$route.params.dataobj;
-      this.form = routerParams;
-    }
-  }
+  methods: {}
 };
 </script>
 

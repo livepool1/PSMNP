@@ -47,7 +47,7 @@
   </div>
 </el-dialog>
 
-  <el-table :data="filteredTableData"  style="width: 100%" @cell-click="handleSelect" @selection-change="selectionchange">
+  <el-table :data="tableData"  style="width: 100%" @cell-click="handleSelect" @selection-change="selectionchange">
     <el-table-column type="selection" width="50"></el-table-column>
 
     <template id="allData">
@@ -88,16 +88,15 @@ export default {
     return {
       input: "",
       activeNum: 0,
-      currentType: "全部",
       selectItems: [],
-      types: ["全部", "测试活动", "免费活动", "收费活动"],
       dialogFormVisible: false,
       formType: "add",
       formTitle: "添加",
       form:{},
       formWindow:{},
-      tableData: [{deptNo: '11',
-      deptName: '333'}],
+      // tableData: [{deptNo: '11',
+      // deptName: '333'}],
+      tableData : [],
       pageSize : 10,
       nowPage : 1,
       totalData : 1000,
@@ -107,18 +106,6 @@ export default {
   created: function() {
     this.init();
   },
-  computed: {
-    filteredTableData: function() {
-      var type = this.currentType;
-      return this.tableData.filter(function(data) {
-        if (type == "全部" || type == "") {
-          return true;
-        } else {
-          return data.type == type;
-        }
-      });
-    }
-  },
   methods: {
     init: function() {
       var self=this;
@@ -126,6 +113,7 @@ export default {
       axios
         .get( this.server + "?nowPage="+this.nowPage+"&pageSize="+this.pageSize)//查询所有
         .then(function(response) {
+          console.log(response)
             var tem = response.data
             self.totalData = tem['total'];
             self.tableData = tem['list'];
