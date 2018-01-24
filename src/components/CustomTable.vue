@@ -1,7 +1,6 @@
 <template>
-<div class="ctable">
+<div class="ctable" v-loading="loading">
 
-<el-card class="box-card" v-loading="loading">
   <h3>{{tableName}}</h3>
   <el-row type="flex" align="middle" :gutter="20" style="padding:20px 0;">
     <el-col :span="3" style="width: 160px;text-align: center;">
@@ -75,7 +74,6 @@
       :total="totalData">
     </el-pagination>
   </el-row>
-</el-card>
 
   </div>
 </template>

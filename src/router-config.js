@@ -22,7 +22,9 @@ import centerHur from './page/centerManage/humanresources/index.vue'
 // 商品订购
 import newBook from './page/publishManage/commo/newBook.vue' 
 import alterBook from './page/publishManage/commo/alterBook.vue'
-
+import bookSubOrder from './page/publishManage/commo/bookSubOrder.vue'
+//监督管理
+import complaintHandle from './page/publishManage/watch/complaintHandle.vue'
 
 import login from './page/Login.vue'
 import mainview from './page/mainview.vue'
@@ -122,7 +124,8 @@ export default [
             { path: 'commo', component:publish,
               children:[
                 {path: 'newBook', component:newBook},
-                {path: 'alterBook', component:alterBook}
+                {path: 'alterBook', component:alterBook },
+                {path: 'bookSubOrder', component:bookSubOrder},
                 // {path: 'backBook', component:backBook},
                 // {path: 'redirect', component:redirect},
                 // {path: 'delay', component:delay},
@@ -130,13 +133,10 @@ export default [
                 // {path: 'change', component:change},
                 
               ]},
-            // { path: 'watch', component:publishWatch,
-            //   children:[
-            //     // {path: 'complaintHandle', component:complaintHandle},
-            //     // {path: 'praiseTreat', component:praiseTreat},
-            //     // {path: 'recomTreat', component:recomTreat},
-                
-            //   ]},
+             { path: 'watch', component:publish,
+               children:[
+                   {path: 'complaintHandle', component:complaintHandle},
+               ]},
             // { path: 'assis', component:publishAssis,
             //   children:[
             //     // {path: 'collectInfor', component:collectInfor},

@@ -1,6 +1,5 @@
 <template>
   <div class="newBook">
-    <el-card class="box-card">
       <el-steps :space="200" :active="nowStep" finish-status="success" style="margin-left: 200px; margin-right: auto;">
         <el-step title="选择报刊"></el-step>
         <el-step title="填写信息"></el-step>
@@ -77,7 +76,6 @@
           <el-button v-else type="primary" @click="submitOrder" >完成付款</el-button>
         </el-col>
       </el-row>
-    </el-card>
   </div>
 </template>
 <script>

@@ -5,8 +5,10 @@ import App from './App'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import routeConfig from './router-config'
-import ctable from './page/CustomTable.vue'
+
+import ctable from './components/CustomTable.vue'
 import echarts_pie from './components/echarts_pie.vue'
+import supervise from './components/supervise.vue'
 
 import store from './store.js'
 
@@ -72,6 +74,7 @@ const isLo = true;
 // })
 
 Vue.component('ctable', ctable)
+Vue.component('supervise', supervise)
 Vue.component('echarts_pie', echarts_pie)
 
 new Vue({
