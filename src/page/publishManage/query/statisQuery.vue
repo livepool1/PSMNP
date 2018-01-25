@@ -1,9 +1,12 @@
 <template>
+
   <queryTable></queryTable>
+
 </template>
 
 <script>
 export default {
+
   name: "statisQuery",
   data: function() {
     return {
@@ -30,3 +33,4 @@ export default {
 
 <style>
 </style>
+

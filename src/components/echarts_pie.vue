@@ -15,6 +15,7 @@
 
 export default {
   name: 'echarts_pie',
+  props: ['options'],
   data () {
       return {
           option : {
@@ -26,7 +27,7 @@ export default {
                   trigger: 'axis'
               },
               legend: {
-                  data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+                  data:['南岗站','道外站','道外站','太平战','搜索引擎']
               },
               grid: {
                   left: '3%',
@@ -42,32 +43,32 @@ export default {
               xAxis: {
                   type: 'category',
                   boundaryGap: false,
-                  data: ['周一','周二','周三','周四','周五','周六','周日']
+                  data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
               },
               yAxis: {
                   type: 'value'
               },
               series: [
                   {
-                      name:'邮件营销',
+                      name:'南岗站',
                       type:'line',
                       stack: '总量',
                       data:[120, 132, 101, 134, 90, 230, 210]
                   },
                   {
-                      name:'联盟广告',
+                      name:'道外站',
                       type:'line',
                       stack: '总量',
                       data:[220, 182, 191, 234, 290, 330, 310]
                   },
                   {
-                      name:'视频广告',
+                      name:'道外站',
                       type:'line',
                       stack: '总量',
                       data:[150, 232, 201, 154, 190, 330, 410]
                   },
                   {
-                      name:'直接访问',
+                      name:'太平战',
                       type:'line',
                       stack: '总量',
                       data:[320, 332, 301, 334, 390, 330, 320]
@@ -83,12 +84,15 @@ export default {
       }
   },
   mounted () {
+      if ( this.options !=null) {
+          this.option = this.options
+      }
       let chartBox = document.getElementsByClassName('charts')[0]
       let myChart = document.getElementById('myChart')
       // 用于使chart自适应高度和宽度,通过窗体高宽计算容器高宽
       function resizeCharts () {
         myChart.style.width = chartBox.offsetWidth + 'px'
-        myChart.style.height = '300px'
+        myChart.style.height = '400px'
         console.log(chartBox.offsetWidth)
         console.log("judge")
       }
