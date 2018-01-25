@@ -14,9 +14,15 @@ import finanal from './page/finanalManage/index.vue'
 import leader from './page/leaderManage/index.vue'
 import publish from './page/publishManage/index.vue'
 
+//中心站管理
 import dept from './page/centerManage/dictionary/Dept.vue'
+import jobCategory from './page/centerManage/dictionary/Position.vue'
 import centerDict from './page/centerManage/dictionary/index.vue'
+import newspaper from './page/centerManage/dictionary/newspaper.vue'
+
+
 import centerHur from './page/centerManage/humanresources/index.vue'
+
 
 // 发行站子系统
 // 商品订购
@@ -25,12 +31,11 @@ import alterBook from './page/publishManage/commo/alterBook.vue'
 import bookSubOrder from './page/publishManage/commo/bookSubOrder.vue'
 //监督管理
 import complaintHandle from './page/publishManage/watch/complaintHandle.vue'
+//查询
+import statisQuery from './page/publishManage/query/statisQuery.vue'
 
 import login from './page/Login.vue'
 import mainview from './page/mainview.vue'
-
-import deparment from './page/centerManage/dictionary/department.vue'
-import jobCategory from './page/centerManage/dictionary/jobCategory.vue'
 
 
 export default [
@@ -76,7 +81,7 @@ export default [
               children:[
                 {path: 'deparment', component:dept},
                 {path: 'jobCategory', component:jobCategory},
-                // {path: 'newspaper', component:newspaper},
+                {path: 'newspaper', component:newspaper},
                 // {path: 'transferUnit', component:transferUnit},
                 // {path: 'region', component:region},
                 // {path: 'changeReason', component:changeReason},
@@ -125,7 +130,7 @@ export default [
               children:[
                 {path: 'newBook', component:newBook},
                 {path: 'alterBook', component:alterBook },
-                {path: 'bookSubOrder', component:bookSubOrder},
+                {path: 'bookSubOrder', name : 'bookSubOrder' , component:bookSubOrder},
                 // {path: 'backBook', component:backBook},
                 // {path: 'redirect', component:redirect},
                 // {path: 'delay', component:delay},
@@ -143,13 +148,14 @@ export default [
             //     // {path: 'sendInfor', component:sendInfor},
                 
             //   ]},
-            // { path: 'query', component:publishQuery,
-            //   children:[
-            //     // {path: 'statisQuery', component:statisQuery},
+            { path: 'query', component:publish,
+              children:[
+                {path: 'statisQuery', component:statisQuery},
             //     // {path: 'basicInforQuery', component:basicInforQuery},
             //     // {path: 'subQuery', component:subQuery},
             //     // {path: 'dailyBusinessQuery', component:dailyBusinessQuery},
-            //   ]},
+              ]
+            },
           ]
         },{
           path:'/3',component:custom,
