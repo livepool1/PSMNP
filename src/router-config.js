@@ -232,15 +232,15 @@ export default [
         },{
           path:'/4',component:leader,
           children:[
-            // { path: '' , component:leaderNews},
-            // { path: 'news', component:leaderNews,
-            //   children:[
-            //     // {path: 'newsOrderStation', component:newsOrderStation},
-            //     // {path: 'newsOrderYear', component:newsOrderYear},
-            //     // {path: 'annuNewsOrder', component:annuNewsOrder},
-            //     // {path: 'subOrderContrast', component:subOrderContrast},
-            //     // {path: 'subMoneyStation', component:subMoneyStation},
-            //   ]},
+            { path: '' , component:leader},
+            { path: 'news', component:leader,
+              children:[
+                {path: 'newsOrderStation', component:newsOrderStation},
+                {path: 'newsOrderYear', component:newsOrderYear},
+                {path: 'annuNewsOrder', component:annuNewsOrder},
+                {path: 'subOrderContrast', component:subOrderContrast},
+                {path: 'subMoneyStation', component:subMoneyStation},
+              ]},
             // { path: 'sub', component:leaderSub,
             //   children:[
             //     // {path: 'subPeriod', component:subPeriod},
