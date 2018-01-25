@@ -1,61 +1,79 @@
 <template>
   <div class="newBook">
-      <el-steps :space="200" :active="nowStep" finish-status="success" style="margin-left: 200px; margin-right: auto;">
-        <el-step title="选择报刊"></el-step>
-        <el-step title="填写信息"></el-step>
-        <el-step title="结算"></el-step>
-      </el-steps>
-      <!-- <router-view></router-view> -->
-      <div v-show="pageV1" class="content">
-        <el-form ref="formBook" :model="formBook" label-width="80px">
-          <el-form-item label="报刊名称" class="formItem">
-            <el-autocomplete style="width:100%" v-model="bookName" :fetch-suggestions="querySearchAsync" placeholder="请输入报刊名" @select="handleSelect"></el-autocomplete>
-          </el-form-item>
-          <el-form-item label="报刊编号" class="formItem">
-            <el-input placeholder="报刊编号" v-model="formBook.no" :disabled="true">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="报刊类型" class="formItem">
-            <el-input placeholder="报刊类型" v-model="formBook.type" :disabled="true">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="报社编码" class="formItem">
-            <el-input placeholder="所属报社编码" v-model="formBook.officeNo" :disabled="true">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="单价" class="formItem">
-            <el-input placeholder="单价" v-model="formBook.price" :disabled="true">
-            </el-input>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div v-show="pageV2" class="content">
-        <el-form ref="formInfo" :model="formInfo" label-width="100px">
-          <el-form-item label="报刊编号" class="formItem">
-            <el-input v-model="formBook.no" :disabled="true">
+    <el-steps :space="200" :active="nowStep" finish-status="success" style="margin-left: 200px; margin-right: auto;">
+      <el-step title="选择报刊"></el-step>
+      <el-step title="填写信息"></el-step>
+      <el-step title="结算"></el-step>
+    </el-steps>
+    <!-- <router-view></router-view> -->
+    <div v-show="pageV1" class="content">
+      <el-form ref="formBook" :model="formBook" label-width="80px">
+        <el-form-item label="报刊名称" class="formItem">
+          <el-autocomplete style="width:100%" v-model="bookName" :fetch-suggestions="querySearchAsync" placeholder="请输入报刊名" @select="handleSelect"></el-autocomplete>
+        </el-form-item>
+        <el-form-item label="报刊编号" class="formItem">
+          <el-input placeholder="报刊编号" v-model="formBook.no" :disabled="true">
           </el-input>
-          </el-form-item>
-          <el-form-item label="操作员编号" class="formItem">
-            <el-input v-model="userNo" :disabled="true">
-            </el-input>
-          </el-form-item>
-          <el-form-item label="起始订购时间" class="formItem">
-            <el-date-picker type="date" placeholder="选择起始日期" v-model="formInfo.startTime" style="width: 100%;"></el-date-picker>
-          </el-form-item>
-          <el-form-item label="起始订购时间" class="formItem">
-            <el-date-picker type="date" placeholder="选择结束日期" v-model="formInfo.endTime" style="width: 100%;"></el-date-picker>
-          </el-form-item>
-          <el-form-item label="总价" class="formItem">
-            <el-input placeholder="ajax后台获取" v-model="formInfo.allPrice" :disabled="true">
-            </el-input>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div v-show="pageV3" class="content">
-        <el-form ref="formInfo" :model="formInfo" label-width="100px">
+        </el-form-item>
+        <el-form-item label="报刊类型" class="formItem">
+          <el-input placeholder="报刊类型" v-model="formBook.type" :disabled="true">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="报社编码" class="formItem">
+          <el-input placeholder="所属报社编码" v-model="formBook.officeNo" :disabled="true">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="单价" class="formItem">
+          <el-input placeholder="单价" v-model="formBook.price" :disabled="true">
+          </el-input>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div v-show="pageV2" class="content">
+      <el-form ref="formInfo" :model="formInfo" label-width="100px">
+        <el-form-item label="报刊编号" class="formItem">
+          <el-input v-model="formBook.no" :disabled="true">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="操作员编号" class="formItem">
+          <el-input v-model="userNo" :disabled="true">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="订户姓名" class="formItem" @change="">
+          <el-input v-model="a">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="电话" class="formItem" @change="">
+          <el-input v-model="a">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="更改地区" class="formItem">
+          <el-select placeholder="请选择地区" style="width:100%">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="地址" class="formItem">
+          <el-input v-model="a">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="起始订购时间" class="formItem">
+          <el-date-picker type="date" placeholder="选择起始日期" v-model="formInfo.startTime" style="width: 100%;"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="起始订购时间" class="formItem">
+          <el-date-picker type="date" placeholder="选择结束日期" v-model="formInfo.endTime" style="width: 100%;"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="总价" class="formItem">
+          <el-input placeholder="ajax后台获取" v-model="formInfo.allPrice" :disabled="true">
+          </el-input>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div v-show="pageV3" class="content">
+      <el-form ref="formInfo" :model="formInfo" label-width="100px">
         <el-form-item label="期刊数量" class="formItem">
           <el-input v-model="formBook.no" :disabled="true">
-        </el-input>
+          </el-input>
         </el-form-item>
         <el-form-item label="单价" class="formItem">
           <el-input v-model="userNo" :disabled="true">
@@ -65,17 +83,25 @@
           <el-input v-model="userNo" :disabled="true">
           </el-input>
         </el-form-item>
-        </el-form>
-      </div>
-      <el-row>
-        <el-col :offset="17">
-          <el-button type="info" @click="nowStep=nowStep-1" :disabled="lastButton">上一步</el-button>
-          <el-col>
-          </el-col>
-          <el-button v-if="OK" type="primary" @click="nowStep=nowStep+1" >下一步</el-button>
-          <el-button v-else type="primary" @click="submitOrder" >完成付款</el-button>
+        <el-form-item label="付款方式" class="formItem">
+          <el-input v-model="userNo" >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="支付方式" class="formItem">
+          <el-input v-model="userNo" >
+          </el-input>
+        </el-form-item>
+      </el-form>
+    </div>
+    <el-row>
+      <el-col :offset="17">
+        <el-button type="info" @click="nowStep=nowStep-1" :disabled="lastButton">上一步</el-button>
+        <el-col>
         </el-col>
-      </el-row>
+        <el-button v-if="OK" type="primary" @click="nowStep=nowStep+1">下一步</el-button>
+        <el-button v-else type="primary" @click="submitOrder">完成付款</el-button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -97,9 +123,9 @@ export default {
         officeNo: ""
       },
       formInfo: {
-        startTime:"",
-        endTime:"",
-        allPrice:""
+        startTime: "",
+        endTime: "",
+        allPrice: ""
       },
       userNo: "",
       OK: true
@@ -131,9 +157,7 @@ export default {
     //this.userNo = this.getCookie(username);
   },
   methods: {
-    submitOrder(){
-
-    },
+    submitOrder() {},
     getCookie(name) {
       var arr,
         reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
