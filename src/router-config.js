@@ -238,7 +238,7 @@ export default [
               ]
             },
           ]
-        }]
+        // }]
         },{
           path:'/3',component:custom,
           children:[
