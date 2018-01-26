@@ -83,6 +83,22 @@ methods: {
         return (arr=document.cookie.match(reg))?unescape(arr[2]):null;
     },
     checkLogin() {
+      var self=this;
+      axios
+      .put( this.server ,this.form)  //更新
+      .then(function(response) {
+          self.tableData=response;
+          self.$message({
+            message: '更新成功',
+            type: 'success'
+          });
+          self.init();
+          console.log(response);
+      })
+      .catch(function(err) {
+        self.$message.error('更新失败');
+        console.log(err);
+      });
       if ( this.getCookie("session")!="1234" ) {
         this.$router.push("/login");
       } else {
