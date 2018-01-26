@@ -1,5 +1,5 @@
 <template>
-  <div class="newBook">
+  <div class="newBook"  v-loading="loading">
     <el-steps :space="200" :active="nowStep" finish-status="success" style="margin-left: 200px; margin-right: auto;">
       <el-step title="选择报刊"></el-step>
       <el-step title="填写信息"></el-step>
@@ -36,7 +36,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="操作员编号" class="formItem">
-          <el-input v-model="nowOrder.emp.empId" readonly="readonly">
+          <el-input v-model="nowEmp" readonly="readonly">
           </el-input>
         </el-form-item>
         <el-form-item label="订户姓名" class="formItem" >
@@ -127,6 +127,8 @@ export default {
       userNo: "",
       OK: true,
       restaurants:[],
+      nowEmp:'',
+      loading:true,
       rules2: {
         // startTime: [
         //   { validator: startTime, trigger: 'blur' }
@@ -171,13 +173,33 @@ export default {
     .then(function(response) {
       console.log(response.data.list[0])
       self.nowOrder = response.data.list[0]
+      self.nowOrder.consumer.consumerName = ""
+      self.nowOrder.consumer.consumerPhone= ""
+      self.nowOrder.startDate= ""
+      self.nowOrder.finishDate= ""
+      self.loading =false
     })
     .catch(function(err) {
       console.log(err);
-    });
+      self.loading =false
+    });//.startDate
+    //this.nowEmp = getCookie("username") ;
   },
   methods: {
-    submitOrder() {},
+    submitOrder() {
+      axios
+      .post("/api/HEUPOMS/Newspaper" + "/" + this.bookName) //提交订单
+      .then(function(response) {
+        this.$notify({
+          title: '付款成功',
+          message: '付款成功，请h',
+          type: 'success'
+        });
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    },
     getCookie(name) {
       var arr,
         reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
@@ -185,7 +207,6 @@ export default {
     },
     querySearchAsync(queryString, cb) {
       var ls = [];
-      var results;
       var self = this
       axios
         .get("/api/HEUPOMS/Newspaper" + "/" + this.bookName) //模糊查询
@@ -195,24 +216,11 @@ export default {
           self.restaurants.forEach(function(item){
             ls.push({value:item['newspaperName'],index:item['newspaperNo']})
           })
-
-          results = queryString
-          ? ls.filter(this.createStateFilter(queryString))
-          : ls;
-          cb(results);
+          cb(ls);
         })
         .catch(function(err) {
           console.log(err);
         });
-    },
-    createStateFilter(queryString) {
-      return state => {
-        console.log("Dasdas");
-        console.log(state);
-        return (
-          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-        );
-      };
     },
     handleSelect(val) {
       var self = this

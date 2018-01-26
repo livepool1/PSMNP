@@ -190,11 +190,11 @@ export default [
           path:'/2',component:publish,
 
           children:[
-            // { path: '' , component:publishCusto},
-            // { path: 'custo', component:publishCusto,
-            //   children:[
-            //     // {path: 'subInforManage', component:subInforManage},
-            //   ]},
+            { path: '' , component:publish},
+            { path: 'custo', component:publish,
+              children:[
+                 {path: 'subInforManage', component:subInforManage},
+              ]},
             { path: 'commo', component:publish,
               children:[
                 {path: 'newBook', component:newBook},
@@ -216,13 +216,13 @@ export default [
             //     // {path: 'change', component:change},
                 
             //   ]},
-            // { path: 'watch', component:publishWatch,
-            //   children:[
-            //     // {path: 'complaintHandle', component:complaintHandle},
-            //     // {path: 'praiseTreat', component:praiseTreat},
-            //     // {path: 'recomTreat', component:recomTreat},
+            { path: 'watch', component:publish,
+              children:[
+                {path: 'complaintHandle', component:complaintHandle},
+                // {path: 'praiseTreat', component:praiseTreat},
+                // {path: 'recomTreat', component:recomTreat},
                 
-            //   ]},
+              ]},
             // { path: 'assis', component:publishAssis,
             //   children:[
             //     // {path: 'collectInfor', component:collectInfor},
