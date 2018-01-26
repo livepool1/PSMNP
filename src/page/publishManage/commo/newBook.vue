@@ -12,39 +12,39 @@
           <el-autocomplete style="width:100%" v-model="bookName" :fetch-suggestions="querySearchAsync" placeholder="请输入报刊名" @select="handleSelect"></el-autocomplete>
         </el-form-item>
         <el-form-item label="报刊编号" class="formItem">
-          <el-input placeholder="报刊编号" v-model="formBook.no" :disabled="true">
+          <el-input placeholder="报刊编号" v-model="formBook.no" readonly="true">
           </el-input>
         </el-form-item>
         <el-form-item label="报刊类型" class="formItem">
-          <el-input placeholder="报刊类型" v-model="formBook.type" :disabled="true">
+          <el-input placeholder="报刊类型" v-model="formBook.type" readonly="readonly">
           </el-input>
         </el-form-item>
         <el-form-item label="报社编码" class="formItem">
-          <el-input placeholder="所属报社编码" v-model="formBook.officeNo" :disabled="true">
+          <el-input placeholder="所属报社编码" v-model="formBook.officeNo" readonly="readonly">
           </el-input>
         </el-form-item>
         <el-form-item label="单价" class="formItem">
-          <el-input placeholder="单价" v-model="formBook.price" :disabled="true">
+          <el-input placeholder="单价" v-model="formBook.price" readonly="readonly">
           </el-input>
         </el-form-item>
       </el-form>
     </div>
     <div v-show="pageV2" class="content">
-      <el-form ref="formInfo" :model="formInfo" label-width="100px">
+      <el-form ref="nowOrder" :model="nowOrder" label-width="100px">
         <el-form-item label="报刊编号" class="formItem">
-          <el-input v-model="formBook.no" :disabled="true">
+          <el-input v-model="formBook.no" readonly="readonly">
           </el-input>
         </el-form-item>
         <el-form-item label="操作员编号" class="formItem">
-          <el-input v-model="userNo" :disabled="true">
+          <el-input v-model="nowOrder.emp.empId" readonly="readonly">
           </el-input>
         </el-form-item>
-        <el-form-item label="订户姓名" class="formItem" @change="">
-          <el-input v-model="a">
+        <el-form-item label="订户姓名" class="formItem" >
+          <el-input v-model="nowOrder.consumer.consumerName">
           </el-input>
         </el-form-item>
-        <el-form-item label="电话" class="formItem" @change="">
-          <el-input v-model="a">
+        <el-form-item label="电话" class="formItem">
+          <el-input v-model="nowOrder.consumer.consumerPhone">
           </el-input>
         </el-form-item>
         <el-form-item label="更改地区" class="formItem">
@@ -58,13 +58,13 @@
           </el-input>
         </el-form-item>
         <el-form-item label="起始订购时间" class="formItem">
-          <el-date-picker type="date" placeholder="选择起始日期" v-model="formInfo.startTime" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" placeholder="选择起始日期" v-model="nowOrder.startDate" style="width: 100%;"></el-date-picker>
         </el-form-item>
         <el-form-item label="起始订购时间" class="formItem">
-          <el-date-picker type="date" placeholder="选择结束日期" v-model="formInfo.endTime" style="width: 100%;"></el-date-picker>
+          <el-date-picker type="date" placeholder="选择结束日期" v-model="nowOrder.finishDate" style="width: 100%;"></el-date-picker>
         </el-form-item>
         <el-form-item label="总价" class="formItem">
-          <el-input placeholder="ajax后台获取" v-model="formInfo.allPrice" :disabled="true">
+          <el-input placeholder="ajax后台获取" v-model="allPrice" :disabled="true">
           </el-input>
         </el-form-item>
       </el-form>
@@ -110,6 +110,7 @@ export default {
   name: "newBook",
   data: function() {
     return {
+      nowOrder:{},
       nowStep: 1,
       pageV1: true,
       pageV2: false,
@@ -122,13 +123,22 @@ export default {
         price: "",
         officeNo: ""
       },
-      formInfo: {
-        startTime: "",
-        endTime: "",
-        allPrice: ""
-      },
+      allPrice: "",
       userNo: "",
-      OK: true
+      OK: true,
+      restaurants:[],
+      rules2: {
+        // startTime: [
+        //   { validator: startTime, trigger: 'blur' }
+        // ],
+        // endTime: [
+        //   { validator: endTime, trigger: 'blur' }
+        // ]
+        // ,
+        // userName:[
+        //   {}
+        // ]
+      }
     };
   },
   watch: {
@@ -155,6 +165,16 @@ export default {
   computed: {},
   created: function() {
     //this.userNo = this.getCookie(username);
+    var self = this
+    axios
+    .get("/api/HEUPOMS/Order") //模糊查询
+    .then(function(response) {
+      console.log(response.data.list[0])
+      self.nowOrder = response.data.list[0]
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
   },
   methods: {
     submitOrder() {},
@@ -164,14 +184,21 @@ export default {
       return (arr = document.cookie.match(reg)) ? unescape(arr[2]) : null;
     },
     querySearchAsync(queryString, cb) {
-      var restaurants;
-      var results = queryString
-        ? restaurants.filter(this.createStateFilter(queryString))
-        : restaurants;
+      var ls = [];
+      var results;
+      var self = this
       axios
-        .get(this.server + "/" + this.bookName) //模糊查询
+        .get("/api/HEUPOMS/Newspaper" + "/" + this.bookName) //模糊查询
         .then(function(response) {
-          restaurants = response.data;
+          self.restaurants = response.data.list;
+          console.log(response.data.list)
+          self.restaurants.forEach(function(item){
+            ls.push({value:item['newspaperName'],index:item['newspaperNo']})
+          })
+
+          results = queryString
+          ? ls.filter(this.createStateFilter(queryString))
+          : ls;
           cb(results);
         })
         .catch(function(err) {
@@ -180,13 +207,25 @@ export default {
     },
     createStateFilter(queryString) {
       return state => {
+        console.log("Dasdas");
+        console.log(state);
         return (
           state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         );
       };
     },
-    handleSelect(item) {
-      console.log(item); //给formBook赋一波值
+    handleSelect(val) {
+      var self = this
+      this.restaurants.forEach(function(item){
+        if(item['newspaperNo']==val.index)
+        {
+           self.formBook.no = item.newspaperNo;
+           self.formBook.type = item.issue.issueName;
+           self.formBook.price = item.price;
+           self.formBook.officeNo = item.newsUnit.newsUnitName;
+           self.nowOrder.newspaper = item;
+        }
+      })
     }
   }
 };
