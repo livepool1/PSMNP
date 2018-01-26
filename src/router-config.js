@@ -157,12 +157,12 @@ export default [
                 // {path: 'stateMaintenance', component:stateMaintenance},
                 // {path: 'officeInfor', component:officeInfor},
               ]},
-            { path: 'hur', component:centerHur,
-              children:[
-                // {path: 'empInfor', component:empInfor},
-                // {path: 'empPosition', component:empPosition},
+            // { path: 'hur', component:centerHur,
+            //   children:[
+            //     // {path: 'empInfor', component:empInfor},
+            //     // {path: 'empPosition', component:empPosition},
                 
-              ]},
+            //   ]},
             // { path: 'news', component:centerNews,
             //   children:[
             //     // {path: 'newsCode', component:newsCode},
@@ -238,6 +238,7 @@ export default [
               ]
             },
           ]
+        }]
         },{
           path:'/3',component:custom,
           children:[
