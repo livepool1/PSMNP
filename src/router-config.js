@@ -45,9 +45,9 @@ import statisQuery from './page/publishManage/query/statisQuery.vue'
 import login from './page/Login.vue'
 import mainview from './page/mainview.vue'
 
-import department from './page/centerManage/dictionary/department.vue'
-import jobCategory from './page/centerManage/dictionary/jobCategory.vue'
-import newspaper from './page/centerManage/dictionary/newspaper.vue'
+// import department from './page/centerManage/dictionary/department.vue'
+// import jobCategory from './page/centerManage/dictionary/jobCategory.vue'
+// import newspaper from './page/centerManage/dictionary/newspaper.vue'
 import transferUnit from './page/centerManage/dictionary/transferUnit.vue'
 import region from './page/centerManage/dictionary/region.vue'
 import changeReason from './page/centerManage/dictionary/changeReason.vue'
@@ -92,14 +92,14 @@ import complaSituatMonth from './page/leaderManage/order/complaSituatMonth.vue'
 
 import subInforManage from './page/publishManage/customer/subInforManage.vue'
 
-import newBook from './page/publishManage/commodity/newBook.vue'
+// import newBook from './page/publishManage/commodity/newBook.vue'
 import laterBook from './page/publishManage/commodity/laterBook.vue'
 import change from './page/publishManage/commodity/change.vue'
 
 import handle from './page/publishManage/watch/handle.vue'
 
 
-import statisQuery from './page/publishManage/query/statisQuery.vue'
+// import statisQuery from './page/publishManage/query/statisQuery.vue'
 import basicInforQuery from './page/publishManage/query/basicInforQuery.vue'
 import subQuery from './page/publishManage/query/subQuery.vue'
 import dailyBusinessQuery from './page/publishManage/query/dailyBusinessQuery.vue'
@@ -157,12 +157,12 @@ export default [
                 // {path: 'stateMaintenance', component:stateMaintenance},
                 // {path: 'officeInfor', component:officeInfor},
               ]},
-            { path: 'hur', component:centerHur,
-              children:[
-                // {path: 'empInfor', component:empInfor},
-                // {path: 'empPosition', component:empPosition},
+            // { path: 'hur', component:centerHur,
+            //   children:[
+            //     // {path: 'empInfor', component:empInfor},
+            //     // {path: 'empPosition', component:empPosition},
                 
-              ]},
+            //   ]},
             // { path: 'news', component:centerNews,
             //   children:[
             //     // {path: 'newsCode', component:newsCode},
@@ -237,6 +237,7 @@ export default [
               ]
             },
           ]
+        }]
         },{
           path:'/3',component:custom,
           children:[
