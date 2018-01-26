@@ -20,8 +20,8 @@ data: function() {
        {label:'职务编号' ,name:'positionNo',value:'',type:''},
        {label:'职务姓名' ,name:'positionName',value:'',type:''},
        {label:'基础工资' ,name:'baseSalary',value:'',type:''},
-       {label:'发行站编号' ,name:'deptNo',value:'',type:''},
-       {label:'部门编号' ,name:'deptName',value:'',type:''}]
+       {label:'发行站编号' ,name:'dept.deptNo',value:'',type:''},
+       {label:'部门编号' ,name:'dept.deptName',value:'',type:''}]
      },
      allCol:{
        positionNo: '',

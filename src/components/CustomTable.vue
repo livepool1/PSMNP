@@ -176,6 +176,8 @@ export default {
     },
     handleAdd: function() {
       var self = this;
+      console.log("dasdasd")
+      console.log( this.form)
       axios
         .post(this.server + "/Add", this.form) //添加
         .then(function(response) {
