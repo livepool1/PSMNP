@@ -18,33 +18,19 @@
                 <template slot-scope="props">
                     <el-form label-position="left" inline class="demo-table-expand">
 
-                        <!-- <el-form-item v-for="item in headerData" :key=item.dataIndex label=item.dataIndex>
-                            <span>{{ props.row[item.dataIndex] }}</span>
-                        </el-form-item> -->
+                        <el-form-item v-for="item in allCola" :key="item.label" :label="item.label">
+                            <span>{{ props.row[item.prop] }}</span>
+                        </el-form-item>
 
-                        <el-form-item label="结束订购时间">
-                            <span>{{ props.row.finishDate }}</span>
-                        </el-form-item>
-                        <el-form-item label="剩余刊期数">
-                            <span>{{ props.row.remaining }}</span>
-                        </el-form-item>
-                        <el-form-item label="支付方式编号">
-                            <span>{{ props.row.paymentNo }}</span>
-                        </el-form-item>
-                        <el-form-item label="收费方式编号">
-                            <span>{{ props.row.chargeNo }}</span>
-                        </el-form-item>
-                        <el-form-item label="办理时间">
-                            <span>{{ props.row.handleDate }}</span>
-                        </el-form-item>
                     </el-form>
                 </template>
             </el-table-column>
-            <el-table-column label="订单编号" prop="orderNo"></el-table-column>
-            <el-table-column label="报刊名编号" prop="newspaperNo"></el-table-column>
-            <el-table-column label="客户编号" prop="consumerNo"></el-table-column>
-            <el-table-column label="办理人编号" prop="empNo"></el-table-column>
-            <el-table-column label="总价" prop="totalPrice"></el-table-column>
+            <el-table-column 
+            v-for="item in headerDataa"
+            :key="item.label"
+             :label="item.label" 
+             :prop="item.prop">
+             </el-table-column>
 
             <el-table-column label="操作" align="center" property="id" width="180px">
                 <template slot-scope="scope">
@@ -58,13 +44,70 @@
 
 <script>
 import axios from "axios";
-
 export default {
   name: "queryTable",
-  props: ['headerData','allCol']
+  props: ['headerData','allCol'],
+  data() {
+      return {
+          mainTableData: [
+            {
+              orderNo: "1",
+              newspaperNo: "2",
+              consumerNo: "3",
+              empNo: "4",
+              handleDate: "1",
+              startDate: "2",
+              finishDate: "1",
+              totalPrice: "2",
+              remaining: "1",
+              paymentNo: "啊啊啊",
+              center: "1",
+              chargeNo: "2"
+            },{
+              orderNo: "2",
+              newspaperNo: "2",
+              consumerNo: "2",
+              empNo: "2",
+              handleDate: "2",
+              startDate: "2",
+              finishDate: "2",
+              totalPrice: "2",
+              remaining: "2",
+              paymentNo: "2",
+              center: "2",
+              chargeNo: "2"
+            },
+          ],
+
+          headerDataa: [
+              {label:"订单编号1", prop:"orderNo"},
+              {label:"订单编号2", prop:"newspaperNo"},
+              {label:"订单编号3", prop:"consumerNo"},
+              {label:"订单编号4", prop:"empNo"},
+              {label:"订单编号5", prop:"handleDate"},
+              {label:"订单编号6", prop:"startDate"}
+          ],
+          allCola: [
+              {label:"订单编号1", prop:"finishDate"},
+              {label:"订单编号2", prop:"totalPrice"},
+              {label:"订单编号3", prop:"remaining"},
+              {label:"订单编号4", prop:"paymentNo"},
+              {label:"订单编号5", prop:"center"},
+          ]
+      }
+  },
+  created () {
+      console.log(this.headerDataa)
+
+  },
+
+  methods: {
+      inP(obj, text) {
+          return obj[text]
+      }
+  }
 };
 </script>
 
 <style>
-
 </style>

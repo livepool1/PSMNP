@@ -6,7 +6,6 @@
 
 <script>
 export default {
-
   name: "statisQuery",
   data: function() {
     return {
@@ -33,4 +32,3 @@ export default {
 
 <style>
 </style>
-

@@ -106,6 +106,7 @@ export default {
   },
   created: function() {
     this.init();
+    console.log("当前表格",this.aform)
   },
   methods: {
     init: function() {
@@ -143,6 +144,7 @@ export default {
       this.init();
     },
     handleFormOK: function(formName) {
+      console.log(this.form)
       this.$refs[formName].validate(valid => {
         if (valid) {
           console.log(this.form);
@@ -176,6 +178,7 @@ export default {
     },
     handleAdd: function() {
       var self = this;
+      console.log(this.form)
       axios
         .post(this.server + "/Add", this.form) //添加
         .then(function(response) {
@@ -191,6 +194,7 @@ export default {
           self.$message.error("添加失败");
           console.log(err);
         });
+      console.log("我提交的是",this.form)
       this.form = this.aform;
       this.dialogFormVisible = false;
     },
@@ -317,7 +321,24 @@ export default {
         });
     },
     doSomethingElse: function(arr, value) {
-      this.form[arr] = value;
+      // this.form[arr] = value;
+      console.log("现在写入的是",value)
+      this.updateAnd(arr, this.form, value);
+      // this.form[arr] = value;
+    },
+    updateAnd: function (text, obj, value) {
+      var self = this
+        if(text in obj) {
+            obj[text] = value;
+            this.form[text] = value;
+            return
+        }
+        for( var x in obj) {
+            if(typeof obj[x] == "object") {
+                self.updateAnd(text, obj[x], value)
+            }
+        }
+        console.log(obj,"hahaha")
     }
   }
 };
