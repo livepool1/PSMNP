@@ -24,7 +24,7 @@ import publish from './page/publishManage/index.vue'
 import dept from './page/centerManage/dictionary/Dept.vue'
 import jobCategory from './page/centerManage/dictionary/Position.vue'
 import centerDict from './page/centerManage/dictionary/index.vue'
-import newspaper from './page/centerManage/dictionary/newspaper.vue'
+import newspaper from './page/centerManage/dictionary/Newspaper.vue'
 
 
 import centerHur from './page/centerManage/humanresources/index.vue'
