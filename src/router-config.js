@@ -92,9 +92,9 @@ import complaSituatMonth from './page/leaderManage/order/complaSituatMonth.vue'
 
 import subInforManage from './page/publishManage/customer/subInforManage.vue'
 
-// import newBook from './page/publishManage/commodity/newBook.vue'
-import laterBook from './page/publishManage/commodity/laterBook.vue'
-import change from './page/publishManage/commodity/change.vue'
+// // import newBook from './page/publishManage/commodity/newBook.vue'
+// import laterBook from './page/publishManage/commodity/laterBook.vue'
+// import change from './page/publishManage/commodity/change.vue'
 
 import handle from './page/publishManage/watch/handle.vue'
 
