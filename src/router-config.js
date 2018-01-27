@@ -151,7 +151,7 @@ export default [
                 {path: 'deparment', component:dept},
                 {path: 'jobCategory', component:jobCategory},
                 {path: 'newspaper', component:newspaper},
-                // {path: 'transferUnit', component:transferUnit},
+                {path: 'transferUnit', component:transferUnit},
                 // {path: 'region', component:region},
                 // {path: 'changeReason', component:changeReason},
                 // {path: 'stateMaintenance', component:stateMaintenance},

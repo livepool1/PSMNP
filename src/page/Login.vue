@@ -88,15 +88,18 @@ methods: {
       .put( this.server ,this.form)  //更新
       .then(function(response) {
           self.tableData=response;
-          self.$message({
-            message: '更新成功',
+          if(self.tableData == 'ok') {
+            self.$message({
+            message: '登陆成功',
             type: 'success'
           });
+          }
+          
           self.init();
           console.log(response);
       })
       .catch(function(err) {
-        self.$message.error('更新失败');
+        self.$message.error('登陆失败');
         console.log(err);
       });
       if ( this.getCookie("session")!="1234" ) {

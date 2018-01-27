@@ -107,6 +107,28 @@ export default {
   created: function() {
     this.init();
     console.log("当前表格",this.aform)
+  },watch : {
+    dialogFormVisible: function(oldVal, newVal) {
+      if(newVal) {
+        
+      this.form = JSON.parse(JSON.stringify(this.aform));
+      this.formWindow = JSON.parse(JSON.stringify(this.aformWindow));
+
+      console.log(this.aform)
+      console.log(this.aformWindow)
+
+      console.log("已重置")
+      } else {
+        for( var x in this.formWindow.col) {
+          console.log("啊")
+          this.updateAnd(this.formWindow.col[x].name,this.form,this.formWindow.col[x].value,1);
+        }
+        console.log(this.form)
+        console.log(this.formWindow)
+        console.log("啊啊啊")
+      }
+
+    }
   },
   methods: {
     init: function() {
@@ -132,8 +154,8 @@ export default {
           self.$message.error("数据获取失败");
           self.loading = false;
         });
-      this.form = this.aform;
-      this.formWindow = this.aformWindow;
+      this.form = JSON.parse(JSON.stringify(this.aform));
+      this.formWindow = JSON.parse(JSON.stringify(this.aformWindow));
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -161,7 +183,7 @@ export default {
       axios
         .put(this.server, this.form) //更新
         .then(function(response) {
-          self.tableData = response;
+          // self.tableData = response;
           self.$message({
             message: "更新成功",
             type: "success"
@@ -183,7 +205,7 @@ export default {
       axios
         .post(this.server + "/Add", this.form) //添加
         .then(function(response) {
-          self.tableData = response;
+          // self.tableData = response;
           self.$message({
             message: "添加成功",
             type: "success"
@@ -234,7 +256,7 @@ export default {
                 item.value = item1.value
           })
         });
-        this.arJson =[];
+        // this.arJson =[];
         this.formTitle = "详情/更新";
         this.formType = "update";
         this.dialogFormVisible = true;
@@ -244,6 +266,7 @@ export default {
         row.$selected = !row.$selected;
         row.$info = row.$selected;
       }
+              this.arJson =[];
     },
     selectionchange: function(val) {
       var arr = [];
@@ -327,16 +350,21 @@ export default {
       this.updateAnd(arr, this.form, value);
       // this.form[arr] = value;
     },
-    updateAnd: function (text, obj, value) {
+    updateAnd: function (text, obj, value, init) {
       var self = this
+      // if(text in qt)
         if(text in obj) {
             obj[text] = value;
-            this.form[text] = value;
+            if(init == null) {
+              this.form[text] = value;
+              console.log("非初始化")
+            }
+
             return
         }
         for( var x in obj) {
             if(typeof obj[x] == "object") {
-                self.updateAnd(text, obj[x], value)
+                self.updateAnd(text, obj[x], value, init)
             }
         }
         console.log(obj,"hahaha")

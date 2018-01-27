@@ -25,7 +25,7 @@
             <el-dropdown-item command="setting" >用户设置</el-dropdown-item>
             <el-dropdown-item command="info" >通知查看 <el-badge class="mark" :value="12"/></el-dropdown-item>
             <el-dropdown-item command="send" >通知发送 </el-dropdown-item>
-            <el-dropdown-item command="out">注销 </el-dropdown-item>
+            <el-dropdown-item command="out" @click="out">注销 </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         </el-badge>
@@ -293,11 +293,15 @@ export default {
       else
          this.out();
     },
+    getCookie: function(name) {
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)"); 
+        return (arr=document.cookie.match(reg))?unescape(arr[2]):null;
+    },
     delCookie:function(name)
     {
       var exp = new Date();
       exp.setTime(exp.getTime() - 1);
-      var cval=getCookie(name);
+      var cval=this.getCookie(name);
       if(cval!=null)
         document.cookie= name + "="+cval+";expires="+exp.toGMTString();
     },
