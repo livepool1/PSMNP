@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import ctable from "../../CustomTable.vue";
-
 export default {
   name: "d_dept",
   data: function() {

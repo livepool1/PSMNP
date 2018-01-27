@@ -11,6 +11,7 @@
         <el-form-item label="报刊名称" class="formItem" prop="bookName">
           <el-autocomplete style="width:100%" v-model="formBook.bookName" :fetch-suggestions="querySearchAsync" placeholder="请输入报刊名" @select="handleSelect"></el-autocomplete>
         </el-form-item>
+        <!-- nowOrder.newspaper.newspaperNo -->
         <el-form-item label="报刊编号" class="formItem" prop="no">
           <el-input placeholder="报刊编号" v-model="formBook.no" :readonly="true">
           </el-input>
@@ -30,7 +31,7 @@
       </el-form>
     </div>
     <div v-show="pageV2" class="content">
-      <el-form label-width="100px" :model="form2" :rules="rules2">
+      <el-form label-width="100px" :model="form2" ref="form2" :rules="rules2">
         <el-form-item label="报刊编号" class="formItem">
           <el-input v-model="formBook.no" :readonly="true">
           </el-input>
@@ -39,57 +40,36 @@
           <el-input v-model="nowEmp" :readonly="true">
           </el-input>
         </el-form-item>
-        <!-- rules2: {
-          customerName: [
-            { required: true, message: "请输入客户姓名", trigger: "blur" }
-          ],
-          phoneNum: [
-            { required: true, message: "请输入电话号码" },
-            { type: "number", message: "电话必须为数字值" }
-          ],
-          addS: [{ required: true, message: "请选择地区", trigger: "change" }],
-          add: [{ required: true, message: "请输入客户姓名", trigger: "blur" }],
-          date: [
-            {
-              type: "date",
-              required: true,
-              message: "请选择时间",
-              trigger: "blur"
-            }
-          ]
-        }, -->
-
-        <!-- nowOrder.consumer.consumerName -->
+        <!-- nowOrder.consumer.consumerName = form2.customerName -->
         <el-form-item label="订户姓名" class="formItem" prop="customerName">
-          <el-input v-model="form2.customerName">  
+          <el-input v-model="form2.customerName">
           </el-input>
         </el-form-item>
-        <!-- nowOrder.consumer.consumerPhone -->
+        <!-- nowOrder.consumer.consumerPhone = form2.phoneNum -->
         <el-form-item label="电话" class="formItem" prop="phoneNum">
-          <el-input v-model="form2.phoneNum">
+          <el-input v-model.number="form2.phoneNum">
           </el-input>
         </el-form-item>
-        <!-- nowOrder.location -->
-        <el-form-item label="更改地区" class="formItem  " prop="addS">
+        <!-- nowOrder.location = form2.addS-->
+        <el-form-item label="更改地区" class="formItem" prop="addS">
           <el-select v-model="form2.addS" placeholder="请选择地区" style="width:100%">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+            <el-option label="区域一" value="1"></el-option>
+            <el-option label="区域二" value="2"></el-option>
           </el-select>
         </el-form-item>
-        <!-- nowOrder.subOrderLocDetail -->
+        <!-- nowOrder.subOrderLocDetail = form2.add-->
         <el-form-item label="地址" class="formItem" prop="add">
           <el-input v-model="form2.add">
           </el-input>
         </el-form-item>
-<!-- value7 -->
         <el-form-item label="订购时间" class="formItem" prop="date">
-          <el-date-picker style="width: 100%;" v-model="form2.date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2" @change="vvv">
+          <el-date-picker style="width: 100%;" v-model="form2.date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="vvv">
           </el-date-picker>
         </el-form-item>
       </el-form>
     </div>
     <div v-show="pageV3" class="content">
-      <el-form label-width="100px">
+      <el-form label-width="100px" ref="form3" :rules="rules3" :model="form3">
         <el-form-item label="期刊数量" class="formItem">
           <el-input v-model="backData.bookNum" :readonly="true">
           </el-input>
@@ -102,8 +82,9 @@
           <el-input v-model="backData.bookNum" :readonly="true">
           </el-input>
         </el-form-item>
-        <el-form-item label="付款方式" class="formItem">
-          <el-select v-model="nowOrder.payment.paymentNo" placeholder="请选择付款方式" style="width:100%">
+        <!-- nowOrder.payment.paymentNo = form3.payment-->
+        <el-form-item label="付款方式" class="formItem" prop="payment">
+          <el-select v-model="form3.payment" placeholder="请选择付款方式" style="width:100%">
             <el-option label="现金" value="1"></el-option>
             <el-option label="支票" value="2"></el-option>
             <el-option label="现金+支票" value="3"></el-option>
@@ -111,8 +92,9 @@
             <el-option label="其他" value="5"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="支付方式" class="formItem">
-          <el-select v-model="nowOrder.charge.chargeNo" placeholder="请选择支付方式" style="width:100%">
+        <!-- nowOrder.charge.chargeNo = form3.charge-->
+        <el-form-item label="支付方式" class="formItem" prop="charge">
+          <el-select v-model="form3.charge" placeholder="请选择支付方式" style="width:100%">
             <el-option label="普通收费" value="1"></el-option>
             <el-option label="先定报后收费" value="2"></el-option>
             <el-option label="电话订报上门收费" value="3"></el-option>
@@ -124,10 +106,10 @@
     </div>
     <el-row>
       <el-col :offset="17">
-        <el-button type="info" @click="nowStep=nowStep-1" :disabled="lastButton">上一步</el-button>
+        <el-button type="info" @click="toLast" :disabled="lastButton">上一步</el-button>
         <el-col>
         </el-col>
-        <el-button v-if="OK" type="primary" @click="nowStep=nowStep+1">下一步</el-button>
+        <el-button v-if="OK" type="primary" @click="toNext">下一步</el-button>
         <el-button v-else type="primary" @click="submitOrder">完成付款</el-button>
       </el-col>
     </el-row>
@@ -158,23 +140,16 @@ export default {
         officeNo: ""
       },
       rules1: {
-        bookName: [{ required: true, message: "报刊名不能为空"}],
-        no: [{ required: true, message: "编号为空" , trigger: 'change'}]
+        bookName: [{ required: true, message: "报刊名不能为空" }],
+        no: [{ required: true, message: "编号为空", trigger: "change" }]
       },
       form2: {
         customerName: "",
-        phoneNum: "",
+        phoneNum: null,
         addS: "",
         add: "",
         date: ""
       },
-      allPrice: "",
-      userNo: "",
-      OK: true,
-      restaurants: [],
-      nowEmp: "",
-      loading: true,
-   //   value7: "",
       rules2: {
         customerName: [
           { required: true, message: "请输入客户姓名", trigger: "blur" }
@@ -187,44 +162,27 @@ export default {
         add: [{ required: true, message: "请输入客户姓名", trigger: "blur" }],
         date: [
           {
-            type: "date",
+            // type: "date",
             required: true,
             message: "请选择时间",
             trigger: "blur"
           }
         ]
       },
-      pickerOptions2: {
-        shortcuts: [
-          {
-            text: "最近一周",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近一个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
-          },
-          {
-            text: "最近三个月",
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      }
+      form3: {
+        payment: "",
+        charge: ""
+      },
+      rules3: {
+        payment: [{ required: true, message: "请选择付款方式" }],
+        charge: [{ required: true, message: "请选择支付方式" }]
+      },
+      allPrice: "",
+      userNo: "",
+      OK: true,
+      restaurants: [],
+      nowEmp: "",
+      loading: true
     };
   },
   watch: {
@@ -273,7 +231,7 @@ export default {
   },
   methods: {
     vvv() {
-      this.form2.date
+      this.form2.date;
       var day1 = this.form2.date[0];
       var s1 =
         day1.getFullYear() + "-" + (day1.getMonth() + 1) + "-" + day1.getDate();
@@ -282,13 +240,9 @@ export default {
         day2.getFullYear() + "-" + (day2.getMonth() + 1) + "-" + day2.getDate();
       this.nowOrder.startDate = s1;
       this.nowOrder.finishDate = s2;
-      // console.log("aaaaaaaa")
-      // console.log(s1)
-      // console.log(s2)
     },
     submitOrder() {
       var self = this;
-      console.log("sssssssssssssssss");
       console.log(self.nowOrder);
       axios
         .post("/api/HEUPOMS/Newspaper" + "/") //提交订单
@@ -344,6 +298,58 @@ export default {
           self.nowOrder.newspaper = item;
         }
       });
+    },
+    toNext() {
+      if (this.nowStep == 0) {
+        this.$refs["formBook"].validate(valid => {
+          if (valid) {
+            this.nowOrder.newspaper.newspaperNo = this.formBook.no
+            this.nowStep = this.nowStep + 1;
+          } else {
+            console.log("error submit!!");
+          }
+        });
+      } 
+      else if (this.nowStep == 1) {
+        this.$refs["form2"].validate(valid => {
+          if (valid) {
+           this.nowOrder.consumer.consumerName = this.form2.customerName
+           this.nowOrder.consumer.consumerPhone = this.form2.phoneNum 
+           this.nowOrder.location = this.form2.addS
+           this.nowOrder.subOrderLocDetail = this.form2.add
+            var self = this
+            console.log("WWwwwwwwwwwwwwwwwwwwwww")
+            console.log(self.nowOrder)
+            console.log(JSON.stringify(self.nowOrder))
+            axios
+            .post("/api/HEUPOMS/Order/Add",JSON.stringify(self.nowOrder))       //获取总价
+            .then(function(response) {
+              console.log("aaaaaaaaaaaaaaaaaaaa3333")
+              console.log(response);
+              self.nowStep = self.nowStep + 1;
+            })
+            .catch(function(err) {
+              self.$message.error("连接服务器失败");
+              console.log(err);
+            });
+          } else {
+            console.log("error submit!!");
+          }
+        });
+      } else if (this.nowStep == 2) {
+        this.$refs["form3"].validate(valid => {
+          if (valid) {
+            this.nowOrder.charge.chargeNo = this.form3.charge
+            this.nowOrder.payment.paymentNo = this.form3.payment
+            this.nowStep = this.nowStep + 1;
+          } else {
+            console.log("error submit!!");
+          }
+        });
+      }
+    },
+    toLast() {
+      this.nowStep = this.nowStep - 1;
     }
   }
 };
