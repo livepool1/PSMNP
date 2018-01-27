@@ -101,7 +101,8 @@ export default {
       nowPage: 1,
       totalData: 1000,
       loading: true,
-      arJson: []
+      arJson: [],
+      qt: {}
     };
   },
   created: function() {
@@ -121,7 +122,10 @@ export default {
       } else {
         for( var x in this.formWindow.col) {
           console.log("啊")
-          this.updateAnd(this.formWindow.col[x].name,this.form,this.formWindow.col[x].value,1);
+          this.updateAnd(this.formWindow.col[x].name,
+          this.form,
+          this.formWindow.col[x].value,
+          0);
         }
         console.log(this.form)
         console.log(this.formWindow)
@@ -195,6 +199,7 @@ export default {
           self.$message.error("更新失败");
           console.log(err);
         });
+      console.log("我提交的是", this.form);
       this.form = this.aform;
       this.dialogFormVisible = false;
     },
@@ -345,31 +350,93 @@ export default {
     },
     doSomethingElse: function(arr, value) {
       // this.form[arr] = value;
-      console.log("现在写入的是", value);
-      this.updateAnd(arr, this.form, value);
+      // console.log("现在写入的是", value);
+      this.updateAnd(arr, this.form, value, null, 0);
       // this.form[arr] = value;
     },
-    updateAnd: function (text, obj, value, init) {
+    updateAnd: function (text, obj, value, init, time) {
       var self = this
-      // if(text in qt)
+      time ++;
         if(text in obj) {
+          if( !(text in this.qt) ) {             
             obj[text] = value;
-            if(init == null) {
-              this.form[text] = value;
-              console.log("非初始化")
-            }
-
+            console.log("普通赋值")
             return
+            
+          } else {
+            if( time != 1) {
+              obj[text] = value;
+              this.form[text] = value;
+              this.qt[text] = true
+              console.log("递归赋值")
+              return
+            } else {
+              console.log("平级")
+            }
+          }
+            // obj[text] = value;
+
+            // if(init == null) {
+            //   this.form[text] = value;
+            //   console.log("非初始化")
+            // }
+
+            
         }
         for( var x in obj) {
             if(typeof obj[x] == "object") {
-                self.updateAnd(text, obj[x], value, init)
+                self.updateAnd(text, obj[x], value, init,time)
             }
-        
-        }console.log(obj, "hahaha");
+            this.qt[text] = true;
+            // console.log("递归")
+
+        }
+
+        console.log(obj, "hahaha");
       }
-      
+
     }
+    // updateAnd: function (text, obj, value, init, time) {
+    //   var self = this
+    //   time ++;
+    //   // if(text in qt)
+    //     if(text in obj) {
+    //       if( !(text in this.qt) ) {
+    //         // delete this.form["text"]
+    //         obj[text] = value;
+    //         // this.form[text] = value;
+    //         console.log("赋值")
+    //       } else {
+    //         if( time != 0) {
+    //           obj[text] = value;
+    //                       this.form[text] = value;
+    //           console.log("赋值")
+    //         } else {
+    //           console.log("平级")
+    //         }
+    //       }
+    //         // obj[text] = value;
+            
+    //         if(init == null) {
+    //           this.form[text] = value;
+    //           console.log("非初始化")
+    //         }
+
+    //         return
+    //     }
+    //     for( var x in obj) {
+    //         if(typeof obj[x] == "object") {
+    //             self.updateAnd(text, obj[x], value, init)
+    //         }
+    //         this.qt["text"] = true;
+    //         console.log("递归")
+        
+    //     }
+        
+    //     console.log(obj, "hahaha");
+    //   }
+      
+    // }
   }
 </script>
 <style>

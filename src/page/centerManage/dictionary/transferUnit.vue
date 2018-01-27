@@ -14,8 +14,8 @@ export default {
        ruls:{
          transUnitNo:[ { required: true, message: '请输入运输单位编码', trigger: 'blur' }],
          transUnitName:[ { required: true, message: '请输入单位名称', trigger: 'blur' }],
-         transUnitLocNo:[ { required: true, message: '请输入单位位置编号', trigger: 'blur' }],
-         transUnitPerson:[ { required: true, message: '请输入单位负责人', trigger: 'blur' }],
+         locNo:[ { required: true, message: '请输入单位位置编号', trigger: 'blur' }],
+         transUnitPersonName:[ { required: true, message: '请输入单位负责人', trigger: 'blur' }],
          transUnitPersonContact:[ { required: true, message: '请输入联系方式', trigger: 'blur' }]
        },
        addWindows:{
@@ -33,7 +33,7 @@ export default {
              locNo: '',
              locName: '',
              postalCode: '',
-             transUnit: ''
+             transUnit: null
          },
          transUnitPersonName: '',
          transUnitPersonContact: '' 
