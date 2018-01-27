@@ -101,12 +101,12 @@ export default {
       nowPage: 1,
       totalData: 1000,
       loading: true,
-      arJson:[]
+      arJson: []
     };
   },
   created: function() {
     this.init();
-    console.log("当前表格",this.aform)
+    console.log("当前表格", this.aform);
   },
   methods: {
     init: function() {
@@ -144,7 +144,7 @@ export default {
       this.init();
     },
     handleFormOK: function(formName) {
-      console.log(this.form)
+      console.log(this.form);
       this.$refs[formName].validate(valid => {
         if (valid) {
           console.log(this.form);
@@ -178,12 +178,11 @@ export default {
     },
     handleAdd: function() {
       var self = this;
-      console.log("dasdasd")
-      console.log( this.form)
+      console.log("dasdasd");
+      console.log(this.form);
       axios
         .post(this.server + "/Add", this.form) //添加
         .then(function(response) {
-          self.tableData = response;
           self.$message({
             message: "添加成功",
             type: "success"
@@ -195,7 +194,7 @@ export default {
           self.$message.error("添加失败");
           console.log(err);
         });
-      console.log("我提交的是",this.form)
+      console.log("我提交的是", this.form);
       this.form = this.aform;
       this.dialogFormVisible = false;
     },
@@ -210,31 +209,30 @@ export default {
       this.formType = "add";
       this.dialogFormVisible = true;
     },
-    refining:  function(arJsonNesting) {
+    refining: function(arJsonNesting) {
       for (var key in arJsonNesting) {
-        if ( typeof(arJsonNesting[key]) == "object") {
+        if (typeof arJsonNesting[key] == "object") {
           this.refining(arJsonNesting[key]);
         } else {
-          this.arJson.push( {
+          this.arJson.push({
             name: key,
             value: arJsonNesting[key]
-          })
+          });
         }
       }
     },
     handleSelect: function(row, column, cell, event) {
       this.refining(row);
       console.log(this.arJson);
-      var ooo =this.arJson
+      var ooo = this.arJson;
       if (column.label == "操作") {
         this.formWindow.col.forEach(function(item) {
           item.value = "";
-          ooo.forEach(function(item1){
-             if (item.name == item1.name)
-                item.value = item1.value
-          })
+          ooo.forEach(function(item1) {
+            if (item.name == item1.name) item.value = item1.value;
+          });
         });
-        this.arJson =[];
+        this.arJson = [];
         this.formTitle = "详情/更新";
         this.formType = "update";
         this.dialogFormVisible = true;
@@ -301,9 +299,9 @@ export default {
       axios
         .get(
           this.server +
-            "/" +
+            "?param=" +
             this.input +
-            "?nowPage=" +
+            "&nowPage=" +
             this.nowPage +
             "&pageSize=" +
             this.pageSize
@@ -323,23 +321,23 @@ export default {
     },
     doSomethingElse: function(arr, value) {
       // this.form[arr] = value;
-      console.log("现在写入的是",value)
+      console.log("现在写入的是", value);
       this.updateAnd(arr, this.form, value);
       // this.form[arr] = value;
     },
-    updateAnd: function (text, obj, value) {
-      var self = this
-        if(text in obj) {
-            obj[text] = value;
-            this.form[text] = value;
-            return
+    updateAnd: function(text, obj, value) {
+      var self = this;
+      if (text in obj) {
+        obj[text] = value;
+        this.form[text] = value;
+        return;
+      }
+      for (var x in obj) {
+        if (typeof obj[x] == "object") {
+          self.updateAnd(text, obj[x], value);
         }
-        for( var x in obj) {
-            if(typeof obj[x] == "object") {
-                self.updateAnd(text, obj[x], value)
-            }
-        }
-        console.log(obj,"hahaha")
+      }
+      console.log(obj, "hahaha");
     }
   }
 };

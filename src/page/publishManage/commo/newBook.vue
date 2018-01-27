@@ -1,5 +1,5 @@
 <template>
-  <div class="newBook">
+  <div class="newBook"  v-loading="loading">
     <el-steps :space="200" :active="nowStep" finish-status="success" style="margin-left: 200px; margin-right: auto;">
       <el-step title="选择报刊"></el-step>
       <el-step title="填写信息"></el-step>
@@ -8,35 +8,39 @@
     <!-- <router-view></router-view> -->
     <div v-show="pageV1" class="content">
       <el-form ref="formBook" :model="formBook" label-width="80px">
-        <el-form-item label="报刊名称" class="formItem">
-          <el-autocomplete style="width:100%" v-model="bookName" :fetch-suggestions="querySearchAsync" placeholder="请输入报刊名" @select="handleSelect"></el-autocomplete>
+        <el-form-item :rules="[
+          { required: true, message: '报刊名不能为空',trigger: 'blur'},
+        ]" label="报刊名称" class="formItem">
+          <el-autocomplete  style="width:100%" v-model="bookName" :fetch-suggestions="querySearchAsync" placeholder="请输入报刊名" @select="handleSelect"></el-autocomplete>
         </el-form-item>
-        <el-form-item label="报刊编号" class="formItem">
-          <el-input placeholder="报刊编号" v-model="formBook.no" readonly="true">
+        <el-form-item :rules="[
+          { required: true, message: '找不到报刊编号',trigger: 'blur'},
+        ]" label="报刊编号" class="formItem">
+          <el-input  placeholder="报刊编号" v-model="formBook.no" readonly="true">
           </el-input>
         </el-form-item>
         <el-form-item label="报刊类型" class="formItem">
-          <el-input placeholder="报刊类型" v-model="formBook.type" readonly="readonly">
+          <el-input placeholder="报刊类型" v-model="formBook.type" readonly="true">
           </el-input>
         </el-form-item>
         <el-form-item label="报社编码" class="formItem">
-          <el-input placeholder="所属报社编码" v-model="formBook.officeNo" readonly="readonly">
+          <el-input placeholder="所属报社编码" v-model="formBook.officeNo" readonly="true">
           </el-input>
         </el-form-item>
         <el-form-item label="单价" class="formItem">
-          <el-input placeholder="单价" v-model="formBook.price" readonly="readonly">
+          <el-input placeholder="单价" v-model="formBook.price" readonly="true">
           </el-input>
         </el-form-item>
       </el-form>
     </div>
     <div v-show="pageV2" class="content">
-      <el-form ref="nowOrder" :model="nowOrder" label-width="100px">
+      <el-form :rules="rules2" ref="nowOrder" :model="nowOrder" label-width="100px">
         <el-form-item label="报刊编号" class="formItem">
-          <el-input v-model="formBook.no" readonly="readonly">
+          <el-input v-model="formBook.no" readonly="true">
           </el-input>
         </el-form-item>
         <el-form-item label="操作员编号" class="formItem">
-          <el-input v-model="nowOrder.emp.empId" readonly="readonly">
+          <el-input v-model="nowEmp" readonly="true">
           </el-input>
         </el-form-item>
         <el-form-item label="订户姓名" class="formItem" >
@@ -57,10 +61,10 @@
           <el-input v-model="a">
           </el-input>
         </el-form-item>
-        <el-form-item label="起始订购时间" class="formItem">
+        <el-form-item label="起始订购时间" class="formItem" prop="startTime">
           <el-date-picker type="date" placeholder="选择起始日期" v-model="nowOrder.startDate" style="width: 100%;"></el-date-picker>
         </el-form-item>
-        <el-form-item label="起始订购时间" class="formItem">
+        <el-form-item label="起始订购时间" class="formItem" prop="endTime">
           <el-date-picker type="date" placeholder="选择结束日期" v-model="nowOrder.finishDate" style="width: 100%;"></el-date-picker>
         </el-form-item>
         <el-form-item label="总价" class="formItem">
@@ -111,7 +115,7 @@ export default {
   data: function() {
     return {
       nowOrder:{},
-      nowStep: 1,
+      nowStep: 0,
       pageV1: true,
       pageV2: false,
       pageV3: false,
@@ -127,34 +131,35 @@ export default {
       userNo: "",
       OK: true,
       restaurants:[],
+      nowEmp:'',
+      loading:true,
       rules2: {
-        // startTime: [
-        //   { validator: startTime, trigger: 'blur' }
-        // ],
-        // endTime: [
-        //   { validator: endTime, trigger: 'blur' }
-        // ]
-        // ,
-        // userName:[
-        //   {}
-        // ]
+        startTime: [
+          { validator: this.startTime, trigger: 'blur' }
+        ],
+        endTime: [
+          { validator: this.endTime, trigger: 'blur' }
+        ],
+        userName:[
+          {}
+        ]
       }
     };
   },
   watch: {
     nowStep: function() {
-      if (this.nowStep === 2) {
+      if (this.nowStep === 1) {
         this.pageV1 = false;
         this.pageV2 = true;
         this.pageV3 = false;
         this.lastButton = false;
         this.OK = true;
-      } else if (this.nowStep === 1) {
+      } else if (this.nowStep === 0) {
         this.pageV1 = true;
         this.pageV2 = false;
         this.pageV3 = false;
         this.lastButton = true;
-      } else if (this.nowStep === 3) {
+      } else if (this.nowStep === 2) {
         this.pageV1 = false;
         this.pageV2 = false;
         this.pageV3 = true;
@@ -171,13 +176,60 @@ export default {
     .then(function(response) {
       console.log(response.data.list[0])
       self.nowOrder = response.data.list[0]
+      self.nowOrder.consumer.consumerName = ""
+      self.nowOrder.consumer.consumerPhone= ""
+      self.nowOrder.startDate= ""
+      self.nowOrder.finishDate= ""
+      self.loading =false
     })
     .catch(function(err) {
       console.log(err);
-    });
+      self.loading =false
+    });//.startDate
+    //this.nowEmp = getCookie("username") ;
   },
   methods: {
-    submitOrder() {},
+    startTime(rule, value, callback){
+      var day2 = new Date();
+      day2.setTime(day2.getTime());
+      var s2 = day2.getFullYear()+"-" + (day2.getMonth()+1) + "-" + day2.getDate();
+      if (value === '') {
+        callback(new Error('请输入起始时间'));
+      } else if (value <= s2) {  
+        callback(new Error('不能早于今天'));
+      } else {
+        callback();
+      }
+    },
+    endTime(rule, value, callback){
+      if (value === '') {
+        callback(new Error('请输入结束时间'));
+      } else if (value <= self.nowOrder.startDate) {  
+        callback(new Error('结束订购不能早于订购时间'));
+      } else {
+        callback();
+      }
+    },
+    submitOrder() {
+      var self = this
+      axios
+      .post("/api/HEUPOMS/Newspaper" + "/" + this.bookName) //提交订单
+      .then(function(response) {
+        self.$notify({
+          title: '成功',
+          message: '付款成功，订单已提交',
+          type: 'success'
+        });
+      })
+      .catch(function(err) {
+        console.log(err);
+        self.$notify({
+          title: '失败',
+          message: '提交订单失败',
+          type: 'error'
+        });
+      });
+    },
     getCookie(name) {
       var arr,
         reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
@@ -185,7 +237,6 @@ export default {
     },
     querySearchAsync(queryString, cb) {
       var ls = [];
-      var results;
       var self = this
       axios
         .get("/api/HEUPOMS/Newspaper" + "/" + this.bookName) //模糊查询
@@ -195,24 +246,11 @@ export default {
           self.restaurants.forEach(function(item){
             ls.push({value:item['newspaperName'],index:item['newspaperNo']})
           })
-
-          results = queryString
-          ? ls.filter(this.createStateFilter(queryString))
-          : ls;
-          cb(results);
+          cb(ls);
         })
         .catch(function(err) {
           console.log(err);
         });
-    },
-    createStateFilter(queryString) {
-      return state => {
-        console.log("Dasdas");
-        console.log(state);
-        return (
-          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-        );
-      };
     },
     handleSelect(val) {
       var self = this

@@ -48,7 +48,7 @@ data: function() {
        { name: "yearModulus", dataIndex: "年价系数" }
      ]
    };
-}
+},
 };
 </script>
 
