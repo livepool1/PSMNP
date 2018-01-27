@@ -1,17 +1,8 @@
 <template>
   <div class="bookSubOrder" v-loading="loading">
-    <!-- 
-    subOrderNo  子刊订单编号
-    orderNo   订单编号
-    issueDate  刊期时间
-    subOrderLocNo  子订单地区编号
-    subOrderLocDetail    子订单详细地址
-    postalCode    邮政编码
-    deliverFlag     投送标志
-     -->
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/2/commo/alterBook' }">更改订单信息</el-breadcrumb-item>
-      <el-breadcrumb-item >{{form.orderNo}}号订单</el-breadcrumb-item>
+      <el-breadcrumb-item >{{routerParams}}号订单</el-breadcrumb-item>
     </el-breadcrumb>
     <el-row type="flex" align="middle"  style="padding:20px 0;margin-top:50px">
       <el-col  :span="3" style="width: 160px;text-align: center;">
@@ -26,9 +17,6 @@
 
     <el-dialog title="转址" :visible.sync="dialogFormVisible">
       <el-form >
-        <el-form-item label="当前地址" label-width="120px">
-          <el-input auto-complete="off" disabled></el-input>
-        </el-form-item>
         <el-form-item label="更改地区" label-width="120px">
           <el-select  placeholder="请选择地区" style="width:100%">
             <el-option label="区域一" value="shanghai"></el-option>
@@ -36,7 +24,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="更改地址" label-width="120px">
-          <el-input  auto-complete="off"></el-input>
+          <el-input v-model="changeAdd" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -49,12 +37,17 @@
 
     <el-table :data="subData" style="width: 100%" @selection-change="selectionchange">
       <el-table-column type="selection" width="50"></el-table-column>
-      <el-table-column label="子刊订单编号" prop="subOrderNo"></el-table-column>
       <el-table-column label="刊期时间" prop="issueDate"></el-table-column>
-      <el-table-column label="地区编号" prop="subOrderLocNo"></el-table-column>
+      <el-table-column label="地区" prop="location.locName"></el-table-column>
       <el-table-column label="详细地址" prop="subOrderLocDetail"></el-table-column>
-      <el-table-column label="邮政编码" prop="postalCode"></el-table-column>
-      <el-table-column label="投送标志" prop="deliverFlag"></el-table-column>
+      <el-table-column label="邮政编码" prop="location.postalCode"></el-table-column>
+      <el-table-column label="投送标志" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.deliverFlag==true" type="primary"  close-transition>是</el-tag>
+          <el-tag v-else type="success"  close-transition>否</el-tag>
+        </template>
+      </el-table-column>
+
     </el-table>
   </div>
 </template>
@@ -65,44 +58,30 @@ export default {
   data: function() {
     return {
       dialogFormVisible :false,
-      form: {},
       selectItems: [],
-      subData: [
-        {
-          subOrderNo: "11",
-          issueDate: "22",
-          subOrderLocNo: "11",
-          subOrderLocDetail: "22",
-          postalCode: "11",
-          deliverFlag: "22"
-        }
-      ],
+      subData: [],
       loading: false,
-      activeNum: 0
+      activeNum: 0,
+      routerParams: '',
+      changeAdd: ''
     };
   },
   created: function() {
-    let routerParams = this.$route.params.dataObj;
-    this.form = routerParams;
-    this.init();
+    this.routerParams = this.$route.params.bookNo;
+    var self =this
+    axios
+    .get("/api/HEUPOMS/SubOrder/" + this.routerParams) //模糊查询
+    .then(function(response) {
+      console.log(response.data.subOrders);
+      self.subData = response.data.subOrders;
+      self.loading = false;
+    })
+    .catch(function(err) {
+      console.log(err);
+      self.loading = false;
+    });
   },
   methods: {
-    init: function() {
-      var self = this;
-      axios
-        .get("") //查询所有
-        .then(function(response) {
-          console.log(response);
-          var tem = response.data;
-          self.subform = tem["list"];
-          self.loading = false;
-        })
-        .catch(function(err) {
-          console.log(err);
-          self.$message.error("数据获取失败");
-          self.loading = false;
-        });
-    },
     selectionchange: function(val) {
       var arr = [];
       val.forEach(function(item) {
@@ -114,8 +93,8 @@ export default {
       this.selectItems = arr;
       this.activeNum = this.selectItems.length;
     },
-    handleBack: function(index, row) {
-      this.$confirm('退订将返还10元', '提示', {
+    handleBack: function() {
+      this.$confirm('退订将返还'+this.selectItems.length*this.subData[0].singlePrice+'元', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
       }).then(() => {
@@ -144,7 +123,7 @@ export default {
         var self=this;
         //
         axios
-        .post("",delObj)      //删除
+        .post("/api/HEUPOMS/SubOrder/Del",delObj)      //删除
         .then(function(response) {
           console.log(response);
           this.$message({
@@ -161,11 +140,12 @@ export default {
         console.log("取消操作")     
       });
     },
-    handleRedirect: function(index, row) {
+    handleRedirect: function() {
       //
       var tableData = this.subData
       var delArray = [];
       var delObj;
+      var self = this
       this.selectItems.forEach(function(id) {
         tableData.forEach(function(data) {
           var iid
@@ -174,19 +154,31 @@ export default {
              break;
           }
           if (id == iid) {
-            var temp={
-              id:id
-              };
-            delArray.push(temp);
+            var tem=data[key]
+            tem.location.locNo =   1;    //地区编号
+            tem.subOrderLocDetail = self.changeAdd   //地址
+            delArray.push(tem);
           }
         });
       });
       delObj = {
-        
-        res:delArray
+        subOrders:delArray
       };
-      var self=this;
       //
+      axios
+      .post("/api/HEUPOMS/SubOrder/Transfer",delObj)      //转址
+      .then(function(response) {
+        console.log(response);
+        this.$message({
+          type: 'success',
+          message: '转址成功!'
+        });
+        this.init();
+      })
+      .catch(function(err) {
+        self.$message.error('转址失败');
+        console.log(err);
+      });
     }
   }
 };
