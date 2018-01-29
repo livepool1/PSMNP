@@ -30,6 +30,23 @@
         </el-form-item>
       </el-form>
     </div>
+
+    <!-- 会员办理 -->
+    <el-dialog title="会员办理" :visible.sync="vipVisible">
+      <el-form :model="vipForm" ref="vipForm" :rules="vipRules">
+        <el-form-item label="用户姓名" label-width="150px" prop="userName">
+          <el-input placeholder="用户姓名" v-model="vipForm.userName"> </el-input>
+        </el-form-item>
+        <el-form-item label="电话号码" label-width="150px" prop="phoneNum">
+          <el-input placeholder="电话号码" v-model.number="vipForm.phoneNum"> </el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleVIP">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 会员办理 END -->
+
     <div v-show="pageV2" class="content">
       <el-form label-width="100px" :model="form2" ref="form2" :rules="rules2">
         <el-form-item label="报刊编号" class="formItem">
@@ -40,28 +57,47 @@
           <el-input v-model="nowEmp" :readonly="true">
           </el-input>
         </el-form-item>
-        <!-- nowOrder.consumer.consumerName = form2.customerName -->
-        <el-form-item label="订户姓名" class="formItem" prop="customerName">
-          <el-input v-model="form2.customerName">
-          </el-input>
-        </el-form-item>
+
         <!-- nowOrder.consumer.consumerPhone = form2.phoneNum -->
         <el-form-item label="电话" class="formItem" prop="phoneNum">
-          <el-input v-model.number="form2.phoneNum">
+          <el-input v-model.number="form2.phoneNum" @change="getOneByPhone">
           </el-input>
         </el-form-item>
+
+        <!-- nowOrder.consumer.consumerName = form2.consumerName -->
+        <el-form-item label="订户姓名" prop="consumerName">
+          <el-input style="width: 77%;" v-model="form2.consumerName">
+          </el-input>
+          <el-button type="text" @click="becomeVip">成为会员</el-button>
+        </el-form-item>
+
+        <el-form-item label="会员类型" class="formItem" prop="vipType">
+          <el-input v-model="form2.vipType" readonly>
+          </el-input>
+          <!-- <el-select disabled no-data-text="普通用户" v-model="form2.vipType" style="width:100%">
+            <el-option label="普通用户" value="1"></el-option>
+            <el-option label="大客户" value="2"></el-option>
+            <el-option label="会员" value="3"></el-option>
+          </el-select> -->
+        </el-form-item>
+
         <!-- nowOrder.location = form2.addS-->
-        <el-form-item label="更改地区" class="formItem" prop="addS">
+        <el-form-item label="地区" class="formItem" prop="addS">
           <el-select v-model="form2.addS" placeholder="请选择地区" style="width:100%">
-            <el-option label="区域一" value="1"></el-option>
-            <el-option label="区域二" value="2"></el-option>
+            <el-option v-for="item in locationList" :key="item.locNo" :label="item.locName" :value="item.locNo"></el-option>
           </el-select>
         </el-form-item>
         <!-- nowOrder.subOrderLocDetail = form2.add-->
-        <el-form-item label="地址" class="formItem" prop="add">
+        <el-form-item label="详细地址" class="formItem" prop="add">
           <el-input v-model="form2.add">
           </el-input>
         </el-form-item>
+
+        <el-form-item label="订购份数" class="formItem" prop="howMany">
+          <el-input v-model.number="form2.howMany" @change="becomeBig">
+          </el-input>
+        </el-form-item>
+
         <el-form-item label="订购时间" class="formItem" prop="date">
           <el-date-picker style="width: 100%;" v-model="form2.date" type="daterange" align="right" unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="vvv">
           </el-date-picker>
@@ -70,16 +106,16 @@
     </div>
     <div v-show="pageV3" class="content">
       <el-form label-width="100px" ref="form3" :rules="rules3" :model="form3">
-        <el-form-item label="期刊数量" class="formItem">
+        <!-- <el-form-item label="期刊数量" class="formItem">
           <el-input v-model="backData.bookNum" :readonly="true">
           </el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="单价" class="formItem">
           <el-input v-model="nowOrder.newspaper.price" :readonly="true">
           </el-input>
         </el-form-item>
         <el-form-item label="总价" class="formItem">
-          <el-input v-model="backData.bookNum" :readonly="true">
+          <el-input v-model="allPrice" :readonly="true">
           </el-input>
         </el-form-item>
         <!-- nowOrder.payment.paymentNo = form3.payment-->
@@ -121,11 +157,7 @@ export default {
   name: "newBook",
   data: function() {
     return {
-      backData: {
-        allPrice: "",
-        bookNum: "",
-        allPrice: ""
-      },
+      allPrice: "",
       nowOrder: {},
       nowStep: 0,
       pageV1: true,
@@ -144,22 +176,28 @@ export default {
         no: [{ required: true, message: "编号为空", trigger: "change" }]
       },
       form2: {
-        customerName: "",
+        consumerName: "",
         phoneNum: null,
-        addS: "",
+        addS: null,
         add: "",
-        date: ""
+        date: "",
+        howMany: "",
+        vipType: ""
       },
       rules2: {
-        customerName: [
-          { required: true, message: "请输入客户姓名", trigger: "blur" }
+        consumerName: [
+          { required: true, message: "请输入客户姓名" }//, trigger: "blur"
         ],
         phoneNum: [
           { required: true, message: "请输入电话号码" },
           { type: "number", message: "电话必须为数字值" }
         ],
+        howMany: [
+          { required: true, message: "请输入订购份数" },
+          { type: "number", message: "必须为数字值" }
+        ],
         addS: [{ required: true, message: "请选择地区", trigger: "change" }],
-        add: [{ required: true, message: "请输入客户姓名", trigger: "blur" }],
+        add: [{ required: true, message: "请输入详细地址", trigger: "blur" }],
         date: [
           {
             // type: "date",
@@ -177,12 +215,30 @@ export default {
         payment: [{ required: true, message: "请选择付款方式" }],
         charge: [{ required: true, message: "请选择支付方式" }]
       },
-      allPrice: "",
-      userNo: "",
       OK: true,
       restaurants: [],
       nowEmp: "",
-      loading: true
+      loading: true,
+      locationList: [],
+      vipVisible: false,
+      vipForm: {
+        userName: "",
+        phoneNum: ""
+      },
+      vipRules: {
+        userName: [{ required: true, message: "请填写姓名" }],
+        phoneNum: [
+          { required: true, message: "请填写电话号码" },
+          { type: "number", message: "必须为数字值" }
+        ]
+      },
+      nowCus: {
+        consumerType: {
+          consumerTypeName: "普通客户",
+          consumerTypeNo: null
+        }
+      }
+      // self.nowCus.consumerType.consumerTypeName
     };
   },
   watch: {
@@ -208,7 +264,6 @@ export default {
   },
   computed: {},
   created: function() {
-    //this.userNo = this.getCookie(username);
     var self = this;
     axios
       .get("/api/HEUPOMS/Order") //模糊查询
@@ -216,18 +271,23 @@ export default {
         self.nowOrder = response.data.list[0];
         self.nowOrder.consumer.consumerName = "";
         self.nowOrder.consumer.consumerPhone = "";
+        self.nowOrder.consumer.consumerNo = 0;
+        self.nowOrder.consumer.consumerType.consumerTypeNo = 1;
         self.nowOrder.startDate = "";
         self.nowOrder.finishDate = "";
         self.loading = false;
         self.nowOrder.charge.chargeNo = "";
         self.nowOrder.payment.paymentNo = "";
-        console.log(nowOrder);
+        console.log(self.nowOrder);
       })
       .catch(function(err) {
         console.log(err);
         self.loading = false;
       }); //.startDate
-    //this.nowEmp = getCookie("username") ;
+    var s =  this.getCookie("session")
+    this.nowEmp = s.substr(6,3);
+    self.form2.vipType = "普通客户";
+   // self.nowCus.consumerType.consumerTypeName = "普通客户";
   },
   methods: {
     vvv() {
@@ -243,24 +303,34 @@ export default {
     },
     submitOrder() {
       var self = this;
-      console.log(self.nowOrder);
-      axios
-        .post("/api/HEUPOMS/Newspaper" + "/") //提交订单
-        .then(function(response) {
-          self.$notify({
-            title: "成功",
-            message: "付款成功，订单已提交",
-            type: "success"
-          });
-        })
-        .catch(function(err) {
-          console.log(err);
-          self.$notify({
-            title: "失败",
-            message: "提交订单失败",
-            type: "error"
-          });
-        });
+      this.$refs["form3"].validate(valid => {
+        if (valid) {
+          this.nowOrder.charge.chargeNo = parseInt(this.form3.charge);
+          this.nowOrder.payment.paymentNo = parseInt(this.form3.payment);
+          console.log("sssssssubmit");
+          console.log(self.nowOrder);
+          axios
+            .post("/api/HEUPOMS/Order/AddConfirm", self.nowOrder) //提交订单
+            .then(function(response) {
+              self.$notify({
+                title: "成功",
+                message: "付款成功，订单已提交",
+                type: "success"
+              });
+              self.$router.push({ path: "/2/commo/alterBook" });
+            })
+            .catch(function(err) {
+              console.log(err);
+              self.$notify({
+                title: "失败",
+                message: "提交订单失败",
+                type: "error"
+              });
+            });
+        } else {
+          console.log("error submit!!");
+        }
+      });
     },
     getCookie(name) {
       var arr,
@@ -303,45 +373,56 @@ export default {
       if (this.nowStep == 0) {
         this.$refs["formBook"].validate(valid => {
           if (valid) {
-            this.nowOrder.newspaper.newspaperNo = this.formBook.no
+            // locationList
+            var self = this;
+            axios
+              .get("/api/HEUPOMS/Location") //查找地区
+              .then(function(response) {
+                console.log(response.data.list);
+                self.locationList = response.data.list;
+              })
+              .catch(function(err) {
+                console.log(err);
+              });
+            //
+            this.nowOrder.newspaper.newspaperNo = this.formBook.no;
             this.nowStep = this.nowStep + 1;
           } else {
             console.log("error submit!!");
           }
         });
-      } 
-      else if (this.nowStep == 1) {
+      } else if (this.nowStep == 1) {
+        var self = this;
         this.$refs["form2"].validate(valid => {
           if (valid) {
-           this.nowOrder.consumer.consumerName = this.form2.customerName
-           this.nowOrder.consumer.consumerPhone = this.form2.phoneNum 
-           this.nowOrder.location = this.form2.addS
-           this.nowOrder.subOrderLocDetail = this.form2.add
-            var self = this
-            console.log("WWwwwwwwwwwwwwwwwwwwwww")
-            console.log(self.nowOrder)
-            console.log(JSON.stringify(self.nowOrder))
-            axios
-            .post("/api/HEUPOMS/Order/Add",JSON.stringify(self.nowOrder))       //获取总价
-            .then(function(response) {
-              console.log("aaaaaaaaaaaaaaaaaaaa3333")
-              console.log(response);
-              self.nowStep = self.nowStep + 1;
-            })
-            .catch(function(err) {
-              self.$message.error("连接服务器失败");
-              console.log(err);
+            this.nowOrder.consumer.consumerName = this.form2.consumerName;
+            this.nowOrder.consumer.consumerPhone = this.form2.phoneNum;
+            this.nowOrder.orderCount = this.form2.howMany;
+            this.nowOrder.emp.empNo  = parseInt(this.nowEmp);
+            self.locationList.forEach(function(item) {
+              console.log("oooo");
+              console.log(item);
+              if (item.locNo == self.form2.addS) {
+                console.log("ooookkkkkkk");
+                console.log(item);
+                self.nowOrder.location = item;
+                return;
+              }
             });
-          } else {
-            console.log("error submit!!");
-          }
-        });
-      } else if (this.nowStep == 2) {
-        this.$refs["form3"].validate(valid => {
-          if (valid) {
-            this.nowOrder.charge.chargeNo = this.form3.charge
-            this.nowOrder.payment.paymentNo = this.form3.payment
-            this.nowStep = this.nowStep + 1;
+            this.nowOrder.subOrderLocDetail = this.form2.add;
+
+            console.log(self.nowOrder);
+            axios
+              .post("/api/HEUPOMS/Order/Add", self.nowOrder) //获取总价
+              .then(function(response) {
+                console.log(response.data);
+                self.allPrice = response.data;
+                self.nowStep = self.nowStep + 1;
+              })
+              .catch(function(err) {
+                self.$message.error("订购时间过短或服务器错误");
+                console.log(err);
+              });
           } else {
             console.log("error submit!!");
           }
@@ -350,6 +431,54 @@ export default {
     },
     toLast() {
       this.nowStep = this.nowStep - 1;
+    },
+    getOneByPhone() {
+      var self = this;
+      axios
+        .get("/api/HEUPOMS/Consumer/" + this.form2.phoneNum) //根据电话查找客户
+        .then(function(response) {
+          if (response.data != "") {
+            console.log("不为空");
+            console.log(response.data);
+            self.nowCus = response.data; //consumer
+            self.form2.consumerName = self.nowCus.consumerName;
+            self.form2.vipType = self.nowCus.consumerType.consumerTypeName;
+            self.nowOrder.consumer.consumerType.consumerTypeNo =
+              self.nowCus.consumerType.consumerTypeNo;
+            self.nowOrder.consumer.consumerNo = self.nowCus.consumerNo; //consumerNo,consumerTypeNo
+          } else {
+            console.log("为空");
+            console.log(self.nowCus);
+            self.form2.consumerName = "";
+            self.form2.vipType = "";
+            self.nowOrder.consumer.consumerNo = 0;
+            self.form2.vipType = self.nowCus.consumerType.consumerTypeName;
+            self.nowOrder.consumer.consumerType.consumerTypeNo = 1;
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    },
+    becomeVip() {
+      //显示窗口
+      this.vipForm.userName = this.form2.consumerName;
+      this.vipForm.phoneNum = this.form2.phoneNum;
+      this.vipVisible = true;
+    },
+    handleVIP() {
+      this.form2.vipType = "会员用户";
+      this.nowOrder.consumer.consumerType.consumerTypeNo = 3;  //consumer.consumerType.consumerTypeNo
+      this.vipVisible = false;
+    },
+    becomeBig() {
+      if (this.form2.howMany > 100) {
+        this.form2.vipType = "大客户";
+        this.nowOrder.consumer.consumerType.consumerTypeNo = 2;
+      } else {
+        this.form2.vipType = this.nowCus.consumerType.consumerTypeName;
+        this.nowOrder.consumer.consumerType.consumerTypeNo = 1;
+      }
     }
   }
 };

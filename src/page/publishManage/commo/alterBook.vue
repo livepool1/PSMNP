@@ -22,20 +22,17 @@
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="报刊名编号">
-              <span>{{ props.row.newspaper.newspaperNo }}</span>
-            </el-form-item>
-            <el-form-item label="客户编号">
-              <span>{{ props.row.consumer.consumerNo }}</span>
-            </el-form-item>
-            <el-form-item label="办理人编号">
-              <span>{{ props.row.emp.empName }}</span>
-            </el-form-item>
             <el-form-item label="起始订购时间">
               <span>{{ props.row.startDate }}</span>
             </el-form-item>
             <el-form-item label="结束订购时间">
               <span>{{ props.row.finishDate }}</span>
+            </el-form-item>
+            <el-form-item label="办理时间">
+              <span>{{ props.row.handleDate }}</span>
+            </el-form-item>
+            <el-form-item label="份数">
+              <span>{{ props.row.orderCount }}</span>
             </el-form-item>
             <!-- <el-form-item label="剩余刊期数">
               <span>{{ props.row.remaining }}</span>
@@ -43,12 +40,10 @@
             <el-form-item label="支付方式">
               <span>{{ props.row.payment.paymentName }}</span>
             </el-form-item>
-            <el-form-item label="收费方式编号">
+            <el-form-item label="收费方式">
               <span>{{ props.row.charge.chargeName }}</span>
             </el-form-item>
-            <el-form-item label="办理时间">
-              <span>{{ props.row.handleDate }}</span>
-            </el-form-item>
+
           </el-form>
         </template>
       </el-table-column>
@@ -78,8 +73,8 @@
     </el-row>
 
     <!-- 续订 -->
-    <el-dialog title="订单续订" :visible.sync="dialog2" :model="delayForm" :rules="rules1">
-      <el-form>
+    <el-dialog title="订单续订" :visible.sync="dialog2" >
+      <el-form :model="delayForm" ref="delayForm" :rules="rules1">
         <el-form-item label="订单到期时间" label-width="150px">
           <el-date-picker v-model="delayForm.finishDate" readonly type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
         </el-form-item>
@@ -117,24 +112,53 @@ export default {
       input: "",
       loading: false,
       rules1:{
-        // delayDate: [
-        //   { validator: (rule, value, callback) => {
-        //     console.log("ttttttttttt")
-        //     console.log(value)
-        //     console.log(this.delayForm.delayDate)
-        //     if (value === '') {
-        //       callback(new Error('请输入要延期到的日期'));
-        //     } else if (value <= this.delayForm.delayDate) {
-        //       callback(new Error('延期不能早于当前时间'));
-        //     } else {
-        //       callback();
-        //     }
-        //   }, trigger: 'blur' }
-        // ]
+        delayDate: [
+          { required: true, message: "延期日期不能为空" }
+          ,
+          { validator: (rule, value, callback) => {
+            var oldTime = value.getTime();
+            var curTime = new Date(oldTime).format("yyyy-MM-dd");
+            if (value === '') {
+              callback(new Error('请输入要延期到的日期'));
+            } else if (curTime <= this.delayForm.finishDate) {
+              callback(new Error('延期不能早于当前时间'));
+            } else {
+              callback();
+            }
+          }, trigger: 'blur' }
+        ]
       }
     };
   },
+  watch:{
+    dialog2:function(){
+      if(this.dialog2==false){
+         this.delayForm.delayDate=''
+         this.delayForm.money=''
+      }
+    }
+  },
   created: function() {
+    Date.prototype.format = function(fmt) { 
+         var o = { 
+            "M+" : this.getMonth()+1,                 //月份 
+            "d+" : this.getDate(),                    //日 
+            "h+" : this.getHours(),                   //小时 
+            "m+" : this.getMinutes(),                 //分 
+            "s+" : this.getSeconds(),                 //秒 
+            "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+            "S"  : this.getMilliseconds()             //毫秒 
+        }; 
+        if(/(y+)/.test(fmt)) {
+                fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+        }
+         for(var k in o) {
+            if(new RegExp("("+ k +")").test(fmt)){
+                 fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+             }
+         }
+        return fmt; 
+    }
     this.init();
   },
   computed: {},
@@ -150,9 +174,10 @@ export default {
             this.pageSize
         ) //模糊查询
         .then(function(response) {
-          console.log(response.data.list);
           self.totalData = response.data.total;
           self.formData = response.data.list;
+          console.log("aaaaaaaaaaaa")
+          console.log(self.formData)
           self.loading = false;
         })
         .catch(function(err) {
@@ -161,45 +186,72 @@ export default {
         });
     },
     handleDelay: function(index, row) {
-      this.delayForm.finishDate = row.finishDate;
+      this.delayForm.finishDate = JSON.parse(JSON.stringify(row.finishDate));
       this.nowRow = row;
       this.dialog2 = true;
     },
     handleDelayUp: function() {
       //this.nowRow.finishDate = this.delayForm.delayDate;
       var self = this;
-      axios
-        .post("/api/HEUPOMS/Order/RenewConfirm", this.nowRow) // 修改截止日期
-        .then(function(response) {
-          console.log(response);
-          self.$notify({
-            title: "成功",
-            message: "续订成功",
-            type: "success"
-          });
-          self.init();
-        })
-        .catch(function(err) {
-          self.$notify({
-            title: "失败",
-            message: "续订失败",
-            type: "error"
-          });
-          console.log(err);
-        });
-      this.dialog2 = false;
+      this.$refs["delayForm"].validate(valid => {
+        if (valid) {
+         axios
+         .post("/api/HEUPOMS/Order/RenewConfirm", this.nowRow) // 修改截止日期
+         .then(function(response) {
+           console.log(response);
+           self.$notify({
+             title: "成功",
+             message: "续订成功",
+             type: "success"
+           });
+           self.init();
+         })
+         .catch(function(err) {
+           self.$notify({
+             title: "失败",
+             message: "续订失败",
+             type: "error"
+           });
+           console.log(err);
+         });
+         this.dialog2 = false;
+        } else {
+          console.log("error submit!!");
+        }
+      });
+      // axios
+      //   .post("/api/HEUPOMS/Order/RenewConfirm", this.nowRow) // 修改截止日期
+      //   .then(function(response) {
+      //     console.log(response);
+      //     self.$notify({
+      //       title: "成功",
+      //       message: "续订成功",
+      //       type: "success"
+      //     });
+      //     self.init();
+      //   })
+      //   .catch(function(err) {
+      //     self.$notify({
+      //       title: "失败",
+      //       message: "续订失败",
+      //       type: "error"
+      //     });
+      //     console.log(err);
+      //   });
     },
     getDelayMoney: function() {
-      var day1 =this.delayForm.delayDate
-      var s1 = day1.getFullYear() + "-" + (day1.getMonth() + 1) + "-" + day1.getDate();//格式化
-      this.nowRow.finishDate = s1    
+      var lastDate = this.nowRow.finishDate
+      var oldTime = this.delayForm.delayDate.getTime();
+      var curTime = new Date(oldTime).format("yyyy-MM-dd");
+      this.nowRow.finishDate = curTime
       var self = this;
       console.log(this.nowRow)
       axios
         .post("/api/HEUPOMS/Order/Renew", this.nowRow)    // 截止日期的补交金额
         .then(function(response) {
           console.log(response);
-          self.delayForm.money=10;
+          self.delayForm.money=response.data;
+          self.nowRow.finishDate = lastDate
         })
         .catch(function(err) {
           console.log(err);
@@ -230,9 +282,9 @@ export default {
       self.loading = true;
       axios
         .get(
-          "/api/HEUPOMS/Order/" +
+          "/api/HEUPOMS/Order?param=" +
             this.input +
-            "?nowPage=" +
+            "&nowPage=" +
             this.nowPage +
             "&pageSize=" +
             this.pageSize

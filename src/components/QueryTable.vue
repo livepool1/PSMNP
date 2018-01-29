@@ -23,7 +23,7 @@
                     </el-form>
                 </template>
             </el-table-column>
-            <el-table-column v-for="item in headerDataa" :key="item.label" :label="item.label" :prop="item.prop">
+            <el-table-column v-for="item in headerData" :key="item.label" :label="item.label" :prop="item.prop">
             </el-table-column>
         </el-table>
 
@@ -41,36 +41,7 @@ export default {
   props: ["headerData", "allCol","service"],
   data() {
     return {
-      mainTableData: [
-        // {
-        //   orderNo: "1",
-        //   newspaperNo: "2",
-        //   consumerNo: "3",
-        //   empNo: "4",
-        //   handleDate: "1",
-        //   startDate: "2",
-        //   finishDate: "1",
-        //   totalPrice: "2",
-        //   remaining: "1",
-        //   paymentNo: "啊啊啊",
-        //   center: "1",
-        //   chargeNo: "2"
-        // },
-        // {
-        //   orderNo: "2",
-        //   newspaperNo: "2",
-        //   consumerNo: "2",
-        //   empNo: "2",
-        //   handleDate: "2",
-        //   startDate: "2",
-        //   finishDate: "2",
-        //   totalPrice: "2",
-        //   remaining: "2",
-        //   paymentNo: "2",
-        //   center: "2",
-        //   chargeNo: "2"
-        // }
-      ],
+      mainTableData: [],
       input: "",
       pageSize: 10,
       nowPage: 1,
@@ -79,7 +50,8 @@ export default {
     };
   },
   created() {
-    console.log(this.headerDataa);
+    console.log(this.headerData);
+    this.init()
   },
 
   methods: {
@@ -95,6 +67,7 @@ export default {
             this.pageSize
         ) //模糊查询
         .then(function(response) {
+          console.log("ddddddddddd")
           console.log(response.data.list);
           self.totalData = response.data.total;
           self.mainTableData = response.data.list;
