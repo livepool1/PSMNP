@@ -219,25 +219,6 @@ export default {
           console.log("error submit!!");
         }
       });
-      // axios
-      //   .post("/api/HEUPOMS/Order/RenewConfirm", this.nowRow) // 修改截止日期
-      //   .then(function(response) {
-      //     console.log(response);
-      //     self.$notify({
-      //       title: "成功",
-      //       message: "续订成功",
-      //       type: "success"
-      //     });
-      //     self.init();
-      //   })
-      //   .catch(function(err) {
-      //     self.$notify({
-      //       title: "失败",
-      //       message: "续订失败",
-      //       type: "error"
-      //     });
-      //     console.log(err);
-      //   });
     },
     getDelayMoney: function() {
       var lastDate = this.nowRow.finishDate

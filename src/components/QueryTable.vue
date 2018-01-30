@@ -18,7 +18,7 @@
                 <template slot-scope="props">
                     <el-form label-position="left" inline class="demo-table-expand">
                         <el-form-item v-for="item in allCola" :key="item.label" :label="item.label">
-                            <span>{{ props.row[item.prop] }}</span>
+                            <span>{{ setProp(props.row,item.prop) }}</span>
                         </el-form-item>
                     </el-form>
                 </template>
@@ -53,7 +53,6 @@ export default {
     console.log(this.headerData);
     this.init()
   },
-
   methods: {
     init() {
       var self = this
@@ -78,15 +77,23 @@ export default {
           self.loading = false;
         });
     },
+    setProp(row,index){
+      var s = index.split('.')
+      console.log(s)
+      s.forEach(element => {
+         row = row[element]
+      });
+      return row
+    },
     handleQuery() {
       var self = this;
       self.loading = true;
       axios
         .get(                                              //  模糊查询
           this.service +
-          "/" + 
+          "?param=" + 
             this.input +
-            "?nowPage=" +
+            "&nowPage=" +
             this.nowPage +
             "&pageSize=" +
             this.pageSize

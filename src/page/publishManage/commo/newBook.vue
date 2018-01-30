@@ -49,15 +49,18 @@
 
     <div v-show="pageV2" class="content">
       <el-form label-width="100px" :model="form2" ref="form2" :rules="rules2">
-        <el-form-item label="报刊编号" class="formItem">
-          <el-input v-model="formBook.no" :readonly="true">
+        <el-form-item label="报刊名" class="formItem">
+          <el-input v-model="formBook.bookName" :readonly="true">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="报刊类型" class="formItem">
+          <el-input v-model="formBook.type" :readonly="true">
           </el-input>
         </el-form-item>
         <el-form-item label="操作员编号" class="formItem">
           <el-input v-model="nowEmp" :readonly="true">
           </el-input>
         </el-form-item>
-
         <!-- nowOrder.consumer.consumerPhone = form2.phoneNum -->
         <el-form-item label="电话" class="formItem" prop="phoneNum">
           <el-input v-model.number="form2.phoneNum" @change="getOneByPhone">
@@ -173,7 +176,7 @@ export default {
       },
       rules1: {
         bookName: [{ required: true, message: "报刊名不能为空" }],
-        no: [{ required: true, message: "编号为空", trigger: "change" }]
+        no: [{ required: true, message: "报刊必须存在", trigger: "change" }]
       },
       form2: {
         consumerName: "",
@@ -200,10 +203,32 @@ export default {
         add: [{ required: true, message: "请输入详细地址", trigger: "blur" }],
         date: [
           {
-            // type: "date",
             required: true,
             message: "请选择时间",
             trigger: "blur"
+          },{
+            validator: (rule, value, callback) => {
+              var subDays=this.dateConfirm()
+              console.log(this.dateConfirm()); 
+              if (this.formBook.type=='月刊'&&subDays<31) {
+                callback(new Error('订购时间太短'));
+              }else if (this.formBook.type=='年刊'&&subDays<366) {
+                callback(new Error('订购时间太短'));
+              }else if (this.formBook.type=='半年刊'&&subDays<183) {
+                callback(new Error('订购时间太短'));
+              }else if (this.formBook.type=='周刊'&&subDays<7) {
+                callback(new Error('订购时间太短'));
+              }else if (this.formBook.type=='日刊'&&subDays<1) {
+                callback(new Error('订购时间太短'));
+              }else if (this.formBook.type=='季刊'&&subDays<92) {
+                callback(new Error('订购时间太短'));
+              }else if (this.formBook.type=='半月刊'&&subDays<16) {
+                callback(new Error('订购时间太短'));
+              }else {
+                callback();
+              }
+            },
+            trigger: 'blur'
           }
         ]
       },
@@ -287,7 +312,7 @@ export default {
     var s =  this.getCookie("session")
     this.nowEmp = s.substr(6,3);
     self.form2.vipType = "普通客户";
-   // self.nowCus.consumerType.consumerTypeName = "普通客户";
+   //self.nowCus.consumerType.consumerTypeName = "普通客户";
   },
   methods: {
     vvv() {
@@ -300,6 +325,14 @@ export default {
         day2.getFullYear() + "-" + (day2.getMonth() + 1) + "-" + day2.getDate();
       this.nowOrder.startDate = s1;
       this.nowOrder.finishDate = s2;
+    },
+    dateConfirm(){
+      this.form2.date;
+      var day1 = this.form2.date[0];
+      var day2 = this.form2.date[1];
+      var days = day2.getTime() - day1.getTime();
+      var time = parseInt(days / (1000 * 60 * 60 * 24));
+      return time
     },
     submitOrder() {
       var self = this;
@@ -420,7 +453,7 @@ export default {
                 self.nowStep = self.nowStep + 1;
               })
               .catch(function(err) {
-                self.$message.error("订购时间过短或服务器错误");
+                self.$message.error("服务器错误");
                 console.log(err);
               });
           } else {
@@ -469,6 +502,8 @@ export default {
     handleVIP() {
       this.form2.vipType = "会员用户";
       this.nowOrder.consumer.consumerType.consumerTypeNo = 3;  //consumer.consumerType.consumerTypeNo
+      this.nowCus.consumerType.consumerTypeNo = 3;
+      this.nowCus.consumerType.consumerTypeName = "会员用户";
       this.vipVisible = false;
     },
     becomeBig() {
@@ -477,7 +512,7 @@ export default {
         this.nowOrder.consumer.consumerType.consumerTypeNo = 2;
       } else {
         this.form2.vipType = this.nowCus.consumerType.consumerTypeName;
-        this.nowOrder.consumer.consumerType.consumerTypeNo = 1;
+        this.nowOrder.consumer.consumerType.consumerTypeNo = this.nowCus.consumerType.consumerTypeNo;
       }
     }
   }
