@@ -107,15 +107,10 @@ const publishConfig = {
     [
       { item: '反馈管理', index: '/2/watch/complaintHandle', id: 1 }
     ],
-    // [
-    //   {item:'收取通知',index:'/2/assis/collectInfor',id:1},
-    //   {item:'发送通知',index:'/2/assis/sendInfor',id:2}
-    // ],
     [
       { item: '统计查询', index: '/2/query/statisQuery', id: 1 },
       { item: '基础信息查询', index: '/2/query/basicInforQuery', id: 2 },
-      { item: '订户查询', index: '/2/query/subQuery', id: 3 },
-      { item: '日常业务查询', index: '/2/query/dailyBusinessQuery', id: 4 }
+      { item: '日常业务查询', index: '/2/query/dailyBusinessQuery', id: 3 }
     ],
   ]
 }
@@ -131,8 +126,8 @@ const customConfig = {
   todo: [
 
     [
-      { item: '反馈管理', index: '/3/watch/complaintManage', id: 1 }
-
+      { item: '反馈管理', index: '/3/watch/handler', id: 1 },
+      { item: '查看已下发反馈', index: '/3/watch/result', id: 2 }
     ],
     // [
     //   {item:'收取通知',index:'/3/assis/collectInfor',id:1},

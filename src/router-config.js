@@ -24,7 +24,7 @@ import publish from './page/publishManage/index.vue'
 import dept from './page/centerManage/dictionary/Dept.vue'
 import jobCategory from './page/centerManage/dictionary/Position.vue'
 import centerDict from './page/centerManage/dictionary/index.vue'
-import newspaper from './page/centerManage/dictionary/newspaper.vue'
+import newspaper from './page/centerManage/dictionary/Newspaper.vue'
 
 
 import centerHur from './page/centerManage/humanresources/index.vue'
@@ -40,8 +40,11 @@ import bookSubOrder from './page/publishManage/commo/bookSubOrder.vue'
 import complaintHandle from './page/publishManage/watch/complaintHandle.vue'
 //查询
 import statisQuery from './page/publishManage/query/statisQuery.vue'
+import basicInforQuery from './page/publishManage/query/basicInforQuery.vue'
+import dailyBusinessQuery from './page/publishManage/query/dailyBusinessQuery.vue'
 
 
+//根界面
 import login from './page/Login.vue'
 import mainview from './page/mainview.vue'
 
@@ -71,9 +74,9 @@ import newsInforQuery from './page/centerManage/query/newsInforQuery.vue'
 import subOrderQuery from './page/centerManage/query/subOrderQuery.vue'
 import newsOrderQuery from './page/centerManage/query/newsOrderQuery.vue'
 
-
+//客服系统
 import handler from './page/customManage/watch/handle.vue'
-
+import result from './page/customManage/watch/result.vue'
 import orderTermQuery from './page/customManage/query/orderTermQuery.vue'
 
 
@@ -95,15 +98,7 @@ import subInforManage from './page/publishManage/customer/subInforManage.vue'
 // // import newBook from './page/publishManage/commodity/newBook.vue'
 // import laterBook from './page/publishManage/commodity/laterBook.vue'
 // import change from './page/publishManage/commodity/change.vue'
-
-import handle from './page/publishManage/watch/handle.vue'
-
-
 // import statisQuery from './page/publishManage/query/statisQuery.vue'
-import basicInforQuery from './page/publishManage/query/basicInforQuery.vue'
-import subQuery from './page/publishManage/query/subQuery.vue'
-import dailyBusinessQuery from './page/publishManage/query/dailyBusinessQuery.vue'
-
 
 
 
@@ -232,9 +227,8 @@ export default [
             { path: 'query', component:publish,
               children:[
                 {path: 'statisQuery', component:statisQuery},
-            //     // {path: 'basicInforQuery', component:basicInforQuery},
-            //     // {path: 'subQuery', component:subQuery},
-            //     // {path: 'dailyBusinessQuery', component:dailyBusinessQuery},
+                {path: 'basicInforQuery', component:basicInforQuery},
+                {path: 'dailyBusinessQuery', component:dailyBusinessQuery},
               ]
             },
           ]
@@ -242,24 +236,24 @@ export default [
         },{
           path:'/3',component:custom,
           children:[
-            // { path: '' , component:customWatch},
-            // { path: 'watch', component:customWatch,
-            //   children:[
-            //     // {path: 'complaintHandle', component:complaintHandle},
-            //     // {path: 'praiseTreat', component:praiseTreat},
-            //     // {path: 'recomTreat', component:recomTreat},
-            //   ]},
+             { path: '' , component:custom},
+            { path: 'watch', component:custom,
+              children:[
+                 {path: 'handler', component:handler},
+                 {path: 'result', component:result}
+                // {path: 'praiseTreat', component:praiseTreat},
+                // {path: 'recomTreat', component:recomTreat},
+              ]},
             // { path: 'assis', component:customAssis,
             //   children:[
             //     // {path: 'collectInfor', component:collectInfor},
             //     // {path: 'sendInfor', component:sendInfor},
                 
             //   ]},
-            // { path: 'query', component:customQuery,
-            //   children:[
-            //     // {path: 'orderTermQuery', component:orderTermQuery},
-                
-            //   ]},
+            { path: 'query', component:custom,
+              children:[
+                 {path: 'orderTermQuery', component:orderTermQuery}
+              ]},
           ]
         },{
           path:'/4',component:leader,

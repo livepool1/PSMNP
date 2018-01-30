@@ -40,6 +40,7 @@
   <el-card :body-style="{ padding: '0px' }">
     <div slot="header" style = "height:15px">
       <span>From:</span>
+      <span style="position:absolute; right:50px; font-size:10pt">发送时间：2017-2-2</span>
     </div>
     <div style="font-size: 14px;margin-bottom: 18px;margin-left: 20px;margin-top: 18px;">
      '列表内容'
@@ -50,6 +51,7 @@
   <el-card :body-style="{ padding: '0px' }">
     <div slot="header" >
       <span>From:</span>
+      <span style="position:absolute; right:50px; font-size:10pt">发送时间：2017-2-2</span>
     </div>
     <div  style="font-size: 14px;margin-bottom: 18px;margin-left: 20px;margin-top: 18px;  ">
      '列表内容'
@@ -59,11 +61,11 @@
 </el-dialog>
 <!-- 发送通知 -->
 <el-dialog title="发送通知" :visible.sync="sendVisible">
-  <el-form model="sendForm" >
-    <el-form-item label="收件人">
+  <el-form :model="sendForm" ref="sendForm" :rules="sendFormRuls">
+    <el-form-item label="收件人" prop="to">
       <el-input v-model="sendForm.to"></el-input>
     </el-form-item>
-    <el-form-item label="消息内容">
+    <el-form-item label="消息内容" prop="desc">
       <el-input type="textarea" v-model="sendForm.desc"></el-input>
     </el-form-item>
     <el-form-item>
@@ -92,9 +94,9 @@
           <!-- 右侧主内容区 -->
           <div  class="main-right" >
             <transition name="fade">
-              <el-card>              <router-view class="view"></router-view></el-card>
-
-
+              <el-card>             
+                 <router-view class="view"></router-view>
+              </el-card>
             </transition>
           </div>
     </main>
@@ -125,6 +127,23 @@ export default {
         to:"",
         desc:""
       },
+      sendFormRuls:{
+        to:[{ required: true, message: "收信人不能为空" },
+        // { validator: (rule, value, callback) => {
+        //   console.log("ttttttttttt")
+        //   console.log(value)
+        //   console.log(this.delayForm.delayDate)
+        //   if (value === '') {
+        //     callback(new Error('请输入要延期到的日期'));
+        //   } else if (value <= this.delayForm.delayDate) {
+        //     callback(new Error('延期不能早于当前时间'));
+        //   } else {
+        //     callback();
+        //   }
+        // }, trigger: 'blur' }
+        ],
+        desc:[{ required: true, message: "消息不能为空" }]
+      },
       active:[
         false,
         false,
@@ -135,58 +154,10 @@ export default {
       headerFixed : true,
       a: "1",
       title: "",
-      route:[
-          {item:'啊啊啊',key:'1'},
-          {item:'啊啊啊',key:'2'},
-          {item:'啊啊啊',key:'3'},
-          {item:'啊啊啊',key:'4'}
-      ],
-      todo:[
-        {item:'郭勇良',index:'/1/dict',id:1},
-        {item:'李照鹏',index:'/1/hur',id:2}
-      ],
-      lzpSl:[
-        [
-          {item:'f',index:'as',id:1},
-          {item:'a',index:'asd',id:2}
-        ],
-        [
-          {item:'a',index:'as',id:1},
-          {item:'a',index:'asd',id:2}
-        ],
-        [
-          {item:'d',index:'as',id:1},
-          {item:'a',index:'asd',id:2}
-        ],
-        [
-          {item:'f',index:'as',id:1},
-          {item:'a',index:'asd',id:2}
-        ],
-        [
-          {item:'g',index:'as',id:1},
-          {item:'a',index:'asd',id:2}
-        ]
-      ],
-      lzpSl2:[
-          [
-              {item:'aaa',key:'1'},
-              {item:'aaa',key:'2'},
-              {item:'aaa',key:'3'},
-              {item:'aaa',key:'4'}
-          ],
-          [
-              {item:'哦哦哦',key:'1'},
-              {item:'哦哦哦',key:'2'},
-              {item:'哦哦哦',key:'3'},
-              {item:'哦哦哦',key:'4'}
-          ],
-          [
-              {item:'呃呃呃',key:'1'},
-              {item:'呃呃呃',key:'2'},
-              {item:'呃呃呃',key:'3'},
-              {item:'呃呃呃',key:'4'}
-          ]
-      ]
+      route:[],
+      todo:[],
+      lzpSl:[],
+      lzpSl2:[]
     }
   },
 
@@ -277,7 +248,27 @@ export default {
   },
   methods: {
     sendSubmit(){
-      console.log(this.sendForm);
+      this.$refs["sendForm"].validate(valid => {
+        if (valid) {
+          var self = this
+          axios
+          .post("/api/HEUPOMS/Order/Add",self.sendForm)       //发送通知
+          .then(function(response) {
+            console.log(response);
+                //发送
+                self.$message({
+                  message: "发送成功",
+                  type: "success"
+                });
+          })
+          .catch(function(err) {
+            self.$message.error("连接服务器失败");
+            console.log(err);
+          });
+        } else {
+          console.log("error submit!!");
+        }
+      });
     },
     handleSelect(key, keyPath) {
       console.log(key);

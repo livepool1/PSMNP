@@ -1,8 +1,9 @@
 <template>
-<div>  <p>bbbbb</p>
-  <echarts_pie :options=this.option></echarts_pie></div>
-
-
+<div>  
+  <p>bbbbb</p>
+  <echarts_pie :options=this.option> </echarts_pie>
+  
+  </div>
 </template>
 
 <script>

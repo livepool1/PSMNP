@@ -22,8 +22,6 @@
 </template>
 
 <script>
-import ctable from "../../CustomTable.vue";
-
 export default {
   data() {
     return {

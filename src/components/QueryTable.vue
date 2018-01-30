@@ -18,12 +18,12 @@
                 <template slot-scope="props">
                     <el-form label-position="left" inline class="demo-table-expand">
                         <el-form-item v-for="item in allCola" :key="item.label" :label="item.label">
-                            <span>{{ props.row[item.prop] }}</span>
+                            <span>{{ setProp(props.row,item.prop) }}</span>
                         </el-form-item>
                     </el-form>
                 </template>
             </el-table-column>
-            <el-table-column v-for="item in headerDataa" :key="item.label" :label="item.label" :prop="item.prop">
+            <el-table-column v-for="item in headerData" :key="item.label" :label="item.label" :prop="item.prop">
             </el-table-column>
         </el-table>
 
@@ -41,36 +41,7 @@ export default {
   props: ["headerData", "allCol","service"],
   data() {
     return {
-      mainTableData: [
-        // {
-        //   orderNo: "1",
-        //   newspaperNo: "2",
-        //   consumerNo: "3",
-        //   empNo: "4",
-        //   handleDate: "1",
-        //   startDate: "2",
-        //   finishDate: "1",
-        //   totalPrice: "2",
-        //   remaining: "1",
-        //   paymentNo: "啊啊啊",
-        //   center: "1",
-        //   chargeNo: "2"
-        // },
-        // {
-        //   orderNo: "2",
-        //   newspaperNo: "2",
-        //   consumerNo: "2",
-        //   empNo: "2",
-        //   handleDate: "2",
-        //   startDate: "2",
-        //   finishDate: "2",
-        //   totalPrice: "2",
-        //   remaining: "2",
-        //   paymentNo: "2",
-        //   center: "2",
-        //   chargeNo: "2"
-        // }
-      ],
+      mainTableData: [],
       input: "",
       pageSize: 10,
       nowPage: 1,
@@ -79,9 +50,9 @@ export default {
     };
   },
   created() {
-    console.log(this.headerDataa);
+    console.log(this.headerData);
+    this.init()
   },
-
   methods: {
     init() {
       var self = this
@@ -95,6 +66,7 @@ export default {
             this.pageSize
         ) //模糊查询
         .then(function(response) {
+          console.log("ddddddddddd")
           console.log(response.data.list);
           self.totalData = response.data.total;
           self.mainTableData = response.data.list;
@@ -105,15 +77,23 @@ export default {
           self.loading = false;
         });
     },
+    setProp(row,index){
+      var s = index.split('.')
+      console.log(s)
+      s.forEach(element => {
+         row = row[element]
+      });
+      return row
+    },
     handleQuery() {
       var self = this;
       self.loading = true;
       axios
         .get(                                              //  模糊查询
           this.service +
-          "/" + 
+          "?param=" + 
             this.input +
-            "?nowPage=" +
+            "&nowPage=" +
             this.nowPage +
             "&pageSize=" +
             this.pageSize
