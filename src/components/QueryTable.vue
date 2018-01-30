@@ -17,7 +17,7 @@
             <el-table-column type="expand">
                 <template slot-scope="props">
                     <el-form label-position="left" inline class="demo-table-expand">
-                        <el-form-item v-for="item in allCola" :key="item.label" :label="item.label">
+                        <el-form-item v-for="item in allCol" :key="item.label" :label="item.label">
                             <span>{{ setProp(props.row,item.prop) }}</span>
                         </el-form-item>
                     </el-form>
@@ -52,6 +52,12 @@ export default {
   created() {
     console.log(this.headerData);
     this.init()
+  },
+  watch:{
+    service : function() {
+      this.init()
+      console.log(this.allCol)
+    }
   },
   methods: {
     init() {
@@ -101,7 +107,7 @@ export default {
         .then(function(response) {
           console.log(response.data.list);
           self.totalData = response.data.total;
-          self.formData = response.data.list;
+          self.mainTableData = response.data.list;
           self.loading = false;
         })
         .catch(function(err) {
