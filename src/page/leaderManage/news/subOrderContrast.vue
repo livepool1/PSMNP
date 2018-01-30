@@ -19,10 +19,7 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import axios from 'axios'
-=======
->>>>>>> 9f28d41cc7c0ed7e35d0adbd18b58d86be03053d
 export default {
   name:'job',
   data  :function() {

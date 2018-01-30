@@ -65,7 +65,6 @@ const isLo = true;
 //   //   });
 //   // }
 
-<<<<<<< HEAD
   console.log();function shouldgo() {
     var self = this
     if(getCookie("session").substring(0,2) == '01') {
@@ -108,28 +107,6 @@ const isLo = true;
     next()
     document.cookie =  "role=" + shouldgo() +";";
   }
-=======
-//   console.log();
-//   if( to.path != "/login") {
-//     if ( getCookie("session") == null) {
-//       console.log("无cookie")
-//       // open();
-//       next('/login')
-//     } else {
-//       if(getCookie("session")[0] != to.path[1]) {
-//         console.log("越权访问！")
-//         next("/" + getCookie("session")[0])
-//         // router.push("/" + getCookie("session")[0])    
-//       } else {
-//         console.log("成功")
-//         next()
-//         // router.push("/login");
-//       }
-//     }
-//   } else {
-//     next()
-//   }
->>>>>>> 9f28d41cc7c0ed7e35d0adbd18b58d86be03053d
   
 //   // if(getCookie("session")[0] != to.path[1]) {
 //   //     console.log("越权访问！")
