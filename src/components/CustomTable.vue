@@ -355,12 +355,15 @@ export default {
       // this.form[arr] = value;
     },
     updateAnd: function (text, obj, value, init, time) {
-      var self = this
+      var self = this;var x
       time ++;
+      console.log("当前对象")
+      console.log(obj)
         if(text in obj) {
           if( !(text in this.qt) ) {             
             obj[text] = value;
             console.log("普通赋值")
+            console.log("当前对象" + obj)
             return
             
           } else {
@@ -383,8 +386,14 @@ export default {
 
             
         }
-        for( var x in obj) {
-            if(typeof obj[x] == "object") {
+        for( x in obj) {
+          console.log("该对象")
+          console.log(x)
+          console.log("正在查询")
+          console.log(obj[x])
+            if(typeof obj[x] == "object" && obj[x] != null) {
+              console.log("将要进入")
+              console.log(obj[x])
                 self.updateAnd(text, obj[x], value, init,time)
             }
             this.qt[text] = true;

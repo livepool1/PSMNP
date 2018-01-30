@@ -100,6 +100,31 @@ export default {
       resizeCharts()
       let mainChart = echarts.init(myChart)
       mainChart.setOption(this.option)
+  },
+  watch: {
+      options: {
+          handler(newVal,oldVal) {
+        //   this.option = options
+        //   console.log(this.option)
+        this.option = newVal
+        console.log("出发了更新")
+
+        let chartBox = document.getElementsByClassName('charts')[0]
+        let myChart = document.getElementById('myChart')
+        // 用于使chart自适应高度和宽度,通过窗体高宽计算容器高宽
+        function resizeCharts () {
+          myChart.style.width = chartBox.offsetWidth + 'px'
+          myChart.style.height = '400px'
+          console.log(chartBox.offsetWidth)
+          console.log("judge")
+        }
+        // 设置容器高宽
+        resizeCharts()
+        let mainChart = echarts.init(myChart)
+        mainChart.setOption(this.option)
+      },
+      deep:true
+      }
   }
 }
 </script>

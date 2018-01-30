@@ -152,17 +152,17 @@ export default [
                 {path: 'jobCategory', component:jobCategory},
                 {path: 'newspaper', component:newspaper},
                 {path: 'transferUnit', component:transferUnit},
-                // {path: 'region', component:region},
-                // {path: 'changeReason', component:changeReason},
-                // {path: 'stateMaintenance', component:stateMaintenance},
-                // {path: 'officeInfor', component:officeInfor},
+                {path: 'region', component:region},
+                {path: 'changeReason', component:changeReason},
+                {path: 'stateMaintenance', component:stateMaintenance},
+                {path: 'officeInfor', component:officeInfor},
               ]},
-            // { path: 'hur', component:centerHur,
-            //   children:[
-            //     // {path: 'empInfor', component:empInfor},
-            //     // {path: 'empPosition', component:empPosition},
+            { path: 'hur', component:center,
+              children:[
+                {path: 'empInfor', component:empInfor},
+                {path: 'empPosition', component:empPosition},
                 
-            //   ]},
+              ]},
             // { path: 'news', component:centerNews,
             //   children:[
             //     // {path: 'newsCode', component:newsCode},

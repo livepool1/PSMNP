@@ -22,6 +22,28 @@ const router = new VueRouter({
   routes: routeConfig
 })
 
+Date.prototype.format = function(fmt) { 
+  var o = { 
+     "M+" : this.getMonth()+1,                 //月份 
+     "d+" : this.getDate(),                    //日 
+     "h+" : this.getHours(),                   //小时 
+     "m+" : this.getMinutes(),                 //分 
+     "s+" : this.getSeconds(),                 //秒 
+     "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+     "S"  : this.getMilliseconds()             //毫秒 
+ }; 
+ if(/(y+)/.test(fmt)) {
+         fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+ }
+  for(var k in o) {
+     if(new RegExp("("+ k +")").test(fmt)){
+          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+      }
+  }
+ return fmt; 
+}
+
+
 const isLo = true;
 
 router.beforeEach((to, from, next) => {
@@ -43,16 +65,37 @@ router.beforeEach((to, from, next) => {
   //   });
   // }
 
-  console.log();
+  console.log();function shouldgo() {
+    var self = this
+    if(getCookie("session").substring(0,2) == '01') {
+          return getCookie("session")[3]
+          console.log("oo")
+    } else {
+          return 2
+          console.log("aa")
+    }
+  }
   if( to.path != "/login") {
     if ( getCookie("session") == null) {
       console.log("无cookie")
       // open();
       next('/login')
     } else {
-      if(getCookie("session")[0] != to.path[1]) {
+      if(shouldgo() != to.path[1]) {
+        console.log(shouldgo())
         console.log("越权访问！")
-        next("/" + getCookie("session")[0])
+        // alert("!")
+        // self.$message({
+        //   message: '登陆成功',
+        //   type: 'success'
+        // });
+        next( vm => {
+          vm.$message({
+            message: 'aaa',
+            type: 'success'
+          });
+        })
+        next("/" + shouldgo())
         // router.push("/" + getCookie("session")[0])    
       } else {
         console.log("成功")
@@ -62,6 +105,7 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     next()
+    document.cookie =  "role=" + shouldgo() +";";
   }
   
   // if(getCookie("session")[0] != to.path[1]) {

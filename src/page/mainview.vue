@@ -227,6 +227,8 @@ export default {
 
       console.log("重新渲染钩子");
       console.log(this.$route.path)
+
+      window.vue = this
     })
   },
 
@@ -308,6 +310,7 @@ export default {
     out: function(){
       this.delCookie("session");
       this.router;
+      vue.$router.push("/login")
     }
   },
   watch: {
