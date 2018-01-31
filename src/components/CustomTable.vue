@@ -47,7 +47,7 @@
       </div>
     </el-dialog>
 
-    <el-table :data="tableData" style="width: 100%" @cell-click="handleSelect" @selection-change="selectionchange">
+    <el-table cell-class-name="hhhighTable" :data="tableData" style="width: 100%" @cell-click="handleSelect" @selection-change="selectionchange">
       <el-table-column type="selection" width="50"></el-table-column>
 
       <template id="allData">
@@ -73,6 +73,8 @@
 
 <script>
 import axios from "axios";
+import $ from "jquery";
+import "jquery";
 
 export default {
   name: "ctable",
@@ -102,36 +104,38 @@ export default {
       totalData: 1000,
       loading: true,
       arJson: [],
-      qt: {}
+      qt: {},
+      lastkey:''
     };
   },
   created: function() {
     this.init();
-    console.log("当前表格",this.aform)
-  },watch : {
+    console.log("当前表格", this.aform);
+  },
+  watch: {
     dialogFormVisible: function(oldVal, newVal) {
-      if(newVal) {
-        
-      this.form = JSON.parse(JSON.stringify(this.aform));
-      this.formWindow = JSON.parse(JSON.stringify(this.aformWindow));
+      if (newVal) {
+        this.form = JSON.parse(JSON.stringify(this.aform));
+        this.formWindow = JSON.parse(JSON.stringify(this.aformWindow));
 
-      console.log(this.aform)
-      console.log(this.aformWindow)
+        console.log(this.aform);
+        console.log(this.aformWindow);
 
-      console.log("已重置")
+        console.log("已重置");
       } else {
-        for( var x in this.formWindow.col) {
-          console.log("啊")
-          this.updateAnd(this.formWindow.col[x].name,
-          this.form,
-          this.formWindow.col[x].value,
-          0);
+        for (var x in this.formWindow.col) {
+          console.log("啊");
+          this.updateAnd(
+            this.formWindow.col[x].name,
+            this.form,
+            this.formWindow.col[x].value,
+            0
+          );
         }
-        console.log(this.form)
-        console.log(this.formWindow)
-        console.log("啊啊啊")
+        console.log(this.form);
+        console.log(this.formWindow);
+        console.log("啊啊啊");
       }
-
     }
   },
   methods: {
@@ -270,7 +274,7 @@ export default {
         row.$selected = !row.$selected;
         row.$info = row.$selected;
       }
-              this.arJson =[];
+      this.arJson = [];
     },
     selectionchange: function(val) {
       var arr = [];
@@ -340,6 +344,7 @@ export default {
           self.totalData = tem["total"];
           self.tableData = tem["list"];
           console.log(response.list);
+          self.makeTableHighLight();
           self.loading = false;
         })
         .catch(function(err) {
@@ -348,105 +353,121 @@ export default {
           self.loading = false;
         });
     },
+    makeTableHighLight: function() {
+      var key = this.input;
+      // var lkey = this.lastkey
+      // $(".cell:contains('" + lkey + "')").html(function() {
+      //   return $(this)
+      //     .text()
+      //     .replace('<font color="red">' + lkey + "</font>",lkey);
+      // });
+      $(".cell:contains('" + key + "')").html(function() {
+        return $(this)
+          .text()
+          .replace(key, '<font color="red">' + key + "</font>");
+      });
+      // this.lastkey = key
+      
+      // $(".cell").each(function(){  
+      //     var xx=$(this).html();  
+      //     $(this).replaceWith(xx);  
+      // })  
+    },
     doSomethingElse: function(arr, value) {
       // this.form[arr] = value;
       // console.log("现在写入的是", value);
       this.updateAnd(arr, this.form, value, null, 0);
       // this.form[arr] = value;
     },
-    updateAnd: function (text, obj, value, init, time) {
-      var self = this;var x
-      time ++;
-      console.log("当前对象")
-      console.log(obj)
-        if(text in obj) {
-          if( !(text in this.qt) ) {             
+    updateAnd: function(text, obj, value, init, time) {
+      var self = this;
+      var x;
+      time++;
+      console.log("当前对象");
+      console.log(obj);
+      if (text in obj) {
+        if (!(text in this.qt)) {
+          obj[text] = value;
+          console.log("普通赋值");
+          console.log("当前对象" + obj);
+          return;
+        } else {
+          if (time != 1) {
             obj[text] = value;
-            console.log("普通赋值")
-            console.log("当前对象" + obj)
-            return
-            
-          } else {
-            if( time != 1) {
-              obj[text] = value;
-              this.form[text] = value;
-              this.qt[text] = true
-              console.log("递归赋值")
-              return
-            } else {
-              console.log("平级")
-            }
-          }
-            // obj[text] = value;
-
-            // if(init == null) {
-            //   this.form[text] = value;
-            //   console.log("非初始化")
-            // }
-
-            
-        }
-        for( x in obj) {
-          console.log("该对象")
-          console.log(x)
-          console.log("正在查询")
-          console.log(obj[x])
-            if(typeof obj[x] == "object" && obj[x] != null) {
-              console.log("将要进入")
-              console.log(obj[x])
-                self.updateAnd(text, obj[x], value, init,time)
-            }
+            this.form[text] = value;
             this.qt[text] = true;
-            // console.log("递归")
-
+            console.log("递归赋值");
+            return;
+          } else {
+            console.log("平级");
+          }
         }
+        // obj[text] = value;
 
-        console.log(obj, "hahaha");
+        // if(init == null) {
+        //   this.form[text] = value;
+        //   console.log("非初始化")
+        // }
+      }
+      for (x in obj) {
+        console.log("该对象");
+        console.log(x);
+        console.log("正在查询");
+        console.log(obj[x]);
+        if (typeof obj[x] == "object" && obj[x] != null) {
+          console.log("将要进入");
+          console.log(obj[x]);
+          self.updateAnd(text, obj[x], value, init, time);
+        }
+        this.qt[text] = true;
+        // console.log("递归")
       }
 
+      console.log(obj, "hahaha");
     }
-    // updateAnd: function (text, obj, value, init, time) {
-    //   var self = this
-    //   time ++;
-    //   // if(text in qt)
-    //     if(text in obj) {
-    //       if( !(text in this.qt) ) {
-    //         // delete this.form["text"]
-    //         obj[text] = value;
-    //         // this.form[text] = value;
-    //         console.log("赋值")
-    //       } else {
-    //         if( time != 0) {
-    //           obj[text] = value;
-    //                       this.form[text] = value;
-    //           console.log("赋值")
-    //         } else {
-    //           console.log("平级")
-    //         }
-    //       }
-    //         // obj[text] = value;
-            
-    //         if(init == null) {
-    //           this.form[text] = value;
-    //           console.log("非初始化")
-    //         }
-
-    //         return
-    //     }
-    //     for( var x in obj) {
-    //         if(typeof obj[x] == "object") {
-    //             self.updateAnd(text, obj[x], value, init)
-    //         }
-    //         this.qt["text"] = true;
-    //         console.log("递归")
-        
-    //     }
-        
-    //     console.log(obj, "hahaha");
-    //   }
-      
-    // }
   }
+  // updateAnd: function (text, obj, value, init, time) {
+  //   var self = this
+  //   time ++;
+  //   // if(text in qt)
+  //     if(text in obj) {
+  //       if( !(text in this.qt) ) {
+  //         // delete this.form["text"]
+  //         obj[text] = value;
+  //         // this.form[text] = value;
+  //         console.log("赋值")
+  //       } else {
+  //         if( time != 0) {
+  //           obj[text] = value;
+  //                       this.form[text] = value;
+  //           console.log("赋值")
+  //         } else {
+  //           console.log("平级")
+  //         }
+  //       }
+  //         // obj[text] = value;
+
+  //         if(init == null) {
+  //           this.form[text] = value;
+  //           console.log("非初始化")
+  //         }
+
+  //         return
+  //     }
+  //     for( var x in obj) {
+  //         if(typeof obj[x] == "object") {
+  //             self.updateAnd(text, obj[x], value, init)
+  //         }
+  //         this.qt["text"] = true;
+  //         console.log("递归")
+
+  //     }
+
+  //     console.log(obj, "hahaha");
+  //   }
+
+  // }
+};
 </script>
 <style>
 
