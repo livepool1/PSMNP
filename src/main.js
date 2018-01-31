@@ -46,7 +46,7 @@ Date.prototype.format = function(fmt) {
 
 const isLo = true;
 
-router.beforeEach((to, from, next) => {
+// router.beforeEach((to, from, next) => {
 
 // //   // console.log(getCookie("session")[0])
 // //   // console.log(to.path[1])
@@ -116,7 +116,7 @@ router.beforeEach((to, from, next) => {
 // //   //     router.push("/login");
 // //   //   }
 
-})
+// })
 
 Vue.component('ctable', ctable)
 Vue.component('supervise', supervise)

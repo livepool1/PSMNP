@@ -69,16 +69,18 @@ export default {
       distributionNo: ""
     };
   },
-  method: {
+  methods: {
     getCookie(name) {
       var arr,
         reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
       return (arr = document.cookie.match(reg)) ? unescape(arr[2]) : null;
     },
     init() {
+      var self = this
       var s = self.getCookie("session");
       var distributionNo = s.substr(0, 2);
       this.distributionNo = distributionNo;
+      this.distributionNo = "";
     }
   }
 };

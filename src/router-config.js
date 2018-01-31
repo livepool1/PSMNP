@@ -174,12 +174,12 @@ export default [
             //     // {path: 'sendInfor', component:sendInfor},
                 
             //   ]},
-            // { path: 'query', component:centerQuery,
-            //   children:[
-            //     // {path: 'newsInforQuery', component:newsInforQuery},
-            //     // {path: 'subOrderQuery', component:subOrderQuery},
-            //     // {path: 'newsOrderQuery', component:newsOrderQuery},
-            //   ]},
+            { path: 'query', component:center,
+              children:[
+                {path: 'newsInforQuery', component:newsInforQuery},
+                {path: 'subOrderQuery', component:subOrderQuery},
+                {path: 'newsOrderQuery', component:newsOrderQuery},
+              ]},
           ]
         },{
           path:'/2',component:publish,

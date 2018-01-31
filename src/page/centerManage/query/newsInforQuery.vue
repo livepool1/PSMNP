@@ -1,71 +1,39 @@
 <template>
-  <ctable :formRuls="ruls" :aformWindow='addWindows' :aform="allCol" :headerData="headerData" server="/api/HEUPOMS/Newspaper" :tableName="tableName"></ctable>
+  <div>
+    <queryTable :headerData="headerData" :allCol="allCol" :service="service"></queryTable>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "d_dept",
-data: function() {
-   return {
-     tableName:"职务管理",
-     ruls:{
-       newspaperNo:[ { required: true, message: '请输入职务编号', trigger: 'blur' }],
-       positionName:[ { required: true, message: '请输入职务姓名', trigger: 'blur' }],
-       baseSalary:[ { required: true, message: '请输入基础工资', trigger: 'blur' }],
-       deptNo:[ { required: true, message: '请输入发行站编号', trigger: 'blur' }],
-       deptName:[ { required: true, message: '请输入部门编号', trigger: 'blur' }]
-     },
-     addWindows:{
-       col: [
-       {label:'职务编号' ,name:'positionNo',value:'',type:''},
-       {label:'职务姓名' ,name:'positionName',value:'',type:''},
-       {label:'基础工资' ,name:'baseSalary',value:'',type:''},
-       {label:'发行站编号' ,name:'deptNo',value:'',type:''},
-       {label:'部门编号' ,name:'deptName',value:'',type:''}]
-     },
-     allCol:{
-         newspaperNo: '',
-         newspaperType: {
-             newspaperTypeNo: '',
-             newspaperTypeName: '',
-             newspaperTypeRemark: null
-         },
-         newspaperName: '',
-         newsUnit: {
-             newsUnitNo: '',
-             newsUnitName: '',
-             loc: null,
-             newsUnitPersonName: null,
-             newsUnitPersonContact: null
-         },
-         unsubscribeFlag: '',
-         transferFlag: '',
-         price: '',
-         issue: {
-             issueNo: '',
-             issueName: '',
-             dayModulus: '',
-             weekModulus: '',
-             halfMonthModulus: '',
-             monthModulus: '',
-             seasonModulus: '',
-             halfYearModulus: '',
-             yearModulus: ''
-         },
-         issueRate: '',
-         initDate: ''
-     },
-     headerData: [
-       { name: "positionNo", dataIndex: "职务编号" },
-       { name: "positionName", dataIndex: "职务姓名" },
-       { name: "baseSalary", dataIndex: "基础工资" },
-       { name: "dept.deptNo", dataIndex: "发行站编号" },
-       { name: "dept.deptName", dataIndex: "部门编号" }
-     ]
-   };
-},
+  name: "statisQuery",
+  watch: {
+  },
+  data: function() {
+    return {
+      headerData: [
+        { prop: "newspaperType.newspaperTypeName", label: "报刊类型名称" },
+        { prop: "newspaperName", label: "报刊名称" },
+        { prop: "newsUnit.newsUnitName", label: "报社名称" },
+        { prop: "issue.issueName", label: "刊期名称" },
+        { prop: "issueRate", label: "发行率" },
+        { prop: "initDate", label: "创刊日期" }
+      ],
+      allCol: [
+        { prop: "issue.dayModulus", label: "日折扣" },
+        { prop: "issue.weekModulus", label: "周折扣" },
+        { prop: "issue.halfMonthModulus", label: "半月折扣" },
+        { prop: "issue.monthModulus", label: "月折扣" },
+        { prop: "issue.seasonModulus", label: "季度折扣" },
+        { prop: "issue.halfYearModulus", label: "半年折扣" },
+        { prop: "issue.yearModulus", label: "年折扣" }
+      ],
+      service: "/api/HEUPOMS/Newspaper"
+    };
+  }
 };
 </script>
 
 <style>
+
 </style>
