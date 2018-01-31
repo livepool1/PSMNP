@@ -34,18 +34,18 @@ data: function() {
              positionNo: "",
              positionName: "",
              baseSalary: "",
-            //  dept: {
-            //      deptNo: "",
-            //      deptName: ""
-            //  }
+             dept: {
+                 deptNo: "",
+                 deptName: ""
+             }
+         },
+         distribution: {
+             distributionNo: "",
+             distributionName: "",
+             loc: null,
+             distributionPersonName: null,
+             distributionPersonContact: null
          }
-        //  distribution: {
-        //      distributionNo: "",
-        //      distributionName: "",
-        //      loc: null,
-        //      distributionPersonName: null,
-        //      distributionPersonContact: null
-        //  }
      },
      headerData: [
        { name: "empNo", dataIndex: "员工编号" },

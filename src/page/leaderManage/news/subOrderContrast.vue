@@ -1,17 +1,22 @@
 <template>
-<div>  <p>bbbbb</p>
+<div>  
+  <!-- <p>bbbbb</p> -->
+  <h3>订阅订购对比分析</h3>
 <div class="block">
-  <span class="demonstration">请选择时间</span>
+  <!-- <span class="demonstration">请选择时间</span> -->
   <el-date-picker
     v-model="value3"
     type="datetimerange"
     range-separator="至"
     start-placeholder="开始日期"
     end-placeholder="结束日期">
-  </el-date-picker>{{value3}}{{startTime}}
+  </el-date-picker>
+  <el-button :class = "{ 'el-button--primary' : active }" @click="will(1)">数量</el-button>
+  <el-button :class = "{ 'el-button--primary' : !active }" @click="will(2)">营业额</el-button>
+  <!-- {{value3}}{{startTime}} -->
 </div>
 
-<el-button @click="will">aaa</el-button>
+
 
   <echarts_pie :options="option"></echarts_pie></div>
 
@@ -25,11 +30,13 @@ export default {
   data  :function() {
     return {
       value3:[],
+      active: true,
+      data:[[],[],[]],
       option : {
 
           title : {
-              text: '同名数量统计',
-              subtext: '纯属虚构',
+              // text: '同名数量统计',
+              // subtext: '纯属虚构',
               x:'center'
           },
           tooltip : {
@@ -67,14 +74,21 @@ export default {
     }
   },
   methods : {
-    will() {
-      var haha = this.option.series[0].data
-      this.option.series[0].data.push(
-        {
-          name : "haha",
-          value : 500
-        }
-      )
+    will(value) {
+      if( value == 1 ) {
+        this.active = true
+        this.option.series[0].data = this.data[1]
+      } else {
+        this.active = false
+        this.option.series[0].data = this.data[2]
+      }
+      // var haha = this.option.series[0].data
+      // this.option.series[0].data.push(
+      //   {
+      //     name : "haha",
+      //     value : 500
+      //   }
+      // )  
 
       console.log(this.option.series[0].data)
     }
@@ -100,12 +114,18 @@ export default {
       .get("/api/HEUPOMS/Statistics/Distribution"
       ,{params : opt})
       .then(
-        function(reponse) {
+        function(reponse) {self.data[1] = [];self.data[
+          2
+        ] = []
           for ( var x in reponse.data ) {
                       var data = {}
           data.name = reponse.data[x].statisticsName
           data.value = reponse.data[x].count
           self.option.series[0].data.push(data)
+          
+          self.data[1].push(data);data = JSON.parse( JSON.stringify(data) )
+          data.value = reponse.data[x].sum
+          self.data[2].push(data)
           }
           console.log(reponse)
           console.log(self.option.series[0].data)

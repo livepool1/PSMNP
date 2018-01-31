@@ -1,50 +1,37 @@
 <template>
-
-  <el-table
-    :data="tableData"
-    style="width: 100%">
-    <el-table-column
-      prop="date"
-      label="日期"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="address"
-      label="地址">
-    </el-table-column>
-  </el-table>
-
+  <ctable :formRuls="ruls" :aformWindow='addWindows' :aform="allCol" :headerData="headerData" server="/api/HEUPOMS/NewspaperType" :tableName="tableName"></ctable>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
-    }
-  }
+  name: "d_dept",
+data: function() {
+   return {
+     tableName:"报刊类别设置",
+     ruls:{
+       newspaperTypeNo:[ { required: true, message: '请输入报刊类别编号', trigger: 'blur' }],
+       newspaperTypeName:[ { required: true, message: '请输入报刊类别名称', trigger: 'blur' }],
+       newspaperTypeRemark:[ { required: false, message: '请输入报刊类别备注', trigger: 'blur' }],
+     },
+     addWindows:{
+       col: [
+       {label:'报刊类别编号' ,name:'newspaperTypeNo',value:'',type:''},
+       {label:'报刊类别名称' ,name:'newspaperTypeName',value:'',type:''},
+       {label:'报刊类别备注' ,name:'newspaperTypeRemark',value:'',type:''}]
+     },
+     allCol:{
+         newspaperTypeNo: "",
+         newspaperTypeName: "",
+         newspaperTypeRemark: null
+     },
+     headerData: [
+       { name: "newspaperTypeNo", dataIndex: "报刊类别编号" },
+       { name: "newspaperTypeName", dataIndex: "报刊类别名称" },
+       { name: "newspaperTypeRemark", dataIndex: "报刊类别备注" }
+     ]
+   };
 }
+};
 </script>
 
 <style>

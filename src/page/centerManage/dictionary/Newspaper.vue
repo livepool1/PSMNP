@@ -38,7 +38,7 @@ data: function() {
      headerData: [
        { name: "newsUnitNo", dataIndex: "报社编号" },
        { name: "newsUnitName", dataIndex: "报社名称" },
-       { name: "loc.locNo", dataIndex: "报社位置编码" },
+       { name: "loc.locName", dataIndex: "报社位置编码" },
        { name: "newsUnitPersonName", dataIndex: "报社负责人" },
        { name: "newsUnitPersonContact", dataIndex: "负责人联系方式" }
      ]

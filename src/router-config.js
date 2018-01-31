@@ -158,16 +158,16 @@ export default [
                 {path: 'empPosition', component:empPosition},
                 
               ]},
-            // { path: 'news', component:centerNews,
-            //   children:[
-            //     // {path: 'newsCode', component:newsCode},
-            //     // {path: 'newsAttribute', component:newsAttribute},
-            //     // {path: 'frequency', component:frequency},
-            //     // {path: 'lssuingRate', component:lssuingRate},
-            //     // {path: 'newsBasicPricing', component:newsBasicPricing},
-            //     // {path: 'newsDiscount', component:newsDiscount},
+            { path: 'news', component:center,
+              children:[
+                {path: 'newsCode', component:newsCode},
+                {path: 'newsAttribute', component:newsAttribute},
+                {path: 'frequency', component:frequency},
+                {path: 'lssuingRate', component:lssuingRate},
+                {path: 'newsBasicPricing', component:newsBasicPricing},
+                {path: 'newsDiscount', component:newsDiscount},
                 
-            //   ]},
+              ]},
             // { path: 'assis', component:centerAssis,
             //   children:[
             //     // {path: 'collectInfor', component:collectInfor},
@@ -267,17 +267,17 @@ export default [
                 {path: 'subOrderContrast', component:subOrderContrast},
                 {path: 'subMoneyStation', component:subMoneyStation},
               ]},
-            // { path: 'sub', component:leaderSub,
-            //   children:[
-            //     // {path: 'subPeriod', component:subPeriod},
-            //     // {path: 'subCharacter', component:subCharacter},
+            { path: 'sub', component:leader,
+              children:[
+                {path: 'subPeriod', component:subPeriod},
+                {path: 'subCharacter', component:subCharacter},
                 
-            //   ]},
-            // { path: 'order', component:leaderOrder,
-            //   children:[
-            //     // {path: 'complaSituatMonth', component:complaSituatMonth},
+              ]},
+            { path: 'order', component:leader,
+              children:[
+                {path: 'complaSituatMonth', component:complaSituatMonth},
                 
-            //   ]},
+              ]},
           ]
         },{
           path:'5',component:leader
