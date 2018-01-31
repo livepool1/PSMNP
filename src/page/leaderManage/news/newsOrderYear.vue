@@ -1,9 +1,9 @@
 <template>
 <div>  
   <!-- <p>bbbbb</p> -->
-  <h3>报刊定量年统计</h3>
+
 <div class="block"
-style="margin:0 auto; ">
+style="margin:0 auto; text-align: center;">  <h3>报刊定量年统计</h3>
   <!-- <span class="demonstration">请选择时间</span> -->
   <!-- <el-date-picker
   style="margin-left:80px;"
@@ -33,9 +33,9 @@ style="margin:0 auto; ">
   </el-select> -->
   <el-button :class="{ 'el-button--primary': active}" style="width:auto;" @click="will(1)">销量</el-button>
   <el-button v-bind:class="{ 'el-button--primary': !active}" style="width:auto;" @click="will(2)">营业额</el-button>
-   <echarts_pie :options="option"></echarts_pie>
-</div>
 
+</div>
+   <echarts_pie :options="option"></echarts_pie>
 
 
  
@@ -134,7 +134,7 @@ value: "value",
       window.vuee = this
       var self = this
       axios
-      .get("/api/HEUPOMS/Statistics/Year")
+      .get("/api/HEUPOMS/Statistics/Month")
       .then(
         function(reponse) {
           // for ( var x in reponse.data ) {

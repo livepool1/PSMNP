@@ -140,7 +140,7 @@ export default [
       {
         path:'/1',component:center,
           children:[
-            { path: '' , component:center},
+            { path: '' , component:dept},
             { path: 'dict', component:center,
               children:[
                 {path: 'deparment', component:dept},
@@ -185,7 +185,7 @@ export default [
           path:'/2',component:publish,
 
           children:[
-            { path: '' , component:publish},
+            { path: '' , component:subInforManage},
             { path: 'custo', component:publish,
               children:[
                  {path: 'subInforManage', component:subInforManage},
@@ -236,7 +236,7 @@ export default [
         },{
           path:'/3',component:custom,
           children:[
-             { path: '' , component:custom},
+             { path: '' , component:handler},
             { path: 'watch', component:custom,
               children:[
                  {path: 'handler', component:handler},
@@ -258,14 +258,14 @@ export default [
         },{
           path:'/4',component:leader,
           children:[
-            { path: '' , component:leader},
+            { path: '' , component:newsOrderStation},
             { path: 'news', component:leader,
               children:[
                 {path: 'newsOrderStation', component:newsOrderStation},
                 {path: 'newsOrderYear', component:newsOrderYear},
                 {path: 'annuNewsOrder', component:annuNewsOrder},
                 {path: 'subOrderContrast', component:subOrderContrast},
-                {path: 'subMoneyStation', component:subMoneyStation},
+                // {path: 'subMoneyStation', component:subMoneyStation},
               ]},
             { path: 'sub', component:leader,
               children:[

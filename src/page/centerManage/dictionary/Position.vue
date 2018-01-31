@@ -9,7 +9,6 @@ data: function() {
    return {
      tableName:"职务管理",
      ruls:{
-       positionNo:[ { required: true, message: '请输入职务编号', trigger: 'blur' }],
        positionName:[ { required: true, message: '请输入职务姓名', trigger: 'blur' }],
        baseSalary:[ { required: true, message: '请输入基础工资', trigger: 'blur' }],
        deptNo:[ { required: true, message: '请输入发行站编号', trigger: 'blur' }],
@@ -17,7 +16,6 @@ data: function() {
      },
      addWindows:{
        col: [
-       {label:'职务编号' ,name:'positionNo',value:'',type:''},
        {label:'职务姓名' ,name:'positionName',value:'',type:''},
        {label:'基础工资' ,name:'baseSalary',value:'',type:''},
        {label:'发行站编号' ,name:'deptNo',value:'',type:''},

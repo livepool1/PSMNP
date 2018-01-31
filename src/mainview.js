@@ -153,7 +153,7 @@ const leaderConfig = {
       { item: '报刊订量年统计', index: '/4/news/newsOrderYear', id: 2 },
       { item: '历年报刊订量统计', index: '/4/news/annuNewsOrder', id: 3 },
       { item: '订阅订购对比分析', index: '/4/news/subOrderContrast', id: 4 },
-      { item: '订阅金额分站统计', index: '/4/news/subMoneyStation', id: 5 }
+      // { item: '订阅金额分站统计', index: '/4/news/subMoneyStation', id: 5 }
 
     ],
     [

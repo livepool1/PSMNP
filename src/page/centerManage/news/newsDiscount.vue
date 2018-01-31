@@ -9,13 +9,11 @@ data: function() {
    return {
      tableName:"优惠信息设置",
      ruls:{
-       consumerTypeNo:[ { required: true, message: '请输入客户类型编号', trigger: 'blur' }],
        consumerTypeName:[ { required: true, message: '请输入客户类型名称', trigger: 'blur' }],
-       discountModulus:[ { required: false, message: '请输入优惠折扣', trigger: 'blur' }],
+       discountModulus:[ { required: true, message: '请输入优惠折扣', trigger: 'blur' }],
      },
      addWindows:{
        col: [
-       {label:'客户类型编号' ,name:'consumerTypeNo',value:'',type:''},
        {label:'客户类型名称' ,name:'consumerTypeName',value:'',type:''},
        {label:'优惠折扣' ,name:'discountModulus',value:'',type:''}]
      },

@@ -1,7 +1,7 @@
 <template>
 <div>  
   <!-- <p>bbbbb</p> -->
-<div class="block">
+<div class="block" style="margin:0 auto; text-align: center;">
   <h3>订户订期分析</h3>
   <el-date-picker
     v-model="value3"
@@ -33,8 +33,8 @@ export default {
       option : {
 
           title : {
-              text: '同名数量统计',
-              subtext: '纯属虚构',
+              // text: '同名数量统计',
+              // subtext: '纯属虚构',
               x:'center'
           },
           tooltip : {

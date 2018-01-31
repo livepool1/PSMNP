@@ -11,12 +11,10 @@ export default {
     return {
       tableName:"部门管理",
       ruls:{
-        deptNo:[ { required: true, message: '请输入部门编码', trigger: 'blur' }],
         deptName:[ { required: true, message: '请输入部门名称', trigger: 'blur' }]
       },
       addWindows:{
         col: [
-        {label:'部门编码' ,name:'deptNo',value:'',type:''},
         {label:'部门名称' ,name:'deptName',value:'',type:''},
         ]
       },

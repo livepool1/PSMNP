@@ -11,7 +11,6 @@ data: function() {
    return {
      tableName:"客户管理",
      ruls:{
-       consumerNo:[ { required: true, message: '请输入客户编号', trigger: 'blur' }],
        consumerName:[ { required: true, message: '请输入客户姓名', trigger: 'blur' }],
        consumerPhone:[ { required: true, message: '请输入客户电话', trigger: 'blur' }],
        consumerTypeNo:[ { required: true, message: '请输入客户属性', trigger: 'blur' }],
@@ -19,7 +18,6 @@ data: function() {
      },
      addWindows:{
        col: [
-       {label:'客户编号' ,name:'consumerNo',value:'',type:''},
        {label:'客户姓名' ,name:'consumerName',value:'',type:''},
        {label:'客户电话' ,name:'consumerPhone',value:'',type:''},
        {label:'邮件地址' ,name:'consumerEmail',value:'',type:''},

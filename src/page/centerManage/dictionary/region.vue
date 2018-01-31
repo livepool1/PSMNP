@@ -9,7 +9,6 @@ export default {
     return {
       tableName:"地区管理",
       ruls:{
-        locNo:[ { required: true, message: '请输入地区编码', trigger: 'blur' }],
         transUnitNo:[ { required: true, message: '请输入运输单位编号', trigger: 'blur' }],
         locName:[ { required: true, message: '请输入地区名称', trigger: 'blur' }],
         postalCode:[ { required: true, message: '请输入地区名称', trigger: 'blur' }],
@@ -17,7 +16,6 @@ export default {
       },
       addWindows:{
         col: [
-        {label:'变更编码' ,name:'locNo',value:'',type:''},
         {label:'运输单元编码' ,name:'transUnitNo',value:'',type:''},
         {label:'地区名称' ,name:'locName',value:'',type:''},
         {label:'邮政编码变更备注' ,name:'postalCode',value:'',type:''},

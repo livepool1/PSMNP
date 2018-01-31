@@ -36,12 +36,12 @@
      <el-form-item label="密码" prop="password">
        <el-input type="password" v-model="form.password" auto-complete="off"></el-input>
      </el-form-item>
-     <el-form-item label="用户类别">
+     <!-- <el-form-item label="用户类别">
        <el-select v-model="form.type" placeholder="请选择登陆身份">
          <el-option label="一" value="1"></el-option>
          <el-option label="二" value="2"></el-option>
        </el-select>
-     </el-form-item>
+     </el-form-item> -->
      <el-form-item>
        <el-button type="primary" @click="onSubmit">登陆</el-button>
        <el-button>注册</el-button>
@@ -94,9 +94,10 @@ methods: {
       .post( "/api/HEUPOMS/Login" ,this.form)  //更新
       .then(function(response) {
           self.tableData=response.data;
-          if(self.tableData == 'ok') {
+          if(self.tableData.substring(0,2) == 'ok') {
+            console.log(self.tableData)
             self.$message({
-            message: '登陆成功',
+            message: '登陆成功' + self.tableData.substring(2,self.tableData.length),
             type: 'success'
           });
               document.cookie =  "session=" + self.form.empId +";";
@@ -112,10 +113,10 @@ self.$message({
   message: '账户不存在',
   type: 'error'
 });
-          } else if(self.tableData == 'error') {
+          } else if(self.tableData == 'password_error') {
 self.$message({
   message: '密码错误',
-  type: 'success'
+  type: 'error'
 });
           }
           
@@ -165,6 +166,10 @@ self.$message({
     width: 480px;
     margin: 0 auto;
     margin-top: 100px;
+  }
+
+  body {
+    background-color: #409EFF;
   }
 </style>
 

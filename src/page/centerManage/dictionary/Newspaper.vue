@@ -7,9 +7,8 @@ export default {
   name: "d_dept",
 data: function() {
    return {
-     tableName:"发行站管理",
+     tableName:"报社管理",
      ruls:{
-       newsUnitNo:[ { required: true, message: '请输入报社编号', trigger: 'blur' }],
        newsUnitName:[ { required: true, message: '请输入报社名称', trigger: 'blur' }],
        locNo:[ { required: true, message: '请输入报社位置编码', trigger: 'blur' }],
        newsUnitPersonName:[ { required: true, message: '请输入报社负责人', trigger: 'blur' }],
@@ -17,7 +16,6 @@ data: function() {
      },
      addWindows:{
        col: [
-       {label:'报社编号' ,name:'newsUnitNo',value:'',type:''},
        {label:'报社名称' ,name:'newsUnitName',value:'',type:''},
        {label:'报社位置编码' ,name:'locNo',value:'',type:''},
        {label:'报社负责人' ,name:'newsUnitPersonName',value:'',type:''},

@@ -1,12 +1,12 @@
 <template>
 <div>  
   <!-- <p>bbbbb</p> -->
-  <h3>报刊定量分站统计</h3>
+
 <div class="block"
-style="margin:0 auto; ">
+style="margin:0 auto; text-align: center;">  <h3>报刊定量分站统计</h3>
   <!-- <span class="demonstration">请选择时间</span> -->
   <el-date-picker
-  style="margin-left:80px;"
+  style=""
     v-model="value3"
     type="datetimerange"
     range-separator="至"

@@ -9,10 +9,9 @@ export default {
   name: "d_dept",
   data: function() {
     return {
-      tableName:"部门管理",
+      tableName:"刊期管理",
       ruls:{
-        issueNo:[ { required: true, message: '请输入部门编码', trigger: 'blur' }],
-        issueName:[ { required: true, message: '请输入部门名称', trigger: 'blur' }],
+        issueName:[ { required: true, message: '请输入刊期名称', trigger: 'blur' }],
         dayModulus:[ { required: true, message: '请输入日价折扣', trigger: 'blur' }],
         weekModulus:[ { required: true, message: '请输入周价折扣', trigger: 'blur' }],
         halfMonthModulus:[ { required: true, message: '请输入半月折扣', trigger: 'blur' }],
@@ -23,8 +22,7 @@ export default {
       },
       addWindows:{
         col: [
-        {label:"部门编码",name:"issueNo",value:"",type:""},
-        {label:"部门名称",name:"issueName",value:"",type:""},
+        {label:"刊期名称",name:"issueName",value:"",type:""},
         {label:"日价折扣",name:"dayModulus",value:"",type:""},
         {label:"周价折扣",name:"weekModulus",value:"",type:""},
         {label:"半月折扣",name:"halfMonthModulus",value:"",type:""},

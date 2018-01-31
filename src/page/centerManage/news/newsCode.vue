@@ -11,7 +11,6 @@ export default {
     return {
       tableName:"报刊管理",
       ruls:{
-        newspaperNo:[ { required: true, message: '请输入报刊编号', trigger: 'blur' }],
         newspaperTypeNo:[ { required: true, message: '请输入报刊类型编号', trigger: 'blur' }],
         newspaperName:[ { required: true, message: '请输入报刊名称', trigger: 'blur' }],
         newsUnitNo:[ { required: true, message: '请输入报社编号', trigger: 'blur' }],
@@ -24,7 +23,6 @@ export default {
       },
       addWindows:{
         col: [
-        {label: "报刊编号", name: "newspaperNo", value:"", type:""},
         {label: "报刊类型编号", name: "newspaperTypeNo", value:"", type:""},
         {label: "报刊名称", name: "newspaperName", value:"", type:""},
         {label: "报社编号", name: "newsUnitNo", value:"", type:""},
@@ -70,7 +68,7 @@ export default {
       },
       headerData: [
         {name: "newspaperNo", dataIndex: "报刊编号"},
-        {name: "newspaperType.newspaperTypeNo", dataIndex: "报刊类型编号"},
+        {name: "newspaperType.newspaperTypeName", dataIndex: "报刊类型"},
         {name: "newspaperName", dataIndex: "报刊名称"},
         {name: "newsUnit.newsUnitNo", dataIndex: "报社编号"},
         // {name: "unsubscribeFlag", dataIndex: "是否可退订"},

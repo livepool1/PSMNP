@@ -223,9 +223,11 @@ export default {
                 callback(new Error('订购时间太短'));
               }else if (this.formBook.type=='半月刊'&&subDays<16) {
                 callback(new Error('订购时间太短'));
-              }else if (this.nowConfirm()<0) {
-                callback(new Error('订购时间必须晚于今天'));
-              }else {
+              }
+              // else if (this.nowConfirm()<0) {
+              //   callback(new Error('订购时间必须晚于今天'));
+              // }
+              else {
                 callback();
               }
             },

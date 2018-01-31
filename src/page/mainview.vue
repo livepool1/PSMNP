@@ -17,6 +17,7 @@
 
       <el-col :span="4" >
         <el-badge is-dot style="margin-top: 10px;margin-right: 30px">
+          
         <el-dropdown  @command="handleCommand" style="margin-left:150px;">
           <span class="el-dropdown-link" >
             <img  style="width:40px; height:40px" src="../assets/logo.png"/>

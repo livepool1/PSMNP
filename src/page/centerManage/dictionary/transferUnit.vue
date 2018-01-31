@@ -12,7 +12,6 @@ export default {
      return {
        tableName:'',
        ruls:{
-         transUnitNo:[ { required: true, message: '请输入运输单位编码', trigger: 'blur' }],
          transUnitName:[ { required: true, message: '请输入单位名称', trigger: 'blur' }],
          locNo:[ { required: true, message: '请输入单位位置编号', trigger: 'blur' }],
          transUnitPersonName:[ { required: true, message: '请输入单位负责人', trigger: 'blur' }],
@@ -20,7 +19,6 @@ export default {
        },
        addWindows:{
          col: [
-         {label:'单位编号' ,name:'transUnitNo',value:'',type:''},
          {label:'单位名称' ,name:'transUnitName',value:'',type:''},
          {label:'单位位置编号' ,name:'locNo',value:'',type:''},
          {label:'单位负责人' ,name:'transUnitPersonName',value:'',type:''},

@@ -1,8 +1,8 @@
 <template>
 <div>  
   <!-- <p>bbbbb</p> -->
-  <h3>订阅订购对比分析</h3>
-<div class="block">
+
+<div class="block" style="margin:0 auto; text-align: center;">  <h3>订阅订购对比分析</h3>
   <!-- <span class="demonstration">请选择时间</span> -->
   <el-date-picker
     v-model="value3"
