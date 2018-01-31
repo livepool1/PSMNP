@@ -20,12 +20,12 @@ export default {
   watch: {
     select: function() {
       if (this.select == 1) {
-        this.service = this.service1 + this.distributionNo;
+        this.service = this.service1;// +'/' + this.distributionNo;
         console.log("dsada")
       } else if (this.select == 2) {
-        this.service = this.service2 + this.distributionNo;
+        this.service = this.service2;// +'/' + this.distributionNo;
       } else if (this.select == 3) {
-        this.service = this.service3 + this.distributionNo;
+        this.service = this.service3;//+'/' + this.distributionNo;
       }
     }
   },
@@ -76,8 +76,12 @@ export default {
       return (arr = document.cookie.match(reg)) ? unescape(arr[2]) : null;
     },
     init() {
+<<<<<<< HEAD
       var self = this
       var s = self.getCookie("session");
+=======
+      var s = this.getCookie("session");
+>>>>>>> 40b29873835c7e133c2d3486c6450665eb35a97e
       var distributionNo = s.substr(0, 2);
       this.distributionNo = distributionNo;
       this.distributionNo = "";
