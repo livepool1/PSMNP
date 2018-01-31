@@ -20,8 +20,8 @@
           <el-input placeholder="报刊类型" v-model="formBook.type" :readonly="true">
           </el-input>
         </el-form-item>
-        <el-form-item label="报社编码" class="formItem">
-          <el-input placeholder="所属报社编码" v-model="formBook.officeNo" :readonly="true">
+        <el-form-item label="报社名称" class="formItem">
+          <el-input placeholder="所属报社名称" v-model="formBook.officeNo" :readonly="true">
           </el-input>
         </el-form-item>
         <el-form-item label="单价" class="formItem">
@@ -209,7 +209,6 @@ export default {
           },{
             validator: (rule, value, callback) => {
               var subDays=this.dateConfirm()
-              console.log(this.dateConfirm()); 
               if (this.formBook.type=='月刊'&&subDays<31) {
                 callback(new Error('订购时间太短'));
               }else if (this.formBook.type=='年刊'&&subDays<366) {
@@ -224,6 +223,8 @@ export default {
                 callback(new Error('订购时间太短'));
               }else if (this.formBook.type=='半月刊'&&subDays<16) {
                 callback(new Error('订购时间太短'));
+              }else if (this.nowConfirm()<0) {
+                callback(new Error('订购时间必须晚于今天'));
               }else {
                 callback();
               }
@@ -333,6 +334,14 @@ export default {
       var days = day2.getTime() - day1.getTime();
       var time = parseInt(days / (1000 * 60 * 60 * 24));
       return time
+    },
+    nowConfirm(){
+      this.form2.date;
+      var myDate = new Date();
+      var day1 = this.form2.date[0];
+      var days = day1.getTime() - myDate.getTime() ;
+      //var time = parseInt(myDate.getTime() / (1000 * 60 * 60 * 24))-parseInt(day1.getTime() / (1000 * 60 * 60 * 24));
+      return days
     },
     submitOrder() {
       var self = this;

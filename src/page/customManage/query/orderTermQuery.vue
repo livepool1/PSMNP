@@ -83,9 +83,9 @@ export default {
       var status = this.selectV;
       console.log(status)
       var u = this.service + "/Expiring";
-      if (status == 1) u = u+"/W";
-      else if (status == 2) u = u+"/M";
-      else if (status == 3) u = u+"/Y";
+      if (status == 1) u = u+"/Week";
+      else if (status == 2) u = u+"/Month";
+      else if (status == 3) u = u+"/Year";
       var self = this;
       axios
         .get(u)               //按到期时间查询
