@@ -12,25 +12,6 @@
           </el-menu>
         </el-col>
 
-<<<<<<< HEAD
-      <el-col :span="4" >
-        <el-badge is-dot style="margin-top: 10px;margin-right: 30px">
-          
-        <el-dropdown  @command="handleCommand" style="margin-left:150px;">
-          <span class="el-dropdown-link" >
-            <img  style="width:40px; height:40px" src="../assets/logo.png"/>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="setting" >用户设置</el-dropdown-item>
-            <el-dropdown-item command="info" >通知查看 <el-badge class="mark" :value="12"/></el-dropdown-item>
-            <el-dropdown-item command="send" >通知发送 </el-dropdown-item>
-            <el-dropdown-item command="out" @click="out">注销 </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        </el-badge>
-      </el-col>
-    </el-row>
-=======
         <el-col :span="4">
           <el-badge :is-dot="hasNotice" style="margin-top: 10px;margin-right: 30px">
             <el-dropdown @command="handleCommand" style="margin-left:150px;">
@@ -48,7 +29,6 @@
           </el-badge>
         </el-col>
       </el-row>
->>>>>>> 40b29873835c7e133c2d3486c6450665eb35a97e
     </header>
     <div v-show="headerFixed" style="position: relative;height: 60px;width: 100%;"></div>
 

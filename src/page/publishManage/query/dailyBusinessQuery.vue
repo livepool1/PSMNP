@@ -76,15 +76,12 @@ export default {
       return (arr = document.cookie.match(reg)) ? unescape(arr[2]) : null;
     },
     init() {
-<<<<<<< HEAD
-      var self = this
-      var s = self.getCookie("session");
-=======
-      var s = this.getCookie("session");
->>>>>>> 40b29873835c7e133c2d3486c6450665eb35a97e
-      var distributionNo = s.substr(0, 2);
-      this.distributionNo = distributionNo;
-      this.distributionNo = "";
+      // var self = this
+      // var s = self.getCookie("session");
+      // var s = this.getCookie("session");
+      // var distributionNo = s.substr(0, 2);
+      // this.distributionNo = distributionNo;
+      // this.distributionNo = "";
     }
   }
 };
