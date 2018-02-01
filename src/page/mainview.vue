@@ -198,7 +198,15 @@ export default {
     // this.todo = this.lzpSl[0]
     this.nowEmp = this.getCookie("session");
     this.initNotice();
-//    this.initWebSocket()
+
+    var ws = new window.WebSocket("ws://115.159.34.95:8080/HEUPOMS/websocket"); //115.159.34.95:8080
+    ws.onopen = function(val) {
+      console.log("webSockrtOnpen");
+    };
+    ws.onmessage = function(val) {
+      console.log("websocket收到通知");
+    };
+    //this.initWebSocket()
     console.log(this.$route.path);
 
     // this.lzpSl = []
@@ -265,22 +273,22 @@ export default {
       axios
         .delete(
           "/api/HEUPOMS/Notice/DelToMe/" + this.NoticeList[index].noticeNo
-        )                                                               //删除信息
+        ) //删除信息
         .then(function(response) {
           self.$message.success("删除成功");
           axios
-          .get("/api/HEUPOMS/Notice/SendToMe/" + self.nowEmp) //parseInt(this.nowEmp)       //查找未读消息数量
-          .then(function(response) {
-            console.log(response);
-            self.NoticeList = response.data.list;
-            self.infoVisible = true;
-            self.hasNotice = false;
-            self.noticeNum = 0;
-          })
-          .catch(function(err) {
-            self.$message.error("连接服务器失败");
-            console.log(err);
-          });
+            .get("/api/HEUPOMS/Notice/SendToMe/" + self.nowEmp) //parseInt(this.nowEmp)       //查找未读消息数量
+            .then(function(response) {
+              console.log(response);
+              self.NoticeList = response.data.list;
+              self.infoVisible = true;
+              self.hasNotice = false;
+              self.noticeNum = 0;
+            })
+            .catch(function(err) {
+              self.$message.error("连接服务器失败");
+              console.log(err);
+            });
         })
         .catch(function(err) {
           self.$message.error("连接服务器失败");
@@ -299,15 +307,6 @@ export default {
           self.$message.error("连接服务器失败");
           console.log(err);
         });
-    },
-    initWebSocket() {
-      var ws = new WebSocket("ws://localhost:8081/HEUPOMS/websocket");//115.159.34.95:8080
-      ws.onopen = function() {
-        console.log("webSockrtOnpen");
-      };
-      ws.onmessage = function(val) {
-        console.log("websocket收到通知")
-      };
     },
     getCookie(name) {
       var arr,
@@ -358,7 +357,7 @@ export default {
             self.infoVisible = true;
             self.hasNotice = false;
             self.noticeNum = 0;
-            console.log(self.NoticeList)
+            console.log(self.NoticeList);
           })
           .catch(function(err) {
             self.$message.error("连接服务器失败");
