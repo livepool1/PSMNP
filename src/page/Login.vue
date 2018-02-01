@@ -74,7 +74,7 @@ created: function(){
   if ( this.getCookie("session") != null) {
         // route.push('/login')
         var self = this
-        if(self.getCookie("session").substring(0,2) == '00') {
+        if(self.getCookie("session").substring(0,2) == '01') {
                     self.$router.push("/" + self.getCookie("session")[3])
                     console.log("oo")
         } else {
@@ -101,11 +101,16 @@ methods: {
             type: 'success'
           });
               document.cookie =  "session=" + self.form.empId +";";
-          if(self.getCookie("session").substring(0,2) == '00') {
+          if(self.getCookie("session").substring(0,2) == '01') {
                       self.$router.push("/" + self.getCookie("session")[3])
                       console.log("oo")
           } else {
-                      self.$router.push("/" + self.getCookie("session")[1])
+            if(self.getCookie("session")[1] == '8') {
+              self.$router.push("/1")
+            } else {
+                                    self.$router.push("/" + self.getCookie("session")[1])
+            }
+
           }
           // this.$router.push("/" + this.getCookie("session")[0])
           } else if(self.tableData == 'emp_not_exist') {

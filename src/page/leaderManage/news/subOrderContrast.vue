@@ -43,6 +43,18 @@ export default {
               trigger: 'item',
               formatter: "{a} <br/>{b} : {c} ({d}%)"
           },
+          toolbox: {
+              show: true,
+              feature: {
+                  dataZoom: {
+                      yAxisIndex: 'none'
+                  },
+                  dataView: {readOnly: false},
+                  magicType: {type: ['line', 'bar']},
+                  restore: {},
+                  saveAsImage: {}
+              }
+          },
           // legend: {
           //     type: 'scroll',
           //     orient: 'vertical',
@@ -58,7 +70,7 @@ export default {
                   name: '姓名',
                   type: 'pie',
                   radius : '55%',
-                  center: ['40%', '50%'],
+                  // center: ['40%', '50%'],
                   data: [
                     ],
                   itemStyle: {

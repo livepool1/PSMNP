@@ -22,12 +22,12 @@ style="margin:0 auto; text-align: center;">  <h3>报刊定量分站统计</h3>
       :value="item.value"> -->
       <el-option
       label="报刊类型"
-      value="value">
+      value="value1">
       报刊类型
       </el-option>
       <el-option
       label="报社"
-      value="value1">
+      value="value">
       报社
       </el-option>
   </el-select>
@@ -91,6 +91,18 @@ value: "value",
                   textStyle: {
                       color: '#999'
                   }
+              }
+          },
+          toolbox: {
+              show: true,
+              feature: {
+                  dataZoom: {
+                      yAxisIndex: 'none'
+                  },
+                  dataView: {readOnly: false},
+                  magicType: {type: ['line', 'bar']},
+                  restore: {},
+                  saveAsImage: {}
               }
           },
           dataZoom: [
@@ -197,7 +209,11 @@ value: "value",
           // data.value = reponse.data[x].count
           // self.option.series[0].data.push(data)
           // }
+          self.dataAxis = []
+          self.data[1] = []
+          self.data[2] = []
           for( var x in reponse.data ) {
+              
             self.dataAxis.push(reponse.data[x].statisticsName)
             self.data[1].push(reponse.data[x].count)
             self.data[2].push(reponse.data[x].sum)

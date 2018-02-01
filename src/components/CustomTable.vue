@@ -344,7 +344,7 @@ export default {
           self.totalData = tem["total"];
           self.tableData = tem["list"];
           console.log(response.list);
-          self.makeTableHighLight();
+          // self.makeTableHighLight();
           self.loading = false;
         })
         .catch(function(err) {

@@ -11,6 +11,7 @@ export default {
     return {
       tableName:"刊期管理",
       ruls:{
+        issueNo:[ { required: true, message: '请输入刊期编号', trigger: 'blur' }],
         issueName:[ { required: true, message: '请输入刊期名称', trigger: 'blur' }],
         dayModulus:[ { required: true, message: '请输入日价折扣', trigger: 'blur' }],
         weekModulus:[ { required: true, message: '请输入周价折扣', trigger: 'blur' }],
@@ -22,6 +23,7 @@ export default {
       },
       addWindows:{
         col: [
+        {label:"刊期编号",name:"issueNo",value:"",type:""},
         {label:"刊期名称",name:"issueName",value:"",type:""},
         {label:"日价折扣",name:"dayModulus",value:"",type:""},
         {label:"周价折扣",name:"weekModulus",value:"",type:""},

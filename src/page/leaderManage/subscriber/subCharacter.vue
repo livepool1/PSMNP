@@ -28,6 +28,7 @@ export default {
   data  :function() {
     return {
       value3:[],
+      value:"1",
       data:[[],[],[]],
       active: true,
       option : {
@@ -51,12 +52,13 @@ export default {
 
           //     selected: data.selected
           // },
+          
           series : [
               {
                   name: '姓名',
                   type: 'pie',
                   radius : '55%',
-                  center: ['40%', '50%'],
+                  // center: ['40%', '50%'],
                   data: [
                     ],
                   itemStyle: {
@@ -112,27 +114,28 @@ export default {
       .get("/api/HEUPOMS/Statistics/ConsumerType"
       ,{params : opt})
       .then(
-        function(reponse) {self.data[1] = [];self.data[
-          2
-        ] = []
-          for ( var x in reponse.data ) {
-                      var data = {}
-          data.name = reponse.data[x].statisticsName
-          data.value = reponse.data[x].count
-          self.option.series[0].data.push(data)
-          console.log(data)
-          self.data[1].push(data);data = JSON.parse( JSON.stringify(data) )
-          
-          data.value = reponse.data[x].sum
-          console.log(data)
-          self.data[2].push(data)
-          }
-          console.log(reponse)
-          console.log(self.option.series[0].data)
+        function(reponse) {
+self.data[1] = [];
+self.data[2] = [];
 
+for ( var x in reponse.data ) {
+  var data = {}
+  data.name = reponse.data[x].statisticsName
+  data.value = reponse.data[x].count
+  self.data[1].push(data);
+
+  data = JSON.parse( JSON.stringify(data) )
+  data.value = reponse.data[x].sum
+  self.data[2].push(data)
+}
+
+console.log("data1",self.data[1])
+console.log("data2",self.data[2])
+console.log("当前模式",parseInt(self.value))
+
+self.option.series[0].data = self.data[parseInt(self.value)]
         }
       )
-      console.log(opt)
     }
   }
 }

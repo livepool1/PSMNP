@@ -64,6 +64,18 @@ value: "value",
           //     text: '特性示例：渐变色 阴影 点击缩放',
           //     subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
           // },
+          toolbox: {
+              show: true,
+              feature: {
+                  dataZoom: {
+                      yAxisIndex: 'none'
+                  },
+                  dataView: {readOnly: false},
+                  magicType: {type: ['line', 'bar']},
+                  restore: {},
+                  saveAsImage: {}
+              }
+          },
           xAxis: {
               data: [],
               axisLabel: {

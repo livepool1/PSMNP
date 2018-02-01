@@ -70,13 +70,12 @@ export default {
         {name: "newspaperNo", dataIndex: "报刊编号"},
         {name: "newspaperType.newspaperTypeName", dataIndex: "报刊类型"},
         {name: "newspaperName", dataIndex: "报刊名称"},
-        {name: "newsUnit.newsUnitNo", dataIndex: "报社编号"},
+        {name: "newsUnit.newsUnitName", dataIndex: "报社名称"},
         // {name: "unsubscribeFlag", dataIndex: "是否可退订"},
         // {name: "transferFlag", dataIndex: "是否可转址"},
         {name: "price", dataIndex: "单价"},
         {name: "issue.issueNo", dataIndex: "刊期编号"},
-        {name: "issueRate", dataIndex: "发行率"},
-        {name: "initDate", dataIndex: "创刊日期"}
+        {name: "issueRate", dataIndex: "发行率"}
       ]
     };
   },

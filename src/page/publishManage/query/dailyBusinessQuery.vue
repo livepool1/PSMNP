@@ -55,9 +55,9 @@ export default {
           prop: "newspaper.newspaperType.newspaperTypeName",
           label: "订购报刊类型"
         },
-        { prop: "newspaper.newsUnit.newsUnitName", label: "订购报刊所属报社" },
+        { prop: "newspaper.newsUnit.newsUnitName", label: "报刊所属报社" },
         { prop: "newspaper.price", label: "订购报刊单价" },
-        { prop: "newspaper.issue", label: "订购报刊性质" },
+        { prop: "newspaper.issue.issueName", label: "订购报刊性质" },
         { prop: "consumer.consumerType.consumerTypeName", label: "客户类别" },
         { prop: "emp.empName", label: "处理员工名称" },
         { prop: "emp.distribution.distributionName", label: "员工所属发行站" },

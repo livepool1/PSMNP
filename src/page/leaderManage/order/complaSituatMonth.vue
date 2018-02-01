@@ -74,6 +74,18 @@ value: "value",
                   }
               }
           },
+          toolbox: {
+              show: true,
+              feature: {
+                  dataZoom: {
+                      yAxisIndex: 'none'
+                  },
+                  dataView: {readOnly: false},
+                  magicType: {type: ['line', 'bar']},
+                  restore: {},
+                  saveAsImage: {}
+              }
+          },
           dataZoom: [
               {
                   type: 'inside'
@@ -174,6 +186,9 @@ value: "value",
           // data.value = reponse.data[x].count
           // self.option.series[0].data.push(data)
           // }
+          self.dataAxis = []
+          self.data[1] = []
+          self.data[2] = []
           for( var x in reponse.data ) {
             self.dataAxis.push(reponse.data[x].statisticsName)
             self.data[1].push(reponse.data[x].count)
