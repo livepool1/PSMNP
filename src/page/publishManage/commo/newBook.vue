@@ -225,7 +225,8 @@ export default {
                 callback(new Error('订购时间太短'));
               }else if (this.nowConfirm()<0) {
                 callback(new Error('订购时间必须晚于今天'));
-              }else {
+              }
+              else {
                 callback();
               }
             },
@@ -261,7 +262,7 @@ export default {
       nowCus: {
         consumerType: {
           consumerTypeName: "普通客户",
-          consumerTypeNo: null
+          consumerTypeNo: 1
         }
       }
       // self.nowCus.consumerType.consumerTypeName

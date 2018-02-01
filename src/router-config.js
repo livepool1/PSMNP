@@ -140,7 +140,7 @@ export default [
       {
         path:'/1',component:center,
           children:[
-            { path: '' , component:center},
+            { path: '' , component:dept},
             { path: 'dict', component:center,
               children:[
                 {path: 'deparment', component:dept},
@@ -158,34 +158,34 @@ export default [
                 {path: 'empPosition', component:empPosition},
                 
               ]},
-            // { path: 'news', component:centerNews,
-            //   children:[
-            //     // {path: 'newsCode', component:newsCode},
-            //     // {path: 'newsAttribute', component:newsAttribute},
-            //     // {path: 'frequency', component:frequency},
-            //     // {path: 'lssuingRate', component:lssuingRate},
-            //     // {path: 'newsBasicPricing', component:newsBasicPricing},
-            //     // {path: 'newsDiscount', component:newsDiscount},
+            { path: 'news', component:center,
+              children:[
+                {path: 'newsCode', component:newsCode},
+                {path: 'newsAttribute', component:newsAttribute},
+                {path: 'frequency', component:frequency},
+                {path: 'lssuingRate', component:lssuingRate},
+                {path: 'newsBasicPricing', component:newsBasicPricing},
+                {path: 'newsDiscount', component:newsDiscount},
                 
-            //   ]},
+              ]},
             // { path: 'assis', component:centerAssis,
             //   children:[
             //     // {path: 'collectInfor', component:collectInfor},
             //     // {path: 'sendInfor', component:sendInfor},
                 
             //   ]},
-            // { path: 'query', component:centerQuery,
-            //   children:[
-            //     // {path: 'newsInforQuery', component:newsInforQuery},
-            //     // {path: 'subOrderQuery', component:subOrderQuery},
-            //     // {path: 'newsOrderQuery', component:newsOrderQuery},
-            //   ]},
+            { path: 'query', component:center,
+              children:[
+                {path: 'newsInforQuery', component:newsInforQuery},
+                {path: 'subOrderQuery', component:subOrderQuery},
+                {path: 'newsOrderQuery', component:newsOrderQuery},
+              ]},
           ]
         },{
           path:'/2',component:publish,
 
           children:[
-            { path: '' , component:publish},
+            { path: '' , component:subInforManage},
             { path: 'custo', component:publish,
               children:[
                  {path: 'subInforManage', component:subInforManage},
@@ -236,7 +236,7 @@ export default [
         },{
           path:'/3',component:custom,
           children:[
-             { path: '' , component:custom},
+             { path: '' , component:handler},
             { path: 'watch', component:custom,
               children:[
                  {path: 'handler', component:handler},
@@ -258,26 +258,26 @@ export default [
         },{
           path:'/4',component:leader,
           children:[
-            { path: '' , component:leader},
+            { path: '' , component:newsOrderStation},
             { path: 'news', component:leader,
               children:[
                 {path: 'newsOrderStation', component:newsOrderStation},
                 {path: 'newsOrderYear', component:newsOrderYear},
                 {path: 'annuNewsOrder', component:annuNewsOrder},
                 {path: 'subOrderContrast', component:subOrderContrast},
-                {path: 'subMoneyStation', component:subMoneyStation},
+                // {path: 'subMoneyStation', component:subMoneyStation},
               ]},
-            // { path: 'sub', component:leaderSub,
-            //   children:[
-            //     // {path: 'subPeriod', component:subPeriod},
-            //     // {path: 'subCharacter', component:subCharacter},
+            { path: 'sub', component:leader,
+              children:[
+                {path: 'subPeriod', component:subPeriod},
+                {path: 'subCharacter', component:subCharacter},
                 
-            //   ]},
-            // { path: 'order', component:leaderOrder,
-            //   children:[
-            //     // {path: 'complaSituatMonth', component:complaSituatMonth},
+              ]},
+            { path: 'order', component:leader,
+              children:[
+                {path: 'complaSituatMonth', component:complaSituatMonth},
                 
-            //   ]},
+              ]},
           ]
         },{
           path:'5',component:leader

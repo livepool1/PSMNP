@@ -11,7 +11,6 @@ export default {
      return {
        tableName:"发行站管理",
        ruls:{
-         distributionNo:[ { required: true, message: '请输入报社编号', trigger: 'blur' }],
          distributionName:[ { required: true, message: '请输入报社名称', trigger: 'blur' }],
          locNo:[ { required: true, message: '请输入报社位置编码', trigger: 'blur' }],
          distributionPersonName:[ { required: true, message: '请输入报社负责人', trigger: 'blur' }],
@@ -19,7 +18,6 @@ export default {
        },
        addWindows:{
          col: [
-         {label:'报社编号' ,name:'distributionNo',value:'',type:''},
          {label:'报社名称' ,name:'distributionName',value:'',type:''},
          {label:'报社位置编码' ,name:'locNo',value:'',type:''},
          {label:'报社负责人' ,name:'distributionPersonName',value:'',type:''},

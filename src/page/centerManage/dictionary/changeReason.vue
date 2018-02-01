@@ -11,13 +11,11 @@ export default {
      return {
        tableName:"变更管理",
        ruls:{
-         alterNo:[ { required: true, message: '请输入变更编码', trigger: 'blur' }],
          alterName:[ { required: true, message: '请输入变更名称', trigger: 'blur' }],
          alterRemark:[ { required: true, message: '请输入变更备注', trigger: 'blur' }]
        },
        addWindows:{
          col: [
-         {label:'变更编码' ,name:'alterNo',value:'',type:''},
          {label:'变更名称' ,name:'alterName',value:'',type:''},
          {label:'变更备注' ,name:'alterRemark',value:'',type:''}
          ]

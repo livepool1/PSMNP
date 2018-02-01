@@ -37,12 +37,12 @@
         <el-form-item label="密码" prop="password">
           <el-input type="password" v-model="form.password" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="用户类别">
-          <el-select v-model="form.type" placeholder="请选择登陆身份">
-            <el-option label="一" value="1"></el-option>
-            <el-option label="二" value="2"></el-option>
-          </el-select>
-        </el-form-item>
+        <!-- <el-form-item label="用户类别">
+       <el-select v-model="form.type" placeholder="请选择登陆身份">
+         <el-option label="一" value="1"></el-option>
+         <el-option label="二" value="2"></el-option>
+       </el-select>
+     </el-form-item> -->
         <el-form-item>
           <el-button type="primary" @click="onSubmit">登陆</el-button>
           <el-button>注册</el-button>
@@ -74,6 +74,23 @@ export default {
     if (this.getCookie("session") != null) {
       // route.push('/login')
       var self = this;
+      if (self.getCookie("session").substring(0, 2) == "01") {
+        self.$router.push("/" + self.getCookie("session")[3]);
+        console.log("oo");
+      } else {
+        self.$router.push("/" + self.getCookie("session")[1]);
+      }
+      // next("/" + getCookie("session")[0])
+    }
+  },
+  watch: {
+    $route: "checkLogin"
+  },
+  created: function() {
+    //   this.route = centerConfig.routea
+    if (this.getCookie("session") != null) {
+      // route.push('/login')
+      var self = this;
       if (self.getCookie("session").substring(0, 2) == "00") {
         self.$router.push("/" + self.getCookie("session")[3]);
         console.log("oo");
@@ -96,28 +113,33 @@ export default {
         .then(function(response) {
           self.tableData = response.data;
           if (self.tableData.substring(0, 2) == "ok") {
+            console.log(self.tableData);
             self.$message({
-              message: "登陆成功",
+              message:
+                "登陆成功" + self.tableData.substring(2, self.tableData.length),
               type: "success"
             });
             document.cookie = "session=" + self.form.empId + ";";
-            if (self.getCookie("session").substring(0, 2) == "00") {
+            if (self.getCookie("session").substring(0, 2) == "01") {
               self.$router.push("/" + self.getCookie("session")[3]);
               console.log("oo");
             } else {
-              self.$router.push("/" + self.getCookie("session")[1]);
+              if (self.getCookie("session")[1] == "8") {
+                self.$router.push("/1");
+              } else {
+                self.$router.push("/" + self.getCookie("session")[1]);
+              }
             }
-            //self.initWebSocket()
             // this.$router.push("/" + this.getCookie("session")[0])
           } else if (self.tableData == "emp_not_exist") {
             self.$message({
               message: "账户不存在",
               type: "error"
             });
-          } else if (self.tableData == "error") {
+          } else if (self.tableData == "password_error") {
             self.$message({
               message: "密码错误",
-              type: "success"
+              type: "error"
             });
           }
 
@@ -135,12 +157,12 @@ export default {
       // }
     },
     initWebSocket() {
-      var ws = new WebSocket("ws://localhost:8080/api/HEUPOMS/websocket");//115.159.34.95:8080
+      var ws = new WebSocket("ws://localhost:8080/api/HEUPOMS/websocket"); //115.159.34.95:8080
       ws.onopen = function(val) {
         console.log("webSockrtOnpen");
       };
       ws.onmessage = function(val) {
-        console.log("websocket收到通知")
+        console.log("websocket收到通知");
       };
     },
     onSubmit() {
@@ -174,6 +196,10 @@ export default {
   width: 480px;
   margin: 0 auto;
   margin-top: 100px;
+}
+
+body {
+  background-color: #409eff;
 }
 </style>
 

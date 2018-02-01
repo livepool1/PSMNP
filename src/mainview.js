@@ -58,21 +58,21 @@ const centerConfig = {
       { item: '报社设置', index: '/1/dict/newspaper', id: 3 },
       { item: '运输单位设置', index: '/1/dict/transferUnit', id: 4 },
       { item: '地区设置', index: '/1/dict/region', id: 5 },
-      { item: '变更原因设置', index: '/1/dict/changeReason', id: 6 },
-      { item: '状态维护', index: '/1/dict/stateMaintenance', id: 7 },
-      { item: '公司信息设置', index: '/1/dict/officeInfor', id: 8 }
+      // { item: '变更原因设置', index: '/1/dict/changeReason', id: 6 },
+      // { item: '状态维护', index: '/1/dict/stateMaintenance', id: 7 },
+      { item: '公司信息设置', index: '/1/dict/officeInfor', id: 6 }
     ],
     [
       { item: '员工信息设置', index: '/1/hur/empInfor', id: 1 },
-      { item: '员工职务设置', index: '/1/hur/empPosition', id: 2 }
+      // { item: '员工职务设置', index: '/1/hur/empPosition', id: 2 }
     ],
     [
-      { item: '报刊代码设置', index: '/1/news/newsCode', id: 1 },
+      { item: '报刊设置', index: '/1/news/newsCode', id: 1 },
       { item: '报刊属性设置', index: '/1/news/newsAttribute', id: 2 },
       { item: '刊期设置', index: '/1/news/frequency', id: 3 },
-      { item: '发行费率设置', index: '/1/news/lssuingRate', id: 4 },
-      { item: '报刊基本价', index: '/1/news/newsBasicPricing', id: 5 },
-      { item: '报刊优惠设置', index: '/1/news/newsDiscount', id: 6 }
+      // { item: '发行费率设置', index: '/1/news/lssuingRate', id: 4 },
+      // { item: '报刊基本价', index: '/1/news/newsBasicPricing', id: 5 },
+      { item: '报刊优惠设置', index: '/1/news/newsDiscount', id: 4 }
     ],
     // [
     //   {item:'收取通知',index:'/1/assis/collectInfor',id:1},
@@ -81,7 +81,7 @@ const centerConfig = {
     [
       { item: '报刊信息查询', index: '/1/query/newsInforQuery', id: 1 },
       { item: '订户订购查询', index: '/1/query/subOrderQuery', id: 2 },
-      { item: '报刊订单查询', index: '/1/query/newsOrderQuery', id: 3 }
+      // { item: '报刊订单查询', index: '/1/query/newsOrderQuery', id: 3 }
     ],
   ]
 }
@@ -153,7 +153,7 @@ const leaderConfig = {
       { item: '报刊订量年统计', index: '/4/news/newsOrderYear', id: 2 },
       { item: '历年报刊订量统计', index: '/4/news/annuNewsOrder', id: 3 },
       { item: '订阅订购对比分析', index: '/4/news/subOrderContrast', id: 4 },
-      { item: '订阅金额分站统计', index: '/4/news/subMoneyStation', id: 5 }
+      // { item: '订阅金额分站统计', index: '/4/news/subMoneyStation', id: 5 }
 
     ],
     [
